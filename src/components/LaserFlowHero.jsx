@@ -6,10 +6,7 @@ function LaserFlowHero() {
 
     return (
         <div
-            className="w-full h-[800px] relative overflow-hidden"
-            style={{
-                backgroundColor: '#060010'
-            }}
+            className="w-full h-[800px] relative overflow-hidden bg-white"
             onMouseMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -28,7 +25,7 @@ function LaserFlowHero() {
                 }
             }}
         >
-            <div className="absolute inset-0 w-full h-full">
+            <div className="absolute inset-0 w-full h-full z-10">
                 <LaserFlow
                     horizontalBeamOffset={0.1}
                     verticalBeamOffset={0.0}
@@ -36,23 +33,9 @@ function LaserFlowHero() {
                 />
             </div>
 
-            <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '86%',
-                height: '60%',
-                backgroundColor: '#060010',
-                borderRadius: '20px',
-                border: '2px solid #FF79C6',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '2rem',
-                zIndex: 6
-            }}>
+            <div 
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[86%] h-[60%] bg-[#060010] rounded-[20px] border-2 border-[#FF79C6] flex items-center justify-center text-white text-[2rem] z-[6]"
+            >
                 Hello World
             </div>
 
@@ -60,14 +43,8 @@ function LaserFlowHero() {
                 ref={revealImgRef}
                 src="/src/assets/jetpack-stats.jpg"
                 alt="Reveal effect"
+                className="absolute w-full -top-1/2 z-[5] mix-blend-multiply opacity-60 pointer-events-none"
                 style={{
-                    position: 'absolute',
-                    width: '100%',
-                    top: '-50%',
-                    zIndex: 5,
-                    mixBlendMode: 'lighten',
-                    opacity: 0.3,
-                    pointerEvents: 'none',
                     '--mx': '-9999px',
                     '--my': '-9999px',
                     WebkitMaskImage: 'radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,1) 0px, rgba(255,255,255,0.95) 60px, rgba(255,255,255,0.6) 120px, rgba(255,255,255,0.25) 180px, rgba(255,255,255,0) 240px)',
