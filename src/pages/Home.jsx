@@ -27,21 +27,9 @@ function Home() {
 
   return (
     <div className="home">
-      {/* Hero Section with LaserFlow Interactive Reveal */}
-      <section 
-        className="hero-section"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div className="laser-flow-container">
-          <LaserFlow
-            horizontalBeamOffset={0.1}
-            verticalBeamOffset={0.0}
-            color="#2C7BE5"
-          />
-        </div>
-        
-        <div className="hero-content-box">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-title">
               Power up your WordPress site
@@ -57,12 +45,27 @@ function Home() {
           </div>
         </div>
 
-        <img
-          ref={revealImgRef}
-          src={jetpackStats}
-          alt="Jetpack Stats Dashboard"
-          className="reveal-image"
-        />
+        {/* LaserFlow Interactive Box */}
+        <div 
+          className="laser-flow-box"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="laser-flow-container">
+            <LaserFlow
+              horizontalBeamOffset={0.1}
+              verticalBeamOffset={0.0}
+              color="#2C7BE5"
+            />
+          </div>
+
+          <img
+            ref={revealImgRef}
+            src={jetpackStats}
+            alt="Jetpack Stats Dashboard"
+            className="reveal-image"
+          />
+        </div>
       </section>
 
       {/* Additional content sections can go here */}
