@@ -6,10 +6,8 @@ function LaserFlowHero() {
 
     return (
         <div
+            className="w-full h-[800px] relative overflow-hidden"
             style={{
-                height: '800px',
-                position: 'relative',
-                overflow: 'hidden',
                 backgroundColor: '#060010'
             }}
             onMouseMove={(e) => {
@@ -30,11 +28,13 @@ function LaserFlowHero() {
                 }
             }}
         >
-            <LaserFlow
-                horizontalBeamOffset={0.1}
-                verticalBeamOffset={0.0}
-                color="#FF79C6"
-            />
+            <div className="absolute inset-0 w-full h-full">
+                <LaserFlow
+                    horizontalBeamOffset={0.1}
+                    verticalBeamOffset={0.0}
+                    color="#FF79C6"
+                />
+            </div>
 
             <div style={{
                 position: 'absolute',
