@@ -27,14 +27,26 @@ function LaserFlowHero() {
         >
             <div className="absolute inset-0 w-full h-full z-10">
                 <LaserFlow
+                    color="#d1ffd6"
+                    horizontalSizing={0.99}
+                    verticalSizing={4.4}
+                    wispDensity={1.2}
+                    wispSpeed={15.0}
+                    wispIntensity={5.0}
+                    flowSpeed={0.35}
+                    flowStrength={0.25}
+                    decay={0.8}
+                    falloffStart={1.2}
+                    fogFallSpeed={0.6}
+                    fogIntensity={0.1}
+                    fogScale={0.3}
                     horizontalBeamOffset={0.1}
                     verticalBeamOffset={0.0}
-                    color="#FF79C6"
                 />
             </div>
 
             <div 
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[86%] h-[60%] bg-[#060010] rounded-[20px] border-2 border-[#FF79C6] flex items-center justify-center text-white text-[2rem] z-[6]"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[86%] h-[60%] bg-[#060010] rounded-[20px] border-2 border-[#d1ffd6] flex items-center justify-center text-white text-[2rem] z-[12]"
             >
                 Hello World
             </div>
