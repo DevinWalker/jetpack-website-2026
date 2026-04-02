@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowDownRight, ChevronDown } from "lucide-react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import { useState, type ReactNode } from "react";
 
@@ -160,9 +161,14 @@ export function Header(): ReactNode {
       className="fixed shadow-2xl/20 rounded-b-4xl top-2.5 left-1/2 -translate-x-1/2 w-full max-w-5xl max-[1200px]:max-w-2xl bg-frame z-9998 max-[850px]:top-0 max-[850px]:left-0 max-[850px]:right-0 max-[850px]:translate-x-0 max-[850px]:w-full max-[850px]:max-w-none max-[850px]:rounded-none max-[850px]:rounded-b-4xl max-[850px]:overflow-hidden"
     >
       <div className="h-20 max-[850px]:h-18 flex items-center justify-between px-4 max-[850px]:px-6">
-        <a href="#" className="flex items-center gap-2 ml-4 max-[850px]:ml-0">
-          <div className="w-6 h-6 rounded-full bg-foreground" />
-          <span className="text-lg font-semibold text-foreground leading-0 max-[1200px]:hidden max-[850px]:inline">Circular</span>
+        <a href="#" className="flex items-center ml-4 max-[850px]:ml-0">
+          <Image
+            src="/jetpack-logo-classic.svg"
+            alt="Jetpack"
+            width={120}
+            height={32}
+            priority
+          />
         </a>
 
         <nav className="flex items-center gap-1 max-[1200px]:gap-0 max-[850px]:hidden">

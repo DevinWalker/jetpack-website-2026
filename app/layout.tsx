@@ -1,7 +1,6 @@
 import { Header } from "@/components/header";
 import { Providers } from "@/components/providers";
 import { SkipToContent } from "@/components/skip-to-content";
-import { ThemeSwitch } from "@/components/theme-switch";
 import { baseMetadata } from "@/lib/metadata";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -23,10 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = baseMetadata;
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -38,7 +34,7 @@ export default function RootLayout({
   children: ReactNode;
 }>): ReactNode {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >
@@ -64,7 +60,6 @@ export default function RootLayout({
           </svg>
           
           <Header />
-          <ThemeSwitch />
           
           <SkipToContent />
           {children}
