@@ -1,7 +1,7 @@
 "use client";
 
 import { LogoLoop, type LogoItem } from "@/components/logo-loop";
-import { ArrowDownRight } from "lucide-react";
+import { ArrowDownRight, ArrowRight } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import Image from "next/image";
 import { useRef, type ReactNode, type MouseEvent } from "react";
@@ -19,14 +19,11 @@ const fadeInScale = {
 };
 
 const logos: LogoItem[] = [
-  { node: <Image src="/mock-logos/acmecorp.svg" alt="Acme Corp" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/altshift.svg" alt="Altshift" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/biosynthesis.svg" alt="Biosynthesis" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/boltshift.svg" alt="Boltshift" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/capsule.svg" alt="Capsule" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/catalog.svg" alt="Catalog" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/cloudwatch.svg" alt="Cloudwatch" width={120} height={32} className="h-[1em] w-auto" /> },
-  { node: <Image src="/mock-logos/commandr.svg" alt="Commandr" width={120} height={32} className="h-[1em] w-auto" /> },
+  { node: <Image src="/social-proof-logos/wp.com.png" alt="WordPress.com" width={120} height={32} className="h-[1em] w-auto" /> },
+  { node: <Image src="/social-proof-logos/pressable-logo-v8-dark.svg" alt="Pressable" width={120} height={32} className="h-[1em] w-auto" /> },
+  { node: <Image src="/social-proof-logos/bluehost.webp" alt="Bluehost" width={120} height={32} className="h-[1em] w-auto" /> },
+  { node: <Image src="/social-proof-logos/dreamhost-1.png" alt="DreamHost" width={120} height={32} className="h-[1em] w-auto" /> },
+  { node: <Image src="/social-proof-logos/hostgator.webp" alt="HostGator" width={120} height={32} className="h-[1em] w-auto" /> },
 ];
 
 const PARALLAX_INTENSITY = 20;
@@ -80,21 +77,25 @@ export function Hero(): ReactNode {
         aria-hidden="true"
       />
       
-      <div className="flex items-start justify-center px-6 pt-64 max-[850px]:pt-32">
+      <div className="flex items-start justify-center px-6 pt-36 max-[850px]:pt-28">
         <motion.div
           className="flex flex-col items-center max-[850px]:items-start text-center max-[850px]:text-left max-w-4xl max-[850px]:w-full"
           initial="hidden"
           animate="visible"
           transition={{ staggerChildren: 0.15, delayChildren: 0.2 }}
         >
-          <motion.div
-            className="inline-flex items-center gap-1.5 pl-4 pr-3 py-1.5 rounded-xl border border-black/10 bg-white text-black text-sm font-medium mb-6"
+          <motion.a
+            href="https://jetpack.com/changelog"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 pl-3 pr-3 py-1.5 rounded-xl border border-black/10 bg-white text-black text-sm font-medium mb-6 hover:bg-neutral-50 hover:border-black/20 transition-colors group"
             variants={fadeInUp}
             transition={{ duration: 0.8, ease }}
           >
-            Now Available
-            <span className="text-accent">✦</span>
-          </motion.div>
+            <span className="bg-accent text-white text-xs font-semibold px-1.5 py-0.5 rounded-md leading-none">New</span>
+            <span>Jetpack Social in 15.7</span>
+            <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-600 group-hover:translate-x-0.5 transition-all duration-200" />
+          </motion.a>
 
           <h1 className="text-8xl max-[850px]:text-5xl font-medium tracking-tight leading-[1.1] mb-6 text-black">
             <motion.span
@@ -102,23 +103,23 @@ export function Hero(): ReactNode {
               variants={fadeInUp}
               transition={{ duration: 0.8, ease }}
             >
-              Build Faster
+              Give WordPress
             </motion.span>
             <motion.span
-              className="block"
+              className="block text-accent"
               variants={fadeInUp}
               transition={{ duration: 0.8, ease }}
             >
-              Ship with <span className="italic font-serif text-accent">Confidence</span>
+              Superpowers
             </motion.span>
           </h1>
 
           <motion.p
-            className="text-lg text-neutral-600 mb-8"
+            className="text-lg text-neutral-600 mb-8 max-w-2xl"
             variants={fadeInUp}
             transition={{ duration: 0.8, ease }}
           >
-            The modern platform for teams who want to move fast without breaking things
+            Your site could be losing visitors right now—to slow load times, security gaps, or content no one can find. Jetpack handles the behind-the-scenes complexity so you can focus on creating great content and growing your audience.
           </motion.p>
 
           <motion.button
@@ -130,7 +131,7 @@ export function Hero(): ReactNode {
             whileTap={{ scale: 0.98 }}
           >
             <span className="absolute right-0 inset-y-0 w-[calc(100%-2rem)] max-[850px]:w-full rounded-xl bg-accent" />
-            <span className="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium max-[850px]:flex-1">Get Started</span>
+            <span className="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium max-[850px]:flex-1">Get Started Free</span>
             <span className="relative -left-px z-10 w-11 h-11 rounded-xl flex items-center justify-center text-black">
               <ArrowDownRight className="w-5 h-5 transition-transform duration-300 group-hover:-rotate-45" />
             </span>
@@ -146,14 +147,14 @@ export function Hero(): ReactNode {
       >
         <div className="relative max-w-5xl mx-auto">
           <div 
-            className="relative dark:mix-blend-darken rounded-2xl overflow-hidden border border-neutral-200 shadow-2xl/5 mask-[linear-gradient(to_bottom,black_50%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]"
+            className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-2xl/5 mask-[linear-gradient(to_bottom,black_50%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent_100%)]"
           >
             <Image
               src="/dashboardmock.png"
               alt="Dashboard preview"
               width={1920}
               height={1080}
-              className="w-full h-auto invert dark:invert-0 dark:contrast-100 contrast-125"
+              className="w-full h-auto invert contrast-125"
               priority
             />
           </div>

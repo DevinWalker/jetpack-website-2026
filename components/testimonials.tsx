@@ -7,51 +7,51 @@ import { useState, useEffect, type ReactNode } from "react";
 const testimonials = [
   {
     quote:
-      "This platform completely transformed how our support team operates. Response times dropped by 60% and customer satisfaction is at an all-time high.",
-    name: "Jennifer Walsh",
-    title: "VP of Customer Success @ Commandr",
+      "I used to wake up anxious about whether my site had been compromised overnight. Jetpack Scan monitors it around the clock and has caught real threats before they became disasters. That peace of mind alone is worth every penny.",
+    name: "Sarah Nguyen",
+    title: "Food Blogger @ TasteWithSarah.com",
     avatar:
       "https://images.unsplash.com/photo-1600481453173-55f6a844a4ea?q=80&w=750&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "#a8d946",
-    company: "Commandr",
+    company: "TasteWithSarah",
   },
   {
     quote:
-      "From onboarding to full deployment, the entire process was seamless. Our team productivity increased by 40% and we couldn't be happier with the results.",
-    name: "Michael Torres",
-    title: "Head of Operations @ Interlock",
+      "A botched plugin update once wiped three years of product content in seconds. Since switching to Jetpack Backup, I've restored my site twice without losing a single post. One-click restores actually work.",
+    name: "Marcus Okafor",
+    title: "Owner @ GardenSupplyDirect.com",
     avatar:
       "https://images.unsplash.com/photo-1530466015235-1d47696ea847?q=80&w=1674&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "#a8d946",
-    company: "Interlock",
+    company: "GardenSupplyDirect",
   },
   {
     quote:
-      "The AI-powered insights brought our customer strategy to life. Every interaction now feels personalized yet scalable for our growing user base.",
-    name: "Amanda Chen",
-    title: "CX Director @ Focalpoint",
+      "My client's WooCommerce store was bleeding sales from slow page loads. After enabling Jetpack Boost, their Core Web Vitals went green and checkout conversions jumped 23%. I now add Jetpack to every site I build.",
+    name: "Rebecca Choi",
+    title: "Web Developer @ Choi Digital Studio",
     avatar:
       "https://images.unsplash.com/photo-1705408115324-6bd2cbfa4d93?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "#a8d946",
-    company: "Focalpoint",
+    company: "ChoiDigital",
   },
   {
     quote:
-      "Outstanding platform and support team. They helped us implement automation two weeks ahead of schedule with zero compromises on quality.",
-    name: "David Patterson",
-    title: "CEO @ Acme Corp",
+      "Jetpack Stats finally helped me understand my audience without drowning in dashboards. I can see exactly which posts drive traffic and where readers drop off—without any of the complexity of GA4.",
+    name: "James Whitfield",
+    title: "Creator @ ModernPhotographyTips.com",
     avatar:
       "https://images.unsplash.com/photo-1564172556663-2bef9580fc44?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     color: "#a8d946",
-    company: "Acme Corp",
+    company: "ModernPhotographyTips",
   },
 ];
 
 const companies = [
-  { name: "Commandr", logo: "/mock-logos/commandr.svg" },
-  { name: "Interlock", logo: "/mock-logos/interlock.svg" },
-  { name: "Focalpoint", logo: "/mock-logos/focalpoint.svg" },
-  { name: "Acme Corp", logo: "/mock-logos/acmecorp.svg" },
+  { name: "TasteWithSarah", logo: "/mock-logos/commandr.svg" },
+  { name: "GardenSupplyDirect", logo: "/mock-logos/interlock.svg" },
+  { name: "ChoiDigital", logo: "/mock-logos/focalpoint.svg" },
+  { name: "ModernPhotographyTips", logo: "/mock-logos/acmecorp.svg" },
 ];
 
 export function Testimonials(): ReactNode {
@@ -73,9 +73,9 @@ export function Testimonials(): ReactNode {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="mb-16 text-4xl leading-tight font-medium text-neutral-900 sm:text-5xl lg:mb-20 lg:text-6xl dark:text-neutral-50"
+          className="mb-16 text-4xl leading-tight font-medium text-neutral-900 sm:text-5xl lg:mb-20 lg:text-6xl"
         >
-          Trusted by teams worldwide
+          Trusted by 27 million WordPress sites
         </motion.h2>
 
         <div className="mb-16 grid gap-8 lg:mb-20 lg:grid-cols-2 lg:gap-12">
@@ -157,12 +157,12 @@ export function Testimonials(): ReactNode {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <blockquote className="mb-6 text-xl leading-relaxed text-neutral-700 dark:text-neutral-300">
+                  <blockquote className="mb-6 text-xl leading-relaxed text-neutral-700">
                     &ldquo;{testimonials[activeIndex].quote}&rdquo;
                   </blockquote>
-                  <div className="text-base font-medium text-neutral-900 sm:text-lg dark:text-neutral-100">
+                  <div className="text-base font-medium text-neutral-900 sm:text-lg">
                     {testimonials[activeIndex].name},{" "}
-                    <span className="text-neutral-600 dark:text-neutral-400">
+                    <span className="text-neutral-600">
                       {testimonials[activeIndex].title}
                     </span>
                   </div>
@@ -190,10 +190,10 @@ export function Testimonials(): ReactNode {
                   alt={`${company.name} logo`}
                   width={120}
                   height={40}
-                  className={`h-8 w-auto object-contain brightness-0 transition-all duration-300 sm:h-10 dark:invert ${
+                  className={`h-8 w-auto object-contain brightness-0 transition-all duration-300 sm:h-10 ${
                     isActive
-                      ? "opacity-100 dark:opacity-100"
-                      : "opacity-30 hover:opacity-60 dark:opacity-20 dark:hover:opacity-50"
+                      ? "opacity-100"
+                      : "opacity-30 hover:opacity-60"
                   }`}
                 />
               </motion.div>
