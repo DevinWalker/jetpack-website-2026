@@ -37,7 +37,7 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Content */ ?>
-	<div class="flex items-start justify-center px-6 pt-36 max-[850px]:pt-28 relative z-10">
+	<div class="flex items-start justify-center px-6 pt-20 max-[850px]:pt-16 relative z-10">
 		<div class="flex flex-col items-center max-[850px]:items-start text-center max-[850px]:text-left max-w-4xl max-[850px]:w-full">
 
 			<?php /* Changelog badge */ ?>
@@ -85,11 +85,8 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Card swap — React mounts here via hero-card-swap.js */ ?>
-	<div class="jetpack-hero__dashboard relative px-6 mt-10 max-[850px]:mt-6 z-10 opacity-0 translate-y-10">
-		<div
-			class="relative max-w-5xl mx-auto h-[640px] max-[768px]:h-[480px] max-[480px]:h-[352px] overflow-hidden rounded-2xl"
-			style="mask-image:linear-gradient(to bottom,black 65%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 65%,transparent 100%)"
-		>
+	<div class="jetpack-hero__dashboard relative px-6 mt-4 max-[850px]:mt-4 z-10 opacity-0 translate-y-10">
+		<div class="relative max-w-5xl mx-auto h-[720px] max-[768px]:h-[540px] max-[480px]:h-[380px] overflow-hidden rounded-2xl">
 			<div
 				id="jetpack-card-swap-mount"
 				class="relative w-full h-full"
@@ -98,43 +95,43 @@ $a = wp_parse_args( $attributes, [
 		</div>
 	</div>
 
-</section>
-
-<?php /* Logo loop — rAF velocity animation driven by hero-view.js */ ?>
-<div class="jetpack-hero__logos pt-16 pb-12 opacity-0">
-	<div
-		class="relative overflow-hidden w-full"
-		style="mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent)"
-	>
-		<div class="jetpack-logo-track flex w-max will-change-transform select-none">
-			<?php
-			$logos = [
-				[ 'src' => 'social-proof-logos/wp.com.png',                 'alt' => 'WordPress.com' ],
-				[ 'src' => 'social-proof-logos/pressable-logo-v8-dark.svg', 'alt' => 'Pressable' ],
-				[ 'src' => 'social-proof-logos/bluehost.webp',               'alt' => 'Bluehost' ],
-				[ 'src' => 'social-proof-logos/dreamhost-1.png',             'alt' => 'DreamHost' ],
-				[ 'src' => 'social-proof-logos/hostgator.webp',              'alt' => 'HostGator' ],
-			];
-			// Render 4 copies — first has data-logo-seq for width measurement.
-			for ( $copy = 0; $copy < 4; $copy++ ) :
-				$copy_aria = $copy > 0 ? ' aria-hidden="true"' : '';
-				$copy_ref  = $copy === 0 ? ' data-logo-seq' : '';
-			?>
-			<ul class="flex items-center"<?php echo $copy_aria . $copy_ref; ?>>
-				<?php foreach ( $logos as $logo ) : ?>
-				<li class="flex-none mr-[7.75rem]">
-					<span class="inline-flex items-center h-[2.625rem] brightness-0">
-						<img
-							src="<?php echo esc_url( get_template_directory_uri() . '/assets/' . $logo['src'] ); ?>"
-							alt="<?php echo esc_attr( $logo['alt'] ); ?>"
-							class="h-full w-auto object-contain"
-							loading="lazy"
-						/>
-					</span>
-				</li>
-				<?php endforeach; ?>
-			</ul>
-			<?php endfor; ?>
+	<?php /* Logo loop — rAF velocity animation driven by hero-view.js */ ?>
+	<div class="jetpack-hero__logos pt-10 pb-12 z-10 opacity-0">
+		<div
+			class="relative overflow-hidden w-full"
+			style="mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent)"
+		>
+			<div class="jetpack-logo-track flex w-max will-change-transform select-none">
+				<?php
+				$logos = [
+					[ 'src' => 'social-proof-logos/wp.com.png',                 'alt' => 'WordPress.com' ],
+					[ 'src' => 'social-proof-logos/pressable-logo-v8-dark.svg', 'alt' => 'Pressable' ],
+					[ 'src' => 'social-proof-logos/bluehost.webp',               'alt' => 'Bluehost' ],
+					[ 'src' => 'social-proof-logos/dreamhost-1.png',             'alt' => 'DreamHost' ],
+					[ 'src' => 'social-proof-logos/hostgator.webp',              'alt' => 'HostGator' ],
+				];
+				// Render 4 copies — first has data-logo-seq for width measurement.
+				for ( $copy = 0; $copy < 4; $copy++ ) :
+					$copy_aria = $copy > 0 ? ' aria-hidden="true"' : '';
+					$copy_ref  = $copy === 0 ? ' data-logo-seq' : '';
+				?>
+				<ul class="flex items-center"<?php echo $copy_aria . $copy_ref; ?>>
+					<?php foreach ( $logos as $logo ) : ?>
+					<li class="flex-none mr-[7.75rem]">
+						<span class="inline-flex items-center h-[2.625rem] brightness-0 invert">
+							<img
+								src="<?php echo esc_url( get_template_directory_uri() . '/assets/' . $logo['src'] ); ?>"
+								alt="<?php echo esc_attr( $logo['alt'] ); ?>"
+								class="h-full w-auto object-contain"
+								loading="lazy"
+							/>
+						</span>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				<?php endfor; ?>
+			</div>
 		</div>
 	</div>
-</div>
+
+</section>

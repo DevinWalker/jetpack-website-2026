@@ -91,8 +91,8 @@ function HeroCards() {
 			containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
 		>
 			{ CARDS.map( ( card, i ) => (
-				<Card key={ i } className="bg-neutral-900 border-neutral-700 overflow-hidden p-0">
-					{ /* Full-bleed placeholder image */ }
+				<Card key={ i } className="bg-transparent border-transparent overflow-hidden p-0">
+					{ /* Full-bleed placeholder image — fades at bottom via mask, matching main branch */ }
 					<img
 						src={ `${ THEME_URI }/assets/jetpack-paid-traffic.png` }
 						alt=""
@@ -100,27 +100,28 @@ function HeroCards() {
 						className="absolute inset-0 w-full h-full object-cover object-top"
 						loading={ i === 0 ? 'eager' : 'lazy' }
 						decoding="async"
+						style={ {
+							maskImage:       'linear-gradient(to bottom, black 55%, transparent 100%)',
+							WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 100%)',
+						} }
 					/>
-
-					{ /* Dark gradient so text is legible */ }
-					<div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/40 to-black/10" />
 
 					{ /* Text overlay — opacity-0 until card is promoted to front */ }
 					<div
 						ref={ ( el ) => { textRefs.current[ i ] = el; } }
-						className="absolute bottom-0 left-0 right-0 p-8"
+						className="absolute bottom-0 left-0 right-0 px-8 py-6 flex flex-col items-center text-center bg-neutral-950/90"
 						style={ { opacity: 0 } }
 					>
-						<div className={ `inline-flex items-center gap-2 ${ card.pillBg } ${ card.pillColor } text-xs font-semibold px-2.5 py-1 rounded-full mb-4` }>
+						<div className={ `inline-flex items-center gap-2 ${ card.pillBg } ${ card.pillColor } text-xs font-semibold px-2.5 py-1 rounded-full mb-3` }>
 							{ card.pillIcon }
 							{ card.pillLabel }
 						</div>
 
-						<h3 className="text-white text-3xl font-bold leading-snug mb-3">
+						<h3 className="text-white text-2xl font-bold leading-snug mb-2">
 							{ card.headline }
 						</h3>
 
-						<p className="text-neutral-300 text-base leading-relaxed max-w-lg">
+						<p className="text-neutral-300 text-sm leading-relaxed max-w-xl">
 							{ card.body }
 						</p>
 					</div>

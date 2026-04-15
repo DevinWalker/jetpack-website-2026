@@ -54,8 +54,7 @@ requestAnimationFrame( () => {
 	const body      = hero.querySelector< HTMLElement >( '.jetpack-hero__body' );
 	const cta       = hero.querySelector< HTMLElement >( '.jetpack-hero__cta' );
 	const dashboard = hero.querySelector< HTMLElement >( '.jetpack-hero__dashboard' );
-	// Logos live outside <section> so search the whole document.
-	const logos     = document.querySelector< HTMLElement >( '.jetpack-hero__logos' );
+	const logos     = hero.querySelector< HTMLElement >( '.jetpack-hero__logos' );
 
 	// ── Frame 1: commit "from" states as inline styles ────────────────────────
 	// fadeInUp elements
