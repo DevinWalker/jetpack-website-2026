@@ -109,7 +109,7 @@ function HeroCards() {
 					{ /* Toast — opacity-0 until card is promoted to front */ }
 					<div
 						ref={ ( el ) => { textRefs.current[ i ] = el; } }
-						className="absolute top-10 left-8 max-w-xs px-4 py-3.5 rounded-xl bg-neutral-950/90 flex flex-col gap-2 shadow-lg"
+						className="absolute top-8 right-4 max-w-sm px-4 py-3.5 rounded-xl bg-neutral-950/90 flex flex-col gap-2 shadow-lg"
 						style={ { opacity: 0 } }
 					>
 						{ /* Pill */ }
