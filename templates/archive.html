@@ -19,14 +19,14 @@
 		<!-- wp:query {"query":{"perPage":12,"offset":0,"postType":"post","order":"desc","orderBy":"date","inherit":true},"className":"jetpack-post-grid"} -->
 		<div class="wp-block-query jetpack-post-grid">
 
-			<!-- wp:post-template {"className":"jetpack-post-grid__items"} -->
+			<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 				<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
 				<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
 				<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
 				<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
 				<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
 				<div class="wp-block-group jetpack-card-byline">
-					<!-- wp:post-author {"showBio":false,"showAvatar":true,"avatarSize":22,"isLink":false,"className":"jetpack-card-author"} /-->
+					<!-- wp:post-author {"showBio":false,"showAvatar":false,"isLink":false,"className":"jetpack-card-author"} /-->
 					<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
 				</div>
 				<!-- /wp:group -->

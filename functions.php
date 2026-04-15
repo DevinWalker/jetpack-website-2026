@@ -65,6 +65,27 @@ if ( ! jetpack_is_production() ) {
 	} );
 }
 
+// ─── Gravatar / Avatar ───────────────────────────────────────────────────────
+// WordPress 6.9 calls https://secure.gravatar.com/avatar/{sha256_hash} with a
+// 2× srcset automatically. The pre_get_avatar_data filter lets us guarantee
+// sensible defaults across all environments.
+
+add_filter( 'pre_get_avatar_data', function ( array $args ): array {
+	// Request rating-safe images (G-rated only).
+	$args['rating'] = 'g';
+
+	// When no Gravatar photo exists, show the user's initials (WP 6.9+).
+	// Falls back to mystery-person silhouette on older installs.
+	if ( empty( $args['default'] ) || 'mystery' === $args['default'] ) {
+		$args['default'] = 'initials';
+	}
+
+	// Force HTTPS — secure.gravatar.com is always used, but be explicit.
+	$args['scheme'] = 'https';
+
+	return $args;
+} );
+
 // ─── Theme Setup ─────────────────────────────────────────────────────────────
 
 add_action( 'after_setup_theme', function (): void {
