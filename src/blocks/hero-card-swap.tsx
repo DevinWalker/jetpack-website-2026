@@ -141,7 +141,7 @@ function HeroCards() {
 				skewAmount={ 0 }
 				easing="elastic"
 				onSwap={ handleSwap }
-				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.85] max-[480px]:scale-[0.7]"
+				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom"
 			>
 				{ CARDS.map( ( card, i ) => (
 					<Card key={ i } className="bg-transparent overflow-hidden p-0">
