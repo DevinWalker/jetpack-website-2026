@@ -13,9 +13,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin( ScrollTrigger );
 
 if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
-	// No animations — make all elements immediately visible.
 	document.querySelectorAll< HTMLElement >(
-		'.jetpack-reveal, .jetpack-bento-card, .jetpack-pricing-card'
+		'.jetpack-reveal, .jetpack-bento-card, .jetpack-pricing-card, .jetpack-fh-section'
 	).forEach( ( el ) => {
 		el.style.opacity   = '1';
 		el.style.transform = 'none';
@@ -65,6 +64,23 @@ if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 			delay:      i * 0.1,
 			scrollTrigger: {
 				trigger: card,
+				start:   'top 88%',
+				once:    true,
+			},
+		} );
+	} );
+
+	// Features highlights sections — staggered entrance per section.
+	const fhSections = gsap.utils.toArray< HTMLElement >( '.jetpack-fh-section' );
+	fhSections.forEach( ( section, i ) => {
+		gsap.to( section, {
+			opacity:    1,
+			y:          0,
+			duration:   0.8,
+			ease:       'power3.out',
+			delay:      i * 0.15,
+			scrollTrigger: {
+				trigger: section,
 				start:   'top 88%',
 				once:    true,
 			},

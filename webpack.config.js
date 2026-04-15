@@ -20,6 +20,7 @@ module.exports = {
 		'hero-card-swap':    './src/blocks/hero-card-swap.tsx',
 		'blur-view':         './src/blocks/blur-view.tsx',
 		'scroll-animations': './src/blocks/scroll-animations.ts',
+		'features-highlights-view': './src/blocks/features-highlights-view.tsx',
 
 		// Global interactions (header, FAQ, testimonials) — no framework dependencies.
 		'interactions':      './src/blocks/interactions.ts',

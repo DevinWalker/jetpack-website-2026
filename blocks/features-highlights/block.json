@@ -1,0 +1,70 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/features-highlights",
+	"version": "1.0.0",
+	"title": "Features Highlights",
+	"category": "jetpack-theme",
+	"description": "Alternating image + benefits sections showcasing Jetpack product categories.",
+	"keywords": [ "features", "highlights", "media-text" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/features-highlights-view.js",
+	"attributes": {
+		"sections": {
+			"type": "array",
+			"default": [
+				{
+					"eyebrow": "Growth Features",
+					"heading": "Grow your site, without the grind",
+					"headingHighlight": "the grind",
+					"description": "Growing your audience shouldn't be rocket science. We're here to simplify it.",
+					"benefits": [
+						{ "text": "Understand your audience without a PhD with", "linkText": "Jetpack Stats", "linkUrl": "https://jetpack.com/features/growth/site-stats/" },
+						{ "text": "Publish once, share everywhere with", "linkText": "Jetpack Social", "linkUrl": "https://jetpack.com/social/" },
+						{ "text": "Manage your customers without headache with", "linkText": "Jetpack CRM", "linkUrl": "https://jetpackcrm.com/" }
+					],
+					"ctaLabel": "Grow your site",
+					"ctaUrl": "https://jetpack.com/features/growth/",
+					"imageUrl": "https://jetpack.com/wp-content/uploads/2024/04/contacts_transactions-1.png",
+					"imageAlt": "Jetpack growth features dashboard showing contacts and transactions",
+					"mediaPosition": "left"
+				},
+				{
+					"eyebrow": "Performance Features",
+					"heading": "Speed and SEO with one click",
+					"headingHighlight": "one click",
+					"description": "Make your WordPress site faster and user-friendly to stop testing your visitors' patience.",
+					"benefits": [
+						{ "text": "Boost your speed and SEO in minutes with", "linkText": "Jetpack Boost", "linkUrl": "https://jetpack.com/boost/" },
+						{ "text": "Your videos, without their ads with", "linkText": "VideoPress", "linkUrl": "https://jetpack.com/videopress/" },
+						{ "text": "Lost visitors? Found solution. Help them find what they are looking for with", "linkText": "Jetpack Search", "linkUrl": "https://jetpack.com/upgrade/search/" }
+					],
+					"ctaLabel": "Accelerate your site",
+					"ctaUrl": "https://jetpack.com/features/performance/",
+					"imageUrl": "https://jetpack.com/wp-content/uploads/2024/04/performance-and-ux-1.png",
+					"imageAlt": "Jetpack performance score showing overall site speed rating",
+					"mediaPosition": "right"
+				},
+				{
+					"eyebrow": "Jetpack Security",
+					"heading": "Secure your site without hassle",
+					"headingHighlight": "without hassle",
+					"description": "You don't need to worry about your WordPress site's security because we got that covered.",
+					"benefits": [
+						{ "text": "If you make mistakes, we got your back (up) with", "linkText": "VaultPress Backup", "linkUrl": "https://jetpack.com/upgrade/backup/" },
+						{ "text": "Life is too short to moderate spam, solve it with", "linkText": "Akismet Anti‑spam", "linkUrl": "https://jetpack.com/upgrade/anti-spam/" },
+						{ "text": "Stop worrying about security threats and fix problems with a single click – you can, with", "linkText": "Jetpack Scan", "linkUrl": "https://jetpack.com/upgrade/scan/" }
+					],
+					"ctaLabel": "Secure your site",
+					"ctaUrl": "https://jetpack.com/features/security/",
+					"imageUrl": "https://jetpack.com/wp-content/uploads/2024/04/security_new-2x.webp",
+					"imageAlt": "Jetpack security dashboard with backup and scan status",
+					"mediaPosition": "left"
+				}
+			]
+		}
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}

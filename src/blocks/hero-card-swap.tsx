@@ -91,7 +91,7 @@ function HeroCards() {
 			containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
 		>
 			{ CARDS.map( ( card, i ) => (
-				<Card key={ i } className="bg-transparent border-transparent overflow-hidden p-0">
+				<Card key={ i } className="bg-transparent overflow-hidden p-0">
 					{ /* Full-bleed placeholder image — fades at bottom via mask, matching main branch */ }
 					<img
 						src={ `${ THEME_URI }/assets/jetpack-paid-traffic.png` }

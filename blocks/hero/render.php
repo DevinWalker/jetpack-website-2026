@@ -37,7 +37,7 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Content */ ?>
-	<div class="flex items-start justify-center px-6 pt-20 max-[850px]:pt-16 relative z-10">
+	<div class="flex items-start justify-center px-6 pt-32 max-[850px]:pt-16 relative z-10">
 		<div class="flex flex-col items-center max-[850px]:items-start text-center max-[850px]:text-left max-w-4xl max-[850px]:w-full">
 
 			<?php /* Changelog badge */ ?>
@@ -85,7 +85,7 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Card swap — React mounts here via hero-card-swap.js */ ?>
-	<div class="jetpack-hero__dashboard relative px-6 mt-4 max-[850px]:mt-4 z-10 opacity-0 translate-y-10">
+	<div class="jetpack-hero__dashboard relative px-6 mt-0 max-[850px]:mt-4 z-10 opacity-0 translate-y-10">
 		<div class="relative max-w-5xl mx-auto h-[720px] max-[768px]:h-[540px] max-[480px]:h-[380px] overflow-hidden rounded-2xl">
 			<div
 				id="jetpack-card-swap-mount"
@@ -96,7 +96,7 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Logo loop — rAF velocity animation driven by hero-view.js */ ?>
-	<div class="jetpack-hero__logos pt-10 pb-12 z-10 opacity-0">
+	<div class="jetpack-hero__logos pt-20 pb-12 z-10 opacity-0">
 		<div
 			class="relative overflow-hidden w-full"
 			style="mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent)"

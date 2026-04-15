@@ -136,6 +136,7 @@ add_action( 'init', function (): void {
 	$block_slugs = [
 		'hero',
 		'blur-headline',
+		'features-highlights',
 		'features-bento',
 		'testimonials',
 		'pricing',
