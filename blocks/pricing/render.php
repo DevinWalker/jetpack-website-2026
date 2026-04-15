@@ -59,7 +59,7 @@ $plans       = $attributes['plans'] ?? [];
 					</div>
 
 				<a
-					href="https://jetpack.com/pricing/"
+					href="<?php echo esc_url( home_url( '/pricing/' ) ); ?>"
 					class="mt-6 w-full rounded-xl py-3 text-sm font-semibold transition-colors text-center block no-underline hover:opacity-90 <?php echo $is_popular ? 'bg-foreground text-background' : 'bg-muted text-foreground'; ?>"
 				>
 						<?php esc_html_e( 'Get Started', 'jetpack-theme' ); ?>

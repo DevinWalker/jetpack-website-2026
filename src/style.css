@@ -1365,14 +1365,14 @@ ul.jetpack-related-grid__items > li {
 /* Hero: same padding rhythm as the blog hero */
 .jetpack-support-hero {
 	padding-top: calc(var(--header-clearance) + 1.5rem);
-	padding-bottom: 3rem;
+	padding-bottom: 1.75rem;
 	border-bottom: 1px solid var(--border);
-	margin-bottom: 3rem;
+	margin-bottom: 1.75rem;
 }
 @media (min-width: 640px) {
 	.jetpack-support-hero {
 		padding-top: calc(var(--header-clearance) + 2.5rem);
-		padding-bottom: 3.5rem;
+		padding-bottom: 2rem;
 	}
 }
 
@@ -1382,15 +1382,20 @@ ul.jetpack-related-grid__items > li {
 	letter-spacing: -0.03em;
 	line-height: 1.1;
 	color: var(--foreground);
+	text-align: center;
+	text-wrap: balance;
+	max-width: 40rem;
 	margin-top: 0;
 	margin-bottom: 1.5rem;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 }
 
 /* Search — make it look like the live site's full-width input */
 .jetpack-support-search.wp-block-search {
 	max-width: 40rem;
+	margin-left: auto;
+	margin-right: auto;
 }
 .jetpack-support-search .wp-block-search__inside-wrapper {
 	border: 1px solid var(--border);
@@ -1448,16 +1453,14 @@ ul.jetpack-related-grid__items > li {
 
 /* Topic cards — mirror the blog post cards (white, border, rounded, shadow) */
 .jetpack-support-card.wp-block-group {
+	position: relative;
 	background: #ffffff;
 	border: 1px solid var(--border);
 	border-radius: 1rem;
 	padding: 1.25rem 1.5rem;
-	margin-bottom: 1rem;
 	box-shadow: 0 1px 3px rgb(0 0 0 / 0.04), 0 4px 16px -4px rgb(0 0 0 / 0.08);
 	transition: box-shadow 0.25s ease, border-color 0.25s ease;
-}
-.jetpack-support-card.wp-block-group:last-child {
-	margin-bottom: 0;
+	cursor: pointer;
 }
 .jetpack-support-card.wp-block-group:hover {
 	box-shadow: 0 4px 12px rgb(0 0 0 / 0.06), 0 16px 40px -8px rgb(0 0 0 / 0.12);
@@ -1466,16 +1469,25 @@ ul.jetpack-related-grid__items > li {
 
 /* Card heading: linked topic title */
 .jetpack-support-card h3.wp-block-heading {
-	font-size: 0.9375rem;
+	font-size: 1.0625rem;
 	font-weight: 600;
 	letter-spacing: -0.01em;
 	line-height: 1.4;
-	margin: 0 0 0.375rem;
+}
+/* (0,1,1) specificity beats :root :where(.is-layout-flow) > * at (0,1,0) — no !important needed */
+.jetpack-support-card > h3 {
+	margin-block-start: 0;
 }
 .jetpack-support-card h3.wp-block-heading a {
 	color: var(--foreground);
 	text-decoration: none;
 	transition: color 0.2s ease;
+}
+/* Stretched link — covers the full card, making it entirely clickable */
+.jetpack-support-card h3.wp-block-heading a::after {
+	content: '';
+	position: absolute;
+	inset: 0;
 }
 .jetpack-support-card:hover h3.wp-block-heading a {
 	color: var(--jetpack-green-50, #069e08);
@@ -1488,6 +1500,9 @@ ul.jetpack-related-grid__items > li {
 	line-height: 1.6;
 	margin: 0;
 }
+.jetpack-support-card > p {
+	margin-block-start: 0.125rem;
+}
 
 /* Sidebar */
 .jetpack-support-sidebar-block.wp-block-group {
@@ -1495,10 +1510,6 @@ ul.jetpack-related-grid__items > li {
 	border: 1px solid var(--border);
 	border-radius: 0.75rem;
 	padding: 1.125rem 1.25rem;
-	margin-bottom: 0.75rem;
-}
-.jetpack-support-sidebar-block.wp-block-group:last-child {
-	margin-bottom: 0;
 }
 
 .jetpack-support-sidebar-block h4.wp-block-heading {
@@ -1506,7 +1517,10 @@ ul.jetpack-related-grid__items > li {
 	font-weight: 600;
 	letter-spacing: -0.01em;
 	color: var(--foreground);
-	margin: 0 0 0.5rem;
+}
+/* (0,1,1) beats :root :where(.is-layout-flow) > * at (0,1,0) */
+.jetpack-support-sidebar-block > h4 {
+	margin-block-start: 0;
 }
 
 .jetpack-support-sidebar-block p.wp-block-paragraph {
@@ -1514,6 +1528,9 @@ ul.jetpack-related-grid__items > li {
 	color: var(--muted-foreground);
 	line-height: 1.65;
 	margin: 0;
+}
+.jetpack-support-sidebar-block > p {
+	margin-block-start: 0.375rem;
 }
 .jetpack-support-sidebar-block p.wp-block-paragraph a {
 	color: var(--foreground);
@@ -1534,6 +1551,8 @@ ul.jetpack-related-grid__items > li {
 	border-radius: 0.375rem;
 	padding: 0.5rem 0.75rem;
 	font-size: 0.8125rem;
-	margin-top: 0.625rem;
 	border: none;
+}
+.jetpack-support-sidebar-block > pre {
+	margin-block-start: 0.625rem;
 }

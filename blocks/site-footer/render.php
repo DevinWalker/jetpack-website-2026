@@ -23,14 +23,14 @@ $footer_sections = array_filter( $footer_sections, fn( $s ) => ! empty( $s['item
 if ( empty( $footer_sections ) ) {
 	$footer_sections = [
 		[ 'title' => __( 'Company', 'jetpack-theme' ), 'items' => [
-			[ 'label' => 'About',    'url' => 'https://jetpack.com/about/' ],
-			[ 'label' => 'Blog',     'url' => 'https://jetpack.com/blog/' ],
+			[ 'label' => 'About',    'url' => home_url( '/about/' ) ],
+			[ 'label' => 'Blog',     'url' => home_url( '/blog/' ) ],
 			[ 'label' => 'Careers',  'url' => 'https://automattic.com/work-with-us/' ],
 		]],
 		[ 'title' => __( 'Support', 'jetpack-theme' ), 'items' => [
-			[ 'label' => 'Help',     'url' => 'https://jetpack.com/support/' ],
-			[ 'label' => 'Terms',    'url' => 'https://jetpack.com/tos/' ],
-			[ 'label' => 'Security', 'url' => 'https://jetpack.com/security/' ],
+			[ 'label' => 'Help',     'url' => home_url( '/support/' ) ],
+			[ 'label' => 'Terms',    'url' => home_url( '/tos/' ) ],
+			[ 'label' => 'Security', 'url' => home_url( '/security/' ) ],
 		]],
 	];
 }

@@ -58,10 +58,33 @@ if ( ! jetpack_is_production() ) {
 	} );
 
 	// Inline src/srcset within rendered post content (covers hard-coded block markup).
+	// Scoped to image attributes only so that href navigation links stay on the local origin.
 	add_filter( 'the_content', function ( string $content ): string {
 		$local_origin = untrailingslashit( home_url() );
 		$prod_origin  = untrailingslashit( JETPACK_PRODUCTION_URL );
-		return str_replace( $local_origin, $prod_origin, $content );
+		return preg_replace_callback(
+			'/\b(src|srcset)="([^"]*)"/i',
+			function ( array $m ) use ( $local_origin, $prod_origin ): string {
+				return $m[1] . '="' . str_replace( $local_origin, $prod_origin, $m[2] ) . '"';
+			},
+			$content
+		);
+	} );
+
+	// Rewrite canonical href links in block-template HTML (e.g. archive-jetpack_support.html)
+	// from the production origin to the local origin. Keeps template files free of hardcoded
+	// local URLs while still making navigation work locally.
+	add_filter( 'render_block', function ( string $block_content ): string {
+		$prod_origin  = preg_quote( untrailingslashit( JETPACK_PRODUCTION_URL ), '/' );
+		$local_origin = untrailingslashit( home_url() );
+		return preg_replace_callback(
+			'/\bhref="(' . $prod_origin . '[^"]*)"/i',
+			function ( array $m ) use ( $local_origin ): string {
+				$path = substr( $m[1], strlen( untrailingslashit( JETPACK_PRODUCTION_URL ) ) );
+				return 'href="' . esc_url( $local_origin . $path ) . '"';
+			},
+			$block_content
+		);
 	} );
 }
 
