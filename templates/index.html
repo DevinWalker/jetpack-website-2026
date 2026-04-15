@@ -5,55 +5,126 @@
 
 	<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-blog-hero"} -->
 	<div class="wp-block-group jetpack-blog-hero">
-
-		<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"},"style":{"spacing":{"blockGap":"1.5rem"}}} -->
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"},"style":{"spacing":{"blockGap":"1rem"}}} -->
 		<div class="wp-block-group">
 			<!-- wp:heading {"level":1,"className":"jetpack-blog-hero__title"} -->
-			<h1 class="wp-block-heading jetpack-blog-hero__title">Blog</h1>
+			<h1 class="wp-block-heading jetpack-blog-hero__title">Resources</h1>
 			<!-- /wp:heading -->
 			<!-- wp:paragraph {"className":"jetpack-blog-hero__desc"} -->
-			<p class="wp-block-paragraph jetpack-blog-hero__desc">Read our latest articles and insights on WordPress performance, security, and growth.</p>
+			<p class="wp-block-paragraph jetpack-blog-hero__desc">The latest on WordPress security, performance, and growth from the Jetpack team.</p>
 			<!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->
-
 	</div>
 	<!-- /wp:group -->
 
 	<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-blog-card-container"} -->
 	<div class="wp-block-group jetpack-blog-card-container">
 
-		<!-- wp:heading {"level":2,"className":"jetpack-blog-card-container__heading"} -->
-		<h2 class="wp-block-heading jetpack-blog-card-container__heading">Latest Articles</h2>
-		<!-- /wp:heading -->
+		<!-- ── Product News ── -->
+		<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-category-section"} -->
+		<div class="wp-block-group jetpack-category-section">
 
-		<!-- wp:query {"query":{"perPage":12,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true},"className":"jetpack-post-grid"} -->
-		<div class="wp-block-query jetpack-post-grid">
-
-			<!-- wp:post-template {"className":"jetpack-post-grid__items"} -->
-				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","className":"jetpack-card-image"} /-->
-				<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
-				<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
-				<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
-				<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
-			<!-- /wp:post-template -->
-
-			<!-- wp:query-pagination {"className":"jetpack-pagination"} -->
-			<div class="wp-block-query-pagination jetpack-pagination">
-				<!-- wp:query-pagination-previous /-->
-				<!-- wp:query-pagination-numbers /-->
-				<!-- wp:query-pagination-next /-->
+			<!-- wp:group {"className":"jetpack-category-section__header","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+			<div class="wp-block-group jetpack-category-section__header">
+				<!-- wp:heading {"level":2,"className":"jetpack-category-section__title"} -->
+				<h2 class="wp-block-heading jetpack-category-section__title">Product News</h2>
+				<!-- /wp:heading -->
+				<!-- wp:paragraph {"className":"jetpack-category-section__viewall"} -->
+				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/category/releases/">View all →</a></p>
+				<!-- /wp:paragraph -->
 			</div>
-			<!-- /wp:query-pagination -->
+			<!-- /wp:group -->
 
-			<!-- wp:query-no-results -->
-			<!-- wp:paragraph {"placeholder":"No posts found."} -->
-			<p></p>
-			<!-- /wp:paragraph -->
-			<!-- /wp:query-no-results -->
+			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","categories":[5878],"inherit":false},"className":"jetpack-post-grid"} -->
+			<div class="wp-block-query jetpack-post-grid">
+				<!-- wp:post-template {"className":"jetpack-post-grid__items"} -->
+					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
+					<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
+					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
+					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
+					<div class="wp-block-group jetpack-card-byline">
+						<!-- wp:post-author {"showBio":false,"showAvatar":true,"avatarSize":22,"isLink":false,"className":"jetpack-card-author"} /-->
+						<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+					</div>
+					<!-- /wp:group -->
+				<!-- /wp:post-template -->
+			</div>
+			<!-- /wp:query -->
 
 		</div>
-		<!-- /wp:query -->
+		<!-- /wp:group -->
+
+		<!-- ── Jetpack 101 ── -->
+		<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-category-section"} -->
+		<div class="wp-block-group jetpack-category-section">
+
+			<!-- wp:group {"className":"jetpack-category-section__header","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+			<div class="wp-block-group jetpack-category-section__header">
+				<!-- wp:heading {"level":2,"className":"jetpack-category-section__title"} -->
+				<h2 class="wp-block-heading jetpack-category-section__title">Jetpack 101</h2>
+				<!-- /wp:heading -->
+				<!-- wp:paragraph {"className":"jetpack-category-section__viewall"} -->
+				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/category/jetpack-101/">View all →</a></p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","categories":[776197696],"inherit":false},"className":"jetpack-post-grid"} -->
+			<div class="wp-block-query jetpack-post-grid">
+				<!-- wp:post-template {"className":"jetpack-post-grid__items"} -->
+					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
+					<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
+					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
+					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
+					<div class="wp-block-group jetpack-card-byline">
+						<!-- wp:post-author {"showBio":false,"showAvatar":true,"avatarSize":22,"isLink":false,"className":"jetpack-card-author"} /-->
+						<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+					</div>
+					<!-- /wp:group -->
+				<!-- /wp:post-template -->
+			</div>
+			<!-- /wp:query -->
+
+		</div>
+		<!-- /wp:group -->
+
+		<!-- ── Developers ── -->
+		<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-category-section"} -->
+		<div class="wp-block-group jetpack-category-section">
+
+			<!-- wp:group {"className":"jetpack-category-section__header","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
+			<div class="wp-block-group jetpack-category-section__header">
+				<!-- wp:heading {"level":2,"className":"jetpack-category-section__title"} -->
+				<h2 class="wp-block-heading jetpack-category-section__title">Developers</h2>
+				<!-- /wp:heading -->
+				<!-- wp:paragraph {"className":"jetpack-category-section__viewall"} -->
+				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/category/developers/">View all →</a></p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+
+			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","categories":[20054],"inherit":false},"className":"jetpack-post-grid"} -->
+			<div class="wp-block-query jetpack-post-grid">
+				<!-- wp:post-template {"className":"jetpack-post-grid__items"} -->
+					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
+					<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
+					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
+					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
+					<div class="wp-block-group jetpack-card-byline">
+						<!-- wp:post-author {"showBio":false,"showAvatar":true,"avatarSize":22,"isLink":false,"className":"jetpack-card-author"} /-->
+						<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+					</div>
+					<!-- /wp:group -->
+				<!-- /wp:post-template -->
+			</div>
+			<!-- /wp:query -->
+
+		</div>
+		<!-- /wp:group -->
 
 	</div>
 	<!-- /wp:group -->

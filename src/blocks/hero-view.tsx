@@ -21,6 +21,10 @@
  * state so the animation actually runs.
  */
 
+import { createElement } from 'react';
+import { createRoot } from 'react-dom/client';
+import FuzzyText from '@/components/react-bits/FuzzyText';
+
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 
 function setInitial(
@@ -55,6 +59,30 @@ requestAnimationFrame( () => {
 	const cta       = hero.querySelector< HTMLElement >( '.jetpack-hero__cta' );
 	const dashboard = hero.querySelector< HTMLElement >( '.jetpack-hero__dashboard' );
 	const logos     = hero.querySelector< HTMLElement >( '.jetpack-hero__logos' );
+
+	// Mount ShinyText into the accent span — captures PHP-rendered text, replaces
+	// it with the animated gradient variant. The outer span still drives the
+	// entrance animation (opacity / translateY / blur) as usual.
+	if ( accent ) {
+		const accentText = accent.textContent?.trim() ?? '';
+		accent.textContent = '';
+		createRoot( accent ).render(
+			createElement( FuzzyText, {
+				children:           accentText,
+				fontSize:           'clamp(3.75rem, 7vw, 6rem)',
+				fontWeight:         700,
+				fontFamily:         'inherit',
+				color:              '#069E08',
+				baseIntensity:      0.03,
+				hoverIntensity:     0.2,
+				enableHover:        true,
+				fuzzRange:          28,
+				fps:                60,
+				direction:          'horizontal',
+				transitionDuration: 8,
+			} )
+		);
+	}
 
 	// ── Frame 1: commit "from" states as inline styles ────────────────────────
 	// fadeInUp elements
