@@ -11,9 +11,9 @@ $a = wp_parse_args( $attributes, [
 	'badgeText'     => 'Now Available',
 	'changelogText' => 'Jetpack Social in 15.7',
 	'changelogUrl'  => 'https://jetpack.com/changelog',
-	'headlineLine1' => 'Give WordPress',
-	'headlineAccent'=> 'Superpowers',
-	'subheadline'   => 'Your site could be losing visitors right now—to slow load times, security gaps, or content no one can find.',
+	'headlineLine1' => 'Your WordPress,',
+	'headlineAccent'=> 'Supercharged.',
+	'subheadline'   => 'Right now, your site could be losing visitors to slow load times, poor search rankings, or content no one can find—while your competitors capture the customers you\'re missing.',
 	'ctaText'       => 'Get Started',
 	'ctaUrl'        => 'https://jetpack.com/pricing/',
 ] );

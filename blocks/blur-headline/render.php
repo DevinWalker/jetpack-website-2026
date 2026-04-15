@@ -7,7 +7,7 @@
  * @var array $attributes Block attributes.
  */
 
-$text = $attributes['text'] ?? 'Modern teams use our platform to elevate every customer touchpoint, blending human expertise with AI capabilities in a unified system that drives continuous improvement across all channels.';
+$text = $attributes['text'] ?? 'Grow your audience without the grind, speed up every page without the hassle, and secure your content without losing sleep—Jetpack handles all three so you can focus on what you love most: creating.';
 $words = explode( ' ', $text );
 ?>
 <section
