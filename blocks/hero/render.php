@@ -85,8 +85,11 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Card swap — React mounts here via hero-card-swap.js */ ?>
-	<div class="jetpack-hero__dashboard relative px-6 mt-24 max-[850px]:mt-10 z-10 opacity-0 translate-y-10">
-		<div class="relative max-w-5xl mx-auto h-[520px] max-[768px]:h-[450px] max-[480px]:h-[380px]">
+	<div class="jetpack-hero__dashboard relative px-6 mt-10 max-[850px]:mt-6 z-10 opacity-0 translate-y-10">
+		<div
+			class="relative max-w-5xl mx-auto h-[640px] max-[768px]:h-[480px] max-[480px]:h-[352px] overflow-hidden rounded-2xl"
+			style="mask-image:linear-gradient(to bottom,black 65%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,black 65%,transparent 100%)"
+		>
 			<div
 				id="jetpack-card-swap-mount"
 				class="relative w-full h-full"

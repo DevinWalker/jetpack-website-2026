@@ -9,7 +9,7 @@ function HeroCards() {
 	return (
 		<CardSwap
 			width="100%"
-			height={ 440 }
+			height={ 560 }
 			cardDistance={ 0 }
 			verticalDistance={ 80 }
 			zDistance={ 150 }
@@ -17,7 +17,7 @@ function HeroCards() {
 			pauseOnHover={ false }
 			skewAmount={ 0 }
 			easing="elastic"
-			containerClassName="absolute bottom-[-4rem] left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
+			containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
 		>
 			<Card className="bg-neutral-900 border-neutral-700 overflow-hidden p-0">
 				<img
