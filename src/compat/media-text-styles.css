@@ -305,9 +305,29 @@
 	margin-right: auto;
 }
 
+/* Inline testimonial sections on product pages */
+.testimonial .wp-block-media-text,
 .testimonial-alt .wp-block-media-text {
 	border-radius: 1rem;
 	overflow: hidden;
+}
+
+.testimonial .is-style-jetpack-quote,
+.testimonial-alt .is-style-jetpack-quote {
+	position: relative;
+	padding-left: 1.5rem;
+}
+
+.testimonial .is-style-jetpack-quote::before,
+.testimonial-alt .is-style-jetpack-quote::before {
+	content: '\201C';
+	position: absolute;
+	left: 0;
+	top: -0.25rem;
+	font-size: 2.5rem;
+	line-height: 1;
+	color: var(--accent, #069E08);
+	font-family: Georgia, serif;
 }
 
 .section-footnote p {

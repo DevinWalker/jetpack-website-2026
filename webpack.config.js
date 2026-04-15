@@ -22,10 +22,13 @@ module.exports = {
 		'scroll-animations': './src/blocks/scroll-animations.ts',
 		'features-highlights-view': './src/blocks/features-highlights-view.tsx',
 
-		// FAQ view script — Interactivity API store for accordion behavior.
+		// FAQ view script — accordion behavior.
 		'faq-view':          './src/blocks/faq-store.ts',
 
-		// Global interactions (header, testimonials) — no framework dependencies.
+		// Testimonials view script — slider with auto-advance and dot nav.
+		'testimonials-view': './src/blocks/testimonials-view.ts',
+
+		// Global interactions (header) — no framework dependencies.
 		'interactions':      './src/blocks/interactions.ts',
 	},
 
