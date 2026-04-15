@@ -14,8 +14,8 @@ if ( empty( $sections ) ) {
 	return;
 }
 ?>
-<section class="jetpack-features-highlights w-full px-6 bg-background">
-	<div class="max-w-6xl mx-auto flex flex-col gap-24 md:gap-32">
+<section class="jetpack-features-highlights w-full py-16 md:py-24 px-6 bg-background">
+	<div class="max-w-6xl mx-auto flex flex-col gap-28 md:gap-36">
 		<?php foreach ( $sections as $i => $section ) :
 			$section = wp_parse_args( $section, [
 				'eyebrow'          => '',
@@ -32,30 +32,30 @@ if ( empty( $sections ) ) {
 
 			$image_left = 'left' === $section['mediaPosition'];
 		?>
-		<div class="jetpack-fh-section grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center opacity-0 translate-y-10">
+		<div class="jetpack-fh-section grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center opacity-0 translate-y-10">
 
 			<?php /* ── Image column ─────────────────────────────────── */ ?>
 			<div class="<?php echo $image_left ? 'md:order-1' : 'md:order-2'; ?>">
 				<img
 					src="<?php echo esc_url( $section['imageUrl'] ); ?>"
 					alt="<?php echo esc_attr( $section['imageAlt'] ); ?>"
-					class="w-full h-auto rounded-2xl"
+					class="w-full h-auto rounded-2xl shadow-lg"
 					loading="lazy"
 					decoding="async"
 				/>
 			</div>
 
 			<?php /* ── Content column ───────────────────────────────── */ ?>
-			<div class="<?php echo $image_left ? 'md:order-2' : 'md:order-1'; ?> flex flex-col">
+			<div class="<?php echo $image_left ? 'md:order-2' : 'md:order-1'; ?> flex flex-col gap-0">
 
 				<?php /* Eyebrow */ ?>
-				<span class="text-accent font-semibold text-base mb-4 tracking-wide">
+				<span class="text-accent font-bold text-sm uppercase tracking-[0.15em] mb-5">
 					<?php echo esc_html( $section['eyebrow'] ); ?>
 				</span>
 
 				<?php /* Heading — BlurHighlight mounts here */ ?>
 				<h2
-					class="text-3xl md:text-[2.75rem] font-semibold leading-tight text-foreground mb-4"
+					class="text-3xl md:text-[2.75rem] font-semibold leading-[1.15] tracking-tight text-foreground mb-5"
 					data-fh-heading="<?php echo esc_attr( $section['heading'] ); ?>"
 					data-fh-highlight="<?php echo esc_attr( $section['headingHighlight'] ); ?>"
 				>
@@ -63,27 +63,29 @@ if ( empty( $sections ) ) {
 				</h2>
 
 				<?php /* Description */ ?>
-				<p class="text-muted text-base md:text-lg leading-relaxed mb-6">
+				<p class="text-neutral-500 text-base md:text-[1.125rem] leading-relaxed mb-5">
 					<?php echo esc_html( $section['description'] ); ?>
 				</p>
 
 				<?php /* Benefits — AnimatedList mounts here */ ?>
 				<ul
-					class="flex flex-col gap-3 mb-8"
+					class="flex flex-col gap-1.5 mb-6"
 					data-fh-benefits="<?php echo esc_attr( wp_json_encode( $section['benefits'] ) ); ?>"
 				>
 					<?php foreach ( $section['benefits'] as $benefit ) :
 						$benefit = wp_parse_args( $benefit, [ 'text' => '', 'linkText' => '', 'linkUrl' => '#' ] );
 					?>
-					<li class="flex items-start gap-3 text-foreground">
-						<svg class="w-5 h-5 mt-0.5 shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-							<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-						</svg>
-						<span>
+					<li class="flex items-start gap-3">
+						<span class="mt-1.5 shrink-0 w-5 h-5 rounded-full bg-neutral-200 flex items-center justify-center">
+							<svg class="w-3 h-3 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<polyline points="20 6 9 17 4 12"/>
+							</svg>
+						</span>
+						<span class="text-base md:text-lg leading-normal text-neutral-600">
 							<?php echo esc_html( $benefit['text'] ); ?>
 							<a
 								href="<?php echo esc_url( $benefit['linkUrl'] ); ?>"
-								class="font-semibold text-accent hover:underline"
+								class="inline-flex items-center ml-1 px-2.5 py-0.5 rounded-full bg-accent/15 text-accent font-semibold text-sm md:text-[0.9375rem] hover:bg-accent/25 transition-colors"
 							><?php echo esc_html( $benefit['linkText'] ); ?></a>
 						</span>
 					</li>
@@ -94,10 +96,10 @@ if ( empty( $sections ) ) {
 				<div>
 					<a
 						href="<?php echo esc_url( $section['ctaUrl'] ); ?>"
-						class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white font-medium rounded-lg hover:bg-accent/90 transition-colors"
+						class="inline-flex items-center gap-2.5 px-7 py-3.5 bg-foreground text-background font-semibold text-[0.9375rem] rounded-xl hover:bg-foreground/85 transition-colors"
 					>
 						<?php echo esc_html( $section['ctaLabel'] ); ?>
-						<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+						<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
 							<path d="M5 12h14M12 5l7 7-7 7"/>
 						</svg>
 					</a>
