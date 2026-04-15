@@ -16,7 +16,7 @@ $primary_items = jetpack_get_menu( 'primary' );
 $nav_tree      = jetpack_build_nav_tree( $primary_items );
 ?>
 <header
-	class="jetpack-header fixed shadow-[0_0_40px_rgba(0,0,0,0.08)] rounded-b-[2rem] top-2.5 left-1/2 -translate-x-1/2 w-full max-w-5xl bg-frame z-[9998] max-[900px]:top-0 max-[900px]:left-0 max-[900px]:right-0 max-[900px]:translate-x-0 max-[900px]:w-full max-[900px]:max-w-none max-[900px]:rounded-none max-[900px]:rounded-b-[2rem] max-[900px]:overflow-hidden"
+	class="jetpack-header fixed shadow-[0_0_40px_rgba(0,0,0,0.08)] rounded-b-[2rem] top-2.5 left-1/2 -translate-x-1/2 w-full max-w-5xl max-[1280px]:max-w-4xl bg-frame z-[9998] max-[900px]:top-0 max-[900px]:left-0 max-[900px]:right-0 max-[900px]:translate-x-0 max-[900px]:w-full max-[900px]:max-w-none max-[900px]:rounded-none max-[900px]:rounded-b-[2rem] max-[900px]:overflow-hidden"
 	data-wp-interactive="jetpack-theme/header"
 	<?php echo wp_kses_data( wp_interactivity_data_wp_context( [ 'openMenu' => null, 'mobileOpen' => false ] ) ); ?>
 >
