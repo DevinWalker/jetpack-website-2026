@@ -17,6 +17,7 @@ module.exports = {
 
 		// Per-block view scripts — loaded only when the block is on the page.
 		'hero-view':         './src/blocks/hero-view.tsx',
+		'hero-card-swap':    './src/blocks/hero-card-swap.tsx',
 		'blur-view':         './src/blocks/blur-view.tsx',
 		'scroll-animations': './src/blocks/scroll-animations.ts',
 
