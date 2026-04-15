@@ -349,6 +349,25 @@ add_action( 'wp_body_open', function (): void {
 	<?php
 } );
 
+// ─── Register jetpack_support CPT ────────────────────────────────────────────
+// Production jetpack.com serves /support/ as the archive of this CPT.
+// Registering it locally stops WordPress redirect_canonical from fuzzy-matching
+// the slug to unrelated blog posts.
+
+add_action( 'init', function (): void {
+	register_post_type( 'jetpack_support', [
+		'public'       => true,
+		'has_archive'  => 'support',
+		'rewrite'      => [ 'slug' => 'support', 'with_front' => false ],
+		'show_ui'      => false,
+		'show_in_rest' => true,
+		'labels'       => [
+			'name'          => 'Support',
+			'singular_name' => 'Support Article',
+		],
+	] );
+} );
+
 // ─── Register Block Pattern Category ─────────────────────────────────────────
 
 add_action( 'init', function (): void {
