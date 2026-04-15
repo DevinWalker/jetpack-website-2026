@@ -30,21 +30,38 @@ function jetpack_is_production(): bool {
 
 if ( ! jetpack_is_production() ) {
 
-	/**
-	 * Rewrite a single URL from the local domain to the production domain.
-	 */
-	function jetpack_proxy_to_production( string $url ): string {
-		$local_origin = untrailingslashit( home_url() );
-		$prod_origin  = untrailingslashit( JETPACK_PRODUCTION_URL );
+/**
+ * Rewrite a single URL from the local domain to the production domain.
+ * Only rewrites URLs that already start with the local origin; external hosts are left alone.
+ */
+function jetpack_proxy_to_production( string $url ): string {
+	static $local, $prod;
+	$local ??= untrailingslashit( home_url() );
+	$prod  ??= untrailingslashit( JETPACK_PRODUCTION_URL );
 
-		// Only rewrite URLs that start with the local origin — leave absolute
-		// URLs pointing to external hosts (e.g. jetpackme.wordpress.com CDN) alone.
-		if ( str_starts_with( $url, $local_origin ) ) {
-			$url = $prod_origin . substr( $url, strlen( $local_origin ) );
-		}
-
-		return $url;
+	if ( str_starts_with( $url, $local ) ) {
+		$url = $prod . substr( $url, strlen( $local ) );
 	}
+
+	return $url;
+}
+
+/**
+ * Rewrite a single URL from the production domain to the local domain.
+ * Inverse of jetpack_proxy_to_production(). Only rewrites URLs that start
+ * with the production origin; external hosts are left alone.
+ */
+function jetpack_localize_url( string $url ): string {
+	static $local, $prod;
+	$local ??= untrailingslashit( home_url() );
+	$prod  ??= untrailingslashit( JETPACK_PRODUCTION_URL );
+
+	if ( str_starts_with( $url, $prod ) ) {
+		$url = $local . substr( $url, strlen( $prod ) );
+	}
+
+	return $url;
+}
 
 	// Single attachment URL (used by wp_get_attachment_image, post-featured-image block, etc.).
 	add_filter( 'wp_get_attachment_url', 'jetpack_proxy_to_production' );
@@ -60,13 +77,9 @@ if ( ! jetpack_is_production() ) {
 	// Inline src/srcset within rendered post content (covers hard-coded block markup).
 	// Scoped to image attributes only so that href navigation links stay on the local origin.
 	add_filter( 'the_content', function ( string $content ): string {
-		$local_origin = untrailingslashit( home_url() );
-		$prod_origin  = untrailingslashit( JETPACK_PRODUCTION_URL );
 		return preg_replace_callback(
 			'/\b(src|srcset)="([^"]*)"/i',
-			function ( array $m ) use ( $local_origin, $prod_origin ): string {
-				return $m[1] . '="' . str_replace( $local_origin, $prod_origin, $m[2] ) . '"';
-			},
+			fn( array $m ): string => $m[1] . '="' . jetpack_proxy_to_production( $m[2] ) . '"',
 			$content
 		);
 	} );
@@ -75,14 +88,10 @@ if ( ! jetpack_is_production() ) {
 	// from the production origin to the local origin. Keeps template files free of hardcoded
 	// local URLs while still making navigation work locally.
 	add_filter( 'render_block', function ( string $block_content ): string {
-		$prod_origin  = preg_quote( untrailingslashit( JETPACK_PRODUCTION_URL ), '/' );
-		$local_origin = untrailingslashit( home_url() );
+		$prod_origin = preg_quote( untrailingslashit( JETPACK_PRODUCTION_URL ), '/' );
 		return preg_replace_callback(
 			'/\bhref="(' . $prod_origin . '[^"]*)"/i',
-			function ( array $m ) use ( $local_origin ): string {
-				$path = substr( $m[1], strlen( untrailingslashit( JETPACK_PRODUCTION_URL ) ) );
-				return 'href="' . esc_url( $local_origin . $path ) . '"';
-			},
+			fn( array $m ): string => 'href="' . esc_url( jetpack_localize_url( $m[1] ) ) . '"',
 			$block_content
 		);
 	} );

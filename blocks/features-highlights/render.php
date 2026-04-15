@@ -14,6 +14,20 @@ if ( empty( $sections ) ) {
 	return;
 }
 
+// On non-production environments rewrite any canonical production hrefs in the
+// sections data so that links work locally. Image URLs are intentionally left
+// pointing at production so that media still loads.
+if ( ! jetpack_is_production() ) {
+	foreach ( $sections as &$section ) {
+		$section['ctaUrl'] = jetpack_localize_url( $section['ctaUrl'] ?? '' );
+		foreach ( $section['benefits'] as &$benefit ) {
+			$benefit['linkUrl'] = jetpack_localize_url( $benefit['linkUrl'] ?? '' );
+		}
+		unset( $benefit );
+	}
+	unset( $section );
+}
+
 $lucide_icons = [
 	'trending-up' => '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
 	'zap'         => '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
