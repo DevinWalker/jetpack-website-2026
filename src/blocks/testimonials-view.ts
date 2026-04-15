@@ -1,58 +1,45 @@
 /**
  * Testimonials slider view script.
- * Handles auto-advance, dot navigation, and slide transitions.
+ * Nav is inside each slide's content column — use event delegation on the section.
  */
 
 function initTestimonialsSlider(): void {
 	const section = document.querySelector< HTMLElement >( '.jetpack-testimonials' );
 	if ( ! section ) return;
 
-	const slides = Array.from( section.querySelectorAll< HTMLElement >( '.jetpack-slide' ) );
-	const dots   = Array.from( section.querySelectorAll< HTMLElement >( '.jetpack-slider__dot' ) );
-	const count  = slides.length;
+	const slides   = Array.from( section.querySelectorAll< HTMLElement >( '.jetpack-slide' ) );
+	const counters = Array.from( section.querySelectorAll< HTMLElement >( '.jetpack-slider__current' ) );
+	const count    = slides.length;
 
-	if ( count < 1 ) return;
+	if ( count < 2 ) return;
 
 	let active = 0;
 	let timer: ReturnType< typeof setInterval > | null = null;
 	const INTERVAL = 8000;
 
-	function activate( idx: number ): void {
+	function goTo( idx: number ): void {
 		active = ( ( idx % count ) + count ) % count;
-
-		slides.forEach( ( slide, i ) => {
-			const isActive = i === active;
-			slide.classList.toggle( 'jetpack-slide--active', isActive );
-			slide.setAttribute( 'aria-hidden', String( ! isActive ) );
+		slides.forEach( ( s, i ) => {
+			s.classList.toggle( 'jetpack-slide--active', i === active );
 		} );
-
-		dots.forEach( ( dot, i ) => {
-			const isActive = i === active;
-			dot.classList.toggle( 'jetpack-slider__dot--active', isActive );
-			dot.setAttribute( 'aria-selected', String( isActive ) );
-		} );
-	}
-
-	activate( 0 );
-
-	dots.forEach( ( dot ) => {
-		dot.addEventListener( 'click', () => {
-			const idx = parseInt( dot.dataset.dotIndex ?? '0', 10 );
-			activate( idx );
-			resetTimer();
-		} );
-	} );
-
-	function startTimer(): void {
-		timer = setInterval( () => activate( active + 1 ), INTERVAL );
+		const label = String( active + 1 );
+		counters.forEach( ( el ) => { el.textContent = label; } );
 	}
 
 	function resetTimer(): void {
 		if ( timer ) clearInterval( timer );
-		startTimer();
+		timer = setInterval( () => goTo( active + 1 ), INTERVAL );
 	}
 
-	if ( count > 1 ) startTimer();
+	section.addEventListener( 'click', ( e ) => {
+		const btn = ( e.target as HTMLElement ).closest< HTMLElement >( '[data-dir]' );
+		if ( ! btn ) return;
+		goTo( btn.dataset.dir === 'prev' ? active - 1 : active + 1 );
+		resetTimer();
+	} );
+
+	goTo( 0 );
+	resetTimer();
 }
 
 if ( document.readyState === 'loading' ) {
