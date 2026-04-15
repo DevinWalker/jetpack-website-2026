@@ -79,6 +79,8 @@ interface CardSwapProps {
 	verticalDistance?: number;
 	delay?: number;
 	pauseOnHover?: boolean;
+	/** Externally-driven pause. When true the interval stops and the GSAP timeline pauses. */
+	paused?: boolean;
 	onCardClick?: ( idx: number ) => void;
 	skewAmount?: number;
 	easing?: 'linear' | 'elastic';
@@ -101,6 +103,7 @@ const CardSwap = ( {
 	verticalDistance = 70,
 	delay = 5000,
 	pauseOnHover = false,
+	paused = false,
 	onCardClick,
 	skewAmount = 6,
 	easing = 'elastic',
@@ -138,6 +141,7 @@ const CardSwap = ( {
 	const order = useRef< number[] >( Array.from( { length: childArr.length }, ( _, i ) => i ) );
 	const tlRef = useRef< gsap.core.Timeline | null >( null );
 	const intervalRef = useRef< ReturnType< typeof setInterval > | undefined >( undefined );
+	const swapRef = useRef< ( () => void ) | null >( null );
 	const container = useRef< HTMLDivElement >( null );
 
 	useEffect( () => {
@@ -210,6 +214,7 @@ const CardSwap = ( {
 			} );
 		};
 
+		swapRef.current = swap;
 		swap();
 		intervalRef.current = window.setInterval( swap, delay );
 
@@ -236,6 +241,19 @@ const CardSwap = ( {
 		return () => clearInterval( intervalRef.current );
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, zDistance ] );
+
+	useEffect( () => {
+		if ( paused ) {
+			tlRef.current?.pause();
+			clearInterval( intervalRef.current );
+		} else {
+			tlRef.current?.play();
+			clearInterval( intervalRef.current );
+			if ( swapRef.current ) {
+				intervalRef.current = window.setInterval( swapRef.current, delay );
+			}
+		}
+	}, [ paused, delay ] );
 
 	const rendered = childArr.map( ( child, i ) =>
 		isValidElement< CardProps >( child )

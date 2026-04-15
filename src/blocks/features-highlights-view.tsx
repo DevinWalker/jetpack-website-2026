@@ -11,7 +11,14 @@
 import React, { useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion, useInView } from 'motion/react';
+import { TrendingUp, Zap, Shield, type LucideIcon } from 'lucide-react';
 import { BlurHighlight } from '@/components/react-bits/blur-highlight';
+
+const ICON_MAP: Record< string, LucideIcon > = {
+	'trending-up': TrendingUp,
+	'zap': Zap,
+	'shield': Shield,
+};
 
 interface BenefitData {
 	text: string;
@@ -102,12 +109,17 @@ document.querySelectorAll< HTMLElement >( '.jetpack-fh-section' ).forEach( ( sec
 	// ── Eyebrow ──
 	const eyebrow = section.querySelector< HTMLElement >( '.text-accent.uppercase' );
 	if ( eyebrow ) {
-		const text = eyebrow.textContent ?? '';
+		const text = eyebrow.textContent?.trim() ?? '';
 		const classes = eyebrow.className;
+		const iconSlug = eyebrow.dataset.fhIcon ?? '';
+		const IconComponent = ICON_MAP[ iconSlug ];
 		const wrapper = document.createElement( 'div' );
 		eyebrow.replaceWith( wrapper );
 		createRoot( wrapper ).render(
-			<BlurIn className={ classes } delay={ 0 }>{ text }</BlurIn>
+			<BlurIn className={ classes } delay={ 0 }>
+				{ IconComponent && <IconComponent className="w-4 h-4 shrink-0" strokeWidth={ 2 } aria-hidden="true" /> }
+				{ text }
+			</BlurIn>
 		);
 	}
 

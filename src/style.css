@@ -283,6 +283,9 @@ body {
   }
 }
 
+/* Production Jetpack.com backward-compatibility styles */
+@import "./compat/media-text-styles.css";
+
 /* Badge link — remove browser/WP default underline */
 .jetpack-hero__badge {
   text-decoration: none;

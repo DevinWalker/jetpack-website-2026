@@ -12,10 +12,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin( ScrollTrigger );
 
+const REVEAL_ALL = '.jetpack-reveal, .jetpack-bento-card, .jetpack-pricing-card, .jetpack-fh-section, .hero-with-icon .wp-block-media-text';
+
 if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
-	document.querySelectorAll< HTMLElement >(
-		'.jetpack-reveal, .jetpack-bento-card, .jetpack-pricing-card, .jetpack-fh-section'
-	).forEach( ( el ) => {
+	document.querySelectorAll< HTMLElement >( REVEAL_ALL ).forEach( ( el ) => {
 		el.style.opacity   = '1';
 		el.style.transform = 'none';
 	} );
@@ -101,4 +101,23 @@ if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 			},
 		} );
 	}
+
+	// Production media-text sections inside feature page containers.
+	const mediaTexts = gsap.utils.toArray< HTMLElement >( '.hero-with-icon .wp-block-media-text' );
+	mediaTexts.forEach( ( el ) => {
+		gsap.fromTo( el,
+			{ opacity: 0, y: 40 },
+			{
+				opacity:    1,
+				y:          0,
+				duration:   0.8,
+				ease:       'power3.out',
+				scrollTrigger: {
+					trigger: el,
+					start:   'top 88%',
+					once:    true,
+				},
+			}
+		);
+	} );
 }
