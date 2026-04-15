@@ -96,7 +96,7 @@ add_action( 'wp_enqueue_scripts', function (): void {
 		file_exists( $css_file ) ? filemtime( $css_file ) : '1.0.0'
 	);
 
-	// Global interactions script (header, FAQ, testimonials).
+	// Global interactions script (header, testimonials).
 	$int_asset = $theme_dir . '/build/interactions.asset.php';
 	$int_data  = file_exists( $int_asset ) ? require $int_asset : [ 'dependencies' => [], 'version' => '1.0.0' ];
 	wp_enqueue_script(
@@ -225,6 +225,14 @@ add_action( 'wp_body_open', function (): void {
 		<path d="M5.50871e-06 0C-0.00788227 37.3001 8.99616 50.0116 50 50H5.50871e-06V0Z" fill="currentColor"/>
 	</svg>
 	<?php
+} );
+
+// ─── Register Block Pattern Category ─────────────────────────────────────────
+
+add_action( 'init', function (): void {
+	register_block_pattern_category( 'jetpack-theme', [
+		'label' => __( 'Jetpack Theme', 'jetpack-theme' ),
+	] );
 } );
 
 // ─── Register Custom Block Category ──────────────────────────────────────────

@@ -9,9 +9,10 @@
 	"keywords": [ "faq", "accordion", "questions" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/faq-view.js",
 	"attributes": {
-		"sectionTitle":       { "type": "string", "default": "Everything you need to know" },
-		"sectionDescription": { "type": "string", "default": "Can't find the answer you're looking for? Reach out!" },
+		"sectionTitle":       { "type": "string", "default": "Everything you need to know about Jetpack" },
+		"sectionDescription": { "type": "string", "default": "From security to performance, here is how Jetpack protects and accelerates your WordPress site." },
 		"ctaPrimaryText":     { "type": "string", "default": "Get Started" },
 		"ctaPrimaryUrl":      { "type": "string", "default": "https://jetpack.com/pricing/" },
 		"ctaSecondaryText":   { "type": "string", "default": "Contact Support" },
@@ -20,24 +21,28 @@
 			"type": "array",
 			"default": [
 				{
-					"question": "How does the 14-day free trial work?",
-					"answer":   "Start using our platform immediately with full access to all features. No credit card required. At the end of your trial, choose a plan that fits your needs or continue with our free tier."
+					"question": "What is Jetpack?",
+					"answer":   "Jetpack is a suite of security, performance, and growth tools built by Automattic for WordPress sites. You can install individual plugins like Jetpack Boost, Jetpack Social, or VaultPress Backup, or get everything in one place with the main Jetpack plugin."
 				},
 				{
-					"question": "Can I switch plans at any time?",
-					"answer":   "Absolutely! You can upgrade or downgrade your plan at any time. When upgrading, you'll get immediate access to new features. When downgrading, changes take effect at your next billing cycle."
+					"question": "Does Jetpack work with any WordPress host?",
+					"answer":   "Yes. Jetpack works with any self-hosted WordPress site regardless of your hosting provider. It's trusted by more than 27 million WordPress sites worldwide, from personal blogs to large-scale businesses."
 				},
 				{
-					"question": "What integrations do you support?",
-					"answer":   "We integrate with all major platforms including Slack, Zendesk, Salesforce, HubSpot, Intercom, and 50+ other tools. Our API also allows custom integrations for enterprise customers."
+					"question": "Will Jetpack slow down my site?",
+					"answer":   "Not at all. Jetpack's modular architecture means you only activate the features you need. Security scanning and backups run on Automattic's cloud servers, not yours. Jetpack Boost actively improves your site speed with critical CSS, image CDN, and lazy loading."
 				},
 				{
-					"question": "How secure is my data?",
-					"answer":   "Security is our top priority. We use bank-level encryption (AES-256), are SOC 2 Type II certified, and GDPR compliant. All data is stored in secure, redundant data centers with 99.99% uptime."
+					"question": "How do backups and restores work?",
+					"answer":   "VaultPress Backup saves every change to your site in real time to Automattic's secure cloud infrastructure. If anything goes wrong, you can restore your entire site to any point in time with a single click from the activity log."
 				},
 				{
-					"question": "Do you offer dedicated support?",
-					"answer":   "All plans include email support with 24-hour response times. Premium plans get priority support with 4-hour response times. Enterprise customers receive a dedicated success manager and phone support."
+					"question": "Is there a free version of Jetpack?",
+					"answer":   "Yes. Jetpack offers a generous free tier that includes brute force attack protection, downtime monitoring, site stats, and a CDN for images. Paid plans unlock real-time backups, automated malware scanning, spam filtering, and advanced growth tools."
+				},
+				{
+					"question": "What security features does Jetpack provide?",
+					"answer":   "Jetpack Security includes real-time backups, a web application firewall (WAF), automated malware scanning with one-click fixes, brute force attack protection, downtime monitoring, spam filtering powered by Akismet, and a detailed activity log of every change on your site."
 				}
 			]
 		}
