@@ -1,12 +1,11 @@
 /**
- * Interactions — vanilla TypeScript handling all site UI behaviors.
+ * Interactions — vanilla TypeScript handling site-wide UI behaviors.
  * Loaded globally on every page. No framework dependencies.
  *
  * Handles:
  *   - Header entrance animation + dropdown hover + mobile menu
- *   - Testimonials carousel (auto-advance, avatar click, progress ring)
  *
- * Note: FAQ accordion is handled by the Interactivity API store (faq-store.ts).
+ * Note: FAQ and Testimonials have dedicated per-block view scripts.
  */
 
 // ── Utility ──────────────────────────────────────────────────────────────────
@@ -76,83 +75,8 @@ function initHeader(): void {
 	} );
 }
 
-// ── Testimonials carousel ─────────────────────────────────────────────────────
-
-function initTestimonials(): void {
-	const section = $< HTMLElement >( '.jetpack-testimonials' );
-	if ( ! section ) return;
-
-	const ctx      = JSON.parse( section.dataset.wpContext ?? '{"activeIndex":0,"count":0}' ) as { activeIndex: number; count: number };
-	let active     = ctx.activeIndex;
-	const count    = ctx.count;
-	const circ     = 2 * Math.PI * 48;
-	let timer: ReturnType< typeof setInterval > | null = null;
-
-	function activate( idx: number ): void {
-		const prev = active;
-		active     = ( idx + count ) % count;
-
-		// Avatars.
-		$$< HTMLElement >( '.jetpack-testimonial-avatar', section ).forEach( ( el ) => {
-			const c = JSON.parse( el.dataset.wpContext ?? '{}' ) as { index: number };
-			const isActive = c.index === active;
-			el.style.transform = isActive ? 'scale(1.1)' : 'scale(0.9)';
-			el.style.opacity   = isActive ? '1' : '0.6';
-			el.setAttribute( 'aria-selected', String( isActive ) );
-		} );
-
-		// Quotes.
-		$$< HTMLElement >( '.jetpack-quote', section ).forEach( ( el ) => {
-			const i = parseInt( el.dataset.testimonialIndex ?? '-1', 10 );
-			el.classList.toggle( 'active', i === active );
-		} );
-
-		// Logos.
-		$$< HTMLElement >( '[data-testimonial-logo]', section ).forEach( ( el ) => {
-			const i   = parseInt( el.dataset.testimonialLogo ?? '-1', 10 );
-			const img = el.querySelector< HTMLImageElement >( 'img' );
-			if ( img ) {
-				img.classList.toggle( 'opacity-100', i === active );
-				img.classList.toggle( 'opacity-30',  i !== active );
-			}
-		} );
-
-		// Progress ring.
-		$$< SVGCircleElement >( '.jetpack-progress-ring', section ).forEach( ( ring, i ) => {
-			ring.style.transition    = 'none';
-			ring.style.strokeDashoffset = String( circ );
-			if ( i === active ) {
-				requestAnimationFrame( () => {
-					ring.style.transition       = `stroke-dashoffset 10s linear`;
-					ring.style.strokeDashoffset = '0';
-				} );
-			}
-		} );
-	}
-
-	// Initial state.
-	activate( 0 );
-
-	// Avatar click.
-	$$< HTMLElement >( '.jetpack-testimonial-avatar', section ).forEach( ( el ) => {
-		el.addEventListener( 'click', () => {
-			const c = JSON.parse( el.dataset.wpContext ?? '{}' ) as { index: number };
-			activate( c.index );
-			if ( timer ) clearInterval( timer );
-			startTimer();
-		} );
-	} );
-
-	// Auto-advance.
-	function startTimer(): void {
-		timer = setInterval( () => activate( active + 1 ), 10_000 );
-	}
-	if ( count > 1 ) startTimer();
-}
-
 // ── Init ─────────────────────────────────────────────────────────────────────
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	initHeader();
-	initTestimonials();
 } );

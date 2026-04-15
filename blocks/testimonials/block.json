@@ -5,46 +5,36 @@
 	"version": "1.0.0",
 	"title": "Testimonials",
 	"category": "jetpack-theme",
-	"description": "Auto-cycling testimonials carousel.",
-	"keywords": [ "testimonials", "reviews", "social proof" ],
+	"description": "Auto-cycling testimonials slider with photo and quote.",
+	"keywords": [ "testimonials", "reviews", "social proof", "slider" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/testimonials-view.js",
 	"attributes": {
 		"sectionTitle": { "type": "string", "default": "Trusted by 27 million WordPress sites" },
 		"items": {
 			"type": "array",
 			"default": [
 				{
-					"quote":   "I used to wake up anxious about whether my site had been compromised overnight. Jetpack Scan monitors it around the clock and has caught real threats before they became disasters. That peace of mind alone is worth every penny.",
-					"name":    "Sarah Nguyen",
-					"title":   "Food Blogger @ TasteWithSarah.com",
-					"avatar":  "https://images.unsplash.com/photo-1600481453173-55f6a844a4ea?q=80&w=750&auto=format&fit=crop",
-					"company": "TasteWithSarah",
-					"logo":    "mock-logos/commandr.svg"
+					"quote": "Millions of people depend on my site, and downtime isn't an option. Jetpack handles my site security and backups so I can focus on creation.",
+					"name":  "Tim Ferriss",
+					"title": "Author / Investor / Podcaster",
+					"url":   "https://tim.blog/",
+					"avatar": "https://s0.wp.com/wp-content/themes/a8c/jetpackme-new/images/2021/tim-ferris.jpg"
 				},
 				{
-					"quote":   "A botched plugin update once wiped three years of product content in seconds. Since switching to Jetpack Backup, I've restored my site twice without losing a single post. One-click restores actually work.",
-					"name":    "Marcus Okafor",
-					"title":   "Owner @ GardenSupplyDirect.com",
-					"avatar":  "https://images.unsplash.com/photo-1530466015235-1d47696ea847?q=80&w=1674&auto=format&fit=crop",
-					"company": "GardenSupplyDirect",
-					"logo":    "mock-logos/interlock.svg"
+					"quote": "Jetpack's performance features are no‑brainers for the sites I build. With one‑click CDN, there's no need to sacrifice performance for style. I know that it just automagically works once I toggle that button.",
+					"name":  "Sasha Endoh",
+					"title": "Founder",
+					"url":   "http://endoh.co/",
+					"avatar": "https://s0.wp.com/wp-content/themes/a8c/jetpackme-new/images/2021/sasha-endoh.jpg"
 				},
 				{
-					"quote":   "My client's WooCommerce store was bleeding sales from slow page loads. After enabling Jetpack Boost, their Core Web Vitals went green and checkout conversions jumped 23%. I now add Jetpack to every site I build.",
-					"name":    "Rebecca Choi",
-					"title":   "Web Developer @ Choi Digital Studio",
-					"avatar":  "https://images.unsplash.com/photo-1705408115324-6bd2cbfa4d93?q=80&w=774&auto=format&fit=crop",
-					"company": "ChoiDigital",
-					"logo":    "mock-logos/focalpoint.svg"
-				},
-				{
-					"quote":   "Jetpack Stats finally helped me understand my audience without drowning in dashboards. I can see exactly which posts drive traffic and where readers drop off—without any of the complexity of GA4.",
-					"name":    "James Whitfield",
-					"title":   "Creator @ ModernPhotographyTips.com",
-					"avatar":  "https://images.unsplash.com/photo-1564172556663-2bef9580fc44?q=80&w=774&auto=format&fit=crop",
-					"company": "ModernPhotographyTips",
-					"logo":    "mock-logos/acmecorp.svg"
+					"quote": "Jetpack backs up everything on your site, and you don't have to lift a finger. It's comprehensive, real‑time, and effortless.",
+					"name":  "Chris Coyier",
+					"title": "Founder – CodePen, ShopTalk Show",
+					"url":   "https://codepen.io/",
+					"avatar": "https://s0.wp.com/wp-content/themes/a8c/jetpackme-new/images/2021/chris-coyier.jpg"
 				}
 			]
 		}

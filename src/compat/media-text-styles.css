@@ -62,6 +62,15 @@
 	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
 }
 
+/* Testimonial cards: image fills the column flush — no individual border-radius or shadow */
+.testimonial .wp-block-media-text__media img,
+.testimonial-alt .wp-block-media-text__media img {
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	height: 100%;
+	object-fit: cover;
+}
+
 /* ─── Content column ────────────────────────────────────────────────────────── */
 
 .wp-block-media-text .wp-block-media-text__content {
@@ -305,9 +314,110 @@
 	margin-right: auto;
 }
 
+/* Inline testimonial sections on product pages */
+.testimonial .wp-block-media-text,
 .testimonial-alt .wp-block-media-text {
 	border-radius: 1rem;
 	overflow: hidden;
+	/* Remove inherited gap — content column padding handles all breathing room */
+	gap: 0;
+}
+
+/* Force sand/beige background on testimonial-alt regardless of block color class */
+.testimonial-alt .wp-block-media-text {
+	background-color: var(--sand, #f0f2eb) !important;
+}
+
+/* Content column padding: mobile stacked = all sides; desktop = generous right */
+.testimonial .wp-block-media-text__content,
+.testimonial-alt .wp-block-media-text__content {
+	padding: 2rem 1.75rem;
+}
+
+@media (min-width: 600px) {
+	.testimonial .wp-block-media-text__content,
+	.testimonial-alt .wp-block-media-text__content {
+		padding: 3rem 3.5rem 3rem 3rem;
+	}
+}
+
+/* Quote block — strip default WP border/padding, match slider typography */
+.testimonial .wp-block-quote,
+.testimonial-alt .wp-block-quote {
+	border: none;
+	padding: 0;
+	margin: 0 0 1.5rem;
+}
+
+.testimonial .wp-block-quote p,
+.testimonial-alt .wp-block-quote p {
+	font-size: 1.25rem;
+	line-height: 1.6;
+	color: #1a1a1a;
+	margin: 0;
+}
+
+@media (min-width: 768px) {
+	.testimonial .wp-block-quote p,
+	.testimonial-alt .wp-block-quote p {
+		font-size: 1.375rem;
+	}
+}
+
+/* SVG quote icon above the blockquote — matches homepage slider quotation.svg */
+.testimonial .wp-block-quote::before,
+.testimonial-alt .wp-block-quote::before {
+	content: '';
+	display: block;
+	width: 31px;
+	height: 27px;
+	background-image: url('../../assets/quotation.svg');
+	background-repeat: no-repeat;
+	background-size: contain;
+	transform: rotate(180deg);
+	margin-bottom: 1.25rem;
+}
+
+/* Author paragraph — <p><strong>Name</strong><br><em>Title</em></p> */
+.testimonial .wp-block-media-text__content > p,
+.testimonial-alt .wp-block-media-text__content > p {
+	margin: 0;
+	line-height: 1.5;
+}
+
+/* Author name: bold, dark — matches .jetpack-slide__name */
+.testimonial .wp-block-media-text__content > p strong,
+.testimonial-alt .wp-block-media-text__content > p strong {
+	display: block;
+	font-weight: 700;
+	font-size: 1rem;
+	color: #1a1a1a;
+}
+
+/* Hide the <br> between name and title — display:block on strong already wraps */
+.testimonial .wp-block-media-text__content > p br,
+.testimonial-alt .wp-block-media-text__content > p br {
+	display: none;
+}
+
+/* Author title/company: muted gray, non-italic — matches .jetpack-slide__title */
+.testimonial .wp-block-media-text__content > p em,
+.testimonial-alt .wp-block-media-text__content > p em {
+	font-style: normal;
+	font-size: 0.875rem;
+	color: #6b7280;
+}
+
+/* Author title link */
+.testimonial .wp-block-media-text__content > p a,
+.testimonial-alt .wp-block-media-text__content > p a {
+	font-size: 0.875rem;
+	color: #6b7280;
+	text-decoration: none;
+}
+.testimonial .wp-block-media-text__content > p a:hover,
+.testimonial-alt .wp-block-media-text__content > p a:hover {
+	text-decoration: underline;
 }
 
 .section-footnote p {
