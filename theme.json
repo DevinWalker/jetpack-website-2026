@@ -69,6 +69,40 @@
 				"spacing": {
 					"margin": { "top": "0", "bottom": "0" }
 				}
+			},
+			"core/post-title": {
+				"typography": {
+					"fontWeight": "500",
+					"letterSpacing": "-0.025em",
+					"lineHeight": "1.15"
+				}
+			},
+			"core/post-date": {
+				"color": {
+					"text": "#737373"
+				},
+				"typography": {
+					"fontSize": "0.8125rem"
+				}
+			},
+			"core/post-excerpt": {
+				"color": {
+					"text": "#737373"
+				},
+				"typography": {
+					"fontSize": "1rem",
+					"lineHeight": "1.7"
+				}
+			},
+			"core/post-featured-image": {
+				"border": {
+					"radius": "0.75rem"
+				}
+			},
+			"core/query-pagination": {
+				"typography": {
+					"fontSize": "0.875rem"
+				}
 			}
 		}
 	},

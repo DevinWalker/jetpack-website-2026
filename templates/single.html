@@ -1,11 +1,56 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
-<main class="wp-block-group">
-	<!-- wp:post-title {"level":1} /-->
-	<!-- wp:post-date /-->
-	<!-- wp:post-featured-image /-->
-	<!-- wp:post-content /-->
+<!-- wp:group {"tagName":"article","layout":{"type":"constrained"},"className":"jetpack-single-post"} -->
+<article class="wp-block-group jetpack-single-post">
+
+	<!-- wp:group {"tagName":"header","layout":{"type":"constrained","contentSize":"720px"},"className":"jetpack-post-header"} -->
+	<header class="wp-block-group jetpack-post-header">
+		<!-- wp:post-terms {"term":"category","className":"jetpack-post-category","separator":" "} /-->
+		<!-- wp:post-title {"level":1,"className":"jetpack-post-title"} /-->
+		<!-- wp:post-excerpt {"moreText":"","className":"jetpack-post-lead"} /-->
+		<!-- wp:group {"className":"jetpack-post-byline","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"},"style":{"spacing":{"blockGap":"12px"}}} -->
+		<div class="wp-block-group jetpack-post-byline">
+			<!-- wp:post-author {"showBio":false,"showAvatar":true,"avatarSize":40,"className":"jetpack-post-author"} /-->
+			<!-- wp:post-date {"format":"M j, Y","className":"jetpack-post-meta-date"} /-->
+		</div>
+		<!-- /wp:group -->
+	</header>
+	<!-- /wp:group -->
+
+	<!-- wp:post-featured-image {"align":"wide","className":"jetpack-post-hero"} /-->
+
+	<!-- wp:post-content {"layout":{"type":"constrained","contentSize":"720px"},"className":"jetpack-post-content"} /-->
+
+	<!-- wp:group {"layout":{"type":"constrained","contentSize":"720px"},"className":"jetpack-post-footer"} -->
+	<div class="wp-block-group jetpack-post-footer">
+		<!-- wp:post-terms {"term":"post_tag","separator":" ","className":"jetpack-post-tags"} /-->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-related-posts"} -->
+	<div class="wp-block-group jetpack-related-posts">
+
+		<!-- wp:heading {"level":2,"className":"jetpack-related-posts__heading"} -->
+		<h2 class="wp-block-heading jetpack-related-posts__heading">Related Articles</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:query {"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false},"className":"jetpack-related-grid"} -->
+		<div class="wp-block-query jetpack-related-grid">
+			<!-- wp:post-template {"className":"jetpack-related-grid__items"} -->
+				<!-- wp:post-featured-image {"isLink":true,"aspectRatio":"4/3","className":"jetpack-card-image"} /-->
+				<!-- wp:post-terms {"term":"category","className":"jetpack-card-category","separator":" "} /-->
+				<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
+				<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+			<!-- /wp:post-template -->
+		</div>
+		<!-- /wp:query -->
+
+	</div>
+	<!-- /wp:group -->
+
 	<!-- wp:post-comments-form /-->
-</main>
+
+</article>
 <!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

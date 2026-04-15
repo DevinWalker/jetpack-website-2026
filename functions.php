@@ -8,6 +8,63 @@
 
 declare( strict_types = 1 );
 
+// ─── Development: proxy media from production ─────────────────────────────────
+// On local and staging environments, uploaded media won't exist locally.
+// These filters rewrite attachment image URLs to jetpack.com so every image
+// renders without needing a full media sync.
+//
+// Override the production host via wp-config.php if needed:
+//   define( 'JETPACK_PRODUCTION_URL', 'https://staging.jetpack.com' );
+
+if ( ! defined( 'JETPACK_PRODUCTION_URL' ) ) {
+	define( 'JETPACK_PRODUCTION_URL', 'https://jetpack.com' );
+}
+
+/**
+ * Returns true only when running on the real production site.
+ */
+function jetpack_is_production(): bool {
+	$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+	return in_array( $host, [ 'jetpack.com', 'www.jetpack.com' ], true );
+}
+
+if ( ! jetpack_is_production() ) {
+
+	/**
+	 * Rewrite a single URL from the local domain to the production domain.
+	 */
+	function jetpack_proxy_to_production( string $url ): string {
+		$local_origin = untrailingslashit( home_url() );
+		$prod_origin  = untrailingslashit( JETPACK_PRODUCTION_URL );
+
+		// Only rewrite URLs that start with the local origin — leave absolute
+		// URLs pointing to external hosts (e.g. jetpackme.wordpress.com CDN) alone.
+		if ( str_starts_with( $url, $local_origin ) ) {
+			$url = $prod_origin . substr( $url, strlen( $local_origin ) );
+		}
+
+		return $url;
+	}
+
+	// Single attachment URL (used by wp_get_attachment_image, post-featured-image block, etc.).
+	add_filter( 'wp_get_attachment_url', 'jetpack_proxy_to_production' );
+
+	// srcset candidates so responsive images also resolve on production.
+	add_filter( 'wp_calculate_image_srcset', function ( array $sources ): array {
+		foreach ( $sources as $width => $source ) {
+			$sources[ $width ]['url'] = jetpack_proxy_to_production( $source['url'] );
+		}
+		return $sources;
+	} );
+
+	// Inline src/srcset within rendered post content (covers hard-coded block markup).
+	add_filter( 'the_content', function ( string $content ): string {
+		$local_origin = untrailingslashit( home_url() );
+		$prod_origin  = untrailingslashit( JETPACK_PRODUCTION_URL );
+		return str_replace( $local_origin, $prod_origin, $content );
+	} );
+}
+
 // ─── Theme Setup ─────────────────────────────────────────────────────────────
 
 add_action( 'after_setup_theme', function (): void {
@@ -199,6 +256,31 @@ add_action( 'init', function (): void {
 	register_block_style( 'core/button', [
 		'name'  => 'jetpack-button',
 		'label' => 'Jetpack Button',
+	] );
+
+	// ── Blog layout styles ───────────────────────────────────────────────────
+	// Opt-in styles for the modernized blog-4 single-post and blog-1 archive
+	// layouts. Applied automatically by the single.html / index.html templates
+	// via className attributes; also available in the block editor UI.
+
+	register_block_style( 'core/post-content', [
+		'name'  => 'jetpack-article',
+		'label' => 'Jetpack Article',
+	] );
+
+	register_block_style( 'core/group', [
+		'name'  => 'jetpack-post-header',
+		'label' => 'Jetpack Post Header',
+	] );
+
+	register_block_style( 'core/post-featured-image', [
+		'name'  => 'jetpack-hero',
+		'label' => 'Jetpack Hero',
+	] );
+
+	register_block_style( 'core/query', [
+		'name'  => 'jetpack-card-grid',
+		'label' => 'Jetpack Card Grid',
 	] );
 } );
 
