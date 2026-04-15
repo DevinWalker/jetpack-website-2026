@@ -286,6 +286,15 @@ body {
 /* Production Jetpack.com backward-compatibility styles */
 @import "./compat/media-text-styles.css";
 
+/* Hero background — gentle floating drift */
+.jetpack-hero__bg {
+  animation: heroFloat 10s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(12px) scale(1.01); }
+  50%      { transform: translateY(-35px) scale(0.99); }
+}
+
 /* Badge link — remove browser/WP default underline */
 .jetpack-hero__badge {
   text-decoration: none;
