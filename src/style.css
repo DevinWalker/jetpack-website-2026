@@ -1,0 +1,328 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f5f5;
+  --foreground: #0a0a0a;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --border: #e5e5e5;
+  --ring: #0066ff;
+  --frame: #ffffff;
+  --accent: #069E08;
+  --card-primary: #a8d946;
+  --card-secondary: #e8f5c8;
+  --card-foreground: #171717;
+  --card-foreground-muted: #525252;
+  --phone-screen: #f5f5f5;
+  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-frame: var(--frame);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-accent: var(--accent);
+  --color-card-primary: var(--card-primary);
+  --color-card-secondary: var(--card-secondary);
+  --color-card-foreground: var(--card-foreground);
+  --color-card-foreground-muted: var(--card-foreground-muted);
+  --color-phone-screen: var(--phone-screen);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+html,
+body {
+  overscroll-behavior-x: none;
+}
+
+/* Reset WordPress body margin */
+body.wp-block-theme {
+  margin: 0;
+}
+
+/* Custom text selection */
+::selection {
+  background-color: var(--accent);
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide the raw block data scripts — React reads them but they must be invisible */
+.jetpack-sections-data {
+  display: none !important;
+}
+
+/* Skip to content */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1rem;
+  background: var(--background);
+  border: 2px solid var(--ring);
+  border-radius: 0.375rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--foreground);
+}
+
+.skip-to-content:focus {
+  left: 1rem;
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Fixed frame border */
+.site-frame {
+  display: block;
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background-color: var(--frame);
+}
+
+.site-frame--top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.site-frame--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.site-frame--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10px;
+}
+
+.site-frame--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+}
+
+/* Corner decorations */
+.site-corner {
+  display: block;
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  color: var(--frame);
+}
+
+.site-corner--top-left {
+  transform: rotate(90deg);
+  top: 10px;
+  left: 10px;
+}
+
+.site-corner--top-right {
+  top: 10px;
+  right: 10px;
+  transform: rotate(180deg);
+}
+
+.site-corner--bottom-left {
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(0deg);
+}
+
+.site-corner--bottom-right {
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(270deg);
+}
+
+/* Hide frame and corners on mobile */
+@media (max-width: 850px) {
+  .site-frame,
+  .site-corner {
+    display: none;
+  }
+}
+
+/* ── Interactivity API state classes ────────────────────────── */
+
+/* Dropdown open state */
+.jetpack-dropdown-open {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+/* Mobile nav open state */
+.jetpack-mobile-open {
+  max-height: 600px !important;
+}
+
+/* Submenu open state */
+.jetpack-submenu-open {
+  max-height: 300px !important;
+}
+
+/* Hamburger animation */
+.jetpack-ham-top {
+  transform: rotate(45deg) translateY(4.5px);
+}
+.jetpack-ham-bottom {
+  transform: rotate(-45deg) translateY(-4.5px);
+}
+
+/* Header slide-in on load.
+   IMPORTANT: Tailwind v4 uses the CSS `translate` property (individual transforms)
+   for -translate-x-1/2. The `transform` property stacks on top of `translate`.
+   Animations must only animate Y-axis via `transform` — never include X translation
+   here or it will double up with Tailwind's `translate: -50%` and push the header left.
+   `both` fill-mode = `from` state is applied before animation begins (hides header). */
+.jetpack-header {
+  animation: jetpackHeaderSlideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes jetpackHeaderSlideIn {
+  from { transform: translateY(-100px); }
+  to   { transform: translateY(0); }
+}
+@media (max-width: 850px) {
+  .jetpack-header {
+    animation-name: jetpackHeaderSlideInMobile;
+  }
+  @keyframes jetpackHeaderSlideInMobile {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(0); }
+  }
+}
+
+/* FAQ accordion */
+.jetpack-faq-open {
+  max-height: 500px !important;
+}
+
+/* Logo marquee */
+@keyframes jetpackMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.jetpack-logo-track {
+  animation: jetpackMarquee 30s linear infinite;
+}
+.jetpack-logo-track:hover {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .jetpack-logo-track {
+    animation: none;
+  }
+}
+
+/* Remove WP global styles underline from header nav links */
+.jetpack-header a {
+  text-decoration: none;
+}
+
+/* ── WordPress admin bar compensation ───────────────────────── */
+/* When logged in, WP admin bar is fixed at top (32px desktop, 46px ≤782px).
+   Shift the fixed header and top frame down so they don't hide behind it. */
+
+.admin-bar .jetpack-header {
+  top: calc(10px + 32px);
+}
+
+.admin-bar .site-frame--top {
+  top: 32px;
+}
+
+.admin-bar .site-corner--top-left,
+.admin-bar .site-corner--top-right {
+  top: calc(10px + 32px);
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar .jetpack-header {
+    top: 46px;
+  }
+
+  .admin-bar .site-frame--top {
+    top: 46px;
+  }
+
+  .admin-bar .site-corner--top-left,
+  .admin-bar .site-corner--top-right {
+    top: calc(10px + 46px);
+  }
+}
+
+/* Badge link — remove browser/WP default underline */
+.jetpack-hero__badge {
+  text-decoration: none;
+}
+
+/* Scroll-reveal base (GSAP animates from this) */
+.jetpack-reveal,
+.jetpack-hero__badge,
+.jetpack-hero__headline,
+.jetpack-hero__body,
+.jetpack-hero__cta,
+.jetpack-hero__dashboard,
+.jetpack-hero__logos,
+.jetpack-bento-card {
+  will-change: opacity, transform;
+}
+
+/* Testimonials */
+.jetpack-testimonial-avatar {
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+.opacity-0 { opacity: 0; }
+.jetpack-quote { display: none; }
+.jetpack-quote.active {
+  display: block;
+  animation: fadeSlideUp 0.5s ease forwards;
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

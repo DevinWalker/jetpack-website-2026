@@ -1,0 +1,130 @@
+<?php
+/**
+ * Hero block — server render.
+ * PHP outputs real content HTML. The hero-view.js view script applies StaggeredText.
+ *
+ * @var array    $attributes Block attributes.
+ * @var WP_Block $block      Block instance.
+ */
+
+$a = wp_parse_args( $attributes, [
+	'badgeText'     => 'Now Available',
+	'changelogText' => 'Jetpack Social in 15.7',
+	'changelogUrl'  => 'https://jetpack.com/changelog',
+	'headlineLine1' => 'Give WordPress',
+	'headlineAccent'=> 'Superpowers',
+	'subheadline'   => 'Your site could be losing visitors right now—to slow load times, security gaps, or content no one can find.',
+	'ctaText'       => 'Get Started Free',
+	'ctaUrl'        => 'https://jetpack.com/pricing/',
+] );
+?>
+<section
+	class="jetpack-hero flex flex-col relative overflow-hidden"
+	style="color-scheme:light"
+	<?php echo wp_kses_data( wp_interactivity_data_wp_context( [ 'parallaxX' => 0, 'parallaxY' => 0 ] ) ); ?>
+	data-wp-interactive="jetpack-theme/hero"
+>
+	<div
+		class="jetpack-hero__bg absolute inset-0 min-[850px]:inset-2.5 -z-10 rounded-br-[2rem] rounded-bl-[2rem] min-[850px]:scale-105 overflow-hidden brightness-125"
+		aria-hidden="true"
+	>
+		<img
+			src="<?php echo esc_url( get_template_directory_uri() . '/assets/BG.jpg' ); ?>"
+			alt=""
+			class="w-full h-full object-cover"
+			aria-hidden="true"
+		/>
+	</div>
+
+	<?php /* Content */ ?>
+	<div class="flex items-start justify-center px-6 pt-36 max-[850px]:pt-28 relative z-10">
+		<div class="flex flex-col items-center max-[850px]:items-start text-center max-[850px]:text-left max-w-4xl max-[850px]:w-full">
+
+			<?php /* Changelog badge */ ?>
+			<a
+				href="<?php echo esc_url( $a['changelogUrl'] ); ?>"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="jetpack-hero__badge inline-flex items-center gap-2 pl-3 pr-3 py-1.5 rounded-xl border border-black/10 bg-white text-black text-sm font-medium mb-6 hover:bg-neutral-50 hover:border-black/20 transition-colors group opacity-0 translate-y-5"
+			>
+				<span class="bg-accent text-white text-xs font-semibold px-1.5 py-0.5 rounded-md leading-none">
+					<?php echo esc_html( $a['badgeText'] ); ?>
+				</span>
+				<span><?php echo esc_html( $a['changelogText'] ); ?></span>
+				<svg class="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-600 group-hover:translate-x-0.5 transition-all duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+			</a>
+
+			<?php /* Headline — view script enhances with StaggeredText */ ?>
+			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-5xl font-medium tracking-tight leading-[1.1] mb-6 text-black opacity-0 translate-y-5">
+				<?php echo esc_html( $a['headlineLine1'] ); ?>
+				<span class="jetpack-hero__accent block text-accent">
+					<?php echo esc_html( $a['headlineAccent'] ); ?>
+				</span>
+			</h1>
+
+			<p class="jetpack-hero__body text-lg text-neutral-600 mb-8 max-w-2xl opacity-0 translate-y-5">
+				<?php echo esc_html( $a['subheadline'] ); ?>
+			</p>
+
+			<a
+				href="<?php echo esc_url( $a['ctaUrl'] ); ?>"
+				class="jetpack-hero__cta group relative inline-flex items-center max-[850px]:w-full opacity-0 scale-95"
+			>
+				<span class="absolute right-0 inset-y-0 w-[calc(100%-2rem)] max-[850px]:w-full rounded-xl bg-accent"></span>
+				<span class="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium max-[850px]:flex-1">
+					<?php echo esc_html( $a['ctaText'] ); ?>
+				</span>
+				<span class="relative -left-px z-10 w-11 h-11 rounded-xl flex items-center justify-center text-black">
+					<svg class="w-5 h-5 transition-transform duration-300 rotate-90 group-hover:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg>
+				</span>
+			</a>
+
+		</div>
+	</div>
+
+	<?php /* Dashboard screenshot */ ?>
+	<div class="jetpack-hero__dashboard relative px-6 mt-24 max-[850px]:mt-10 z-10 opacity-0 translate-y-10">
+		<div class="relative max-w-5xl mx-auto">
+			<div class="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-2xl/5" style="mask-image:linear-gradient(to bottom,black 50%,transparent 100%); -webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%)">
+				<img
+					src="<?php echo esc_url( get_template_directory_uri() . '/assets/dashboardmock.png' ); ?>"
+					alt="<?php esc_attr_e( 'Jetpack dashboard preview', 'jetpack-theme' ); ?>"
+					class="w-full h-auto invert contrast-125"
+					loading="lazy"
+					decoding="async"
+				/>
+			</div>
+		</div>
+	</div>
+
+	<?php /* Logo loop — pure CSS marquee, no React needed */ ?>
+	<div class="jetpack-hero__logos pt-24 pb-12 z-10 opacity-0">
+		<div class="overflow-hidden max-w-5xl mx-auto px-6" style="mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent); -webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent)">
+			<div class="jetpack-logo-track flex items-center gap-[7.75rem] will-change-transform">
+				<?php
+				$logos = [
+					[ 'src' => 'social-proof-logos/wp.com.png',                 'alt' => 'WordPress.com' ],
+					[ 'src' => 'social-proof-logos/pressable-logo-v8-dark.svg', 'alt' => 'Pressable' ],
+					[ 'src' => 'social-proof-logos/bluehost.webp',               'alt' => 'Bluehost' ],
+					[ 'src' => 'social-proof-logos/dreamhost-1.png',             'alt' => 'DreamHost' ],
+					[ 'src' => 'social-proof-logos/hostgator.webp',              'alt' => 'HostGator' ],
+				];
+				// Duplicate for seamless loop.
+				$all_logos = array_merge( $logos, $logos );
+				foreach ( $all_logos as $i => $logo ) :
+					$aria = $i >= count( $logos ) ? ' aria-hidden="true"' : '';
+				?>
+				<span class="flex-none h-[2.625rem] w-auto invert"<?php echo $aria; ?>>
+					<img
+						src="<?php echo esc_url( get_template_directory_uri() . '/assets/' . $logo['src'] ); ?>"
+						alt="<?php echo esc_attr( $logo['alt'] ); ?>"
+						class="h-full w-auto object-contain"
+						loading="lazy"
+					/>
+				</span>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
+
+</section>

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/blur-headline",
+	"version": "1.0.0",
+	"title": "Blur-In Headline",
+	"category": "jetpack-theme",
+	"description": "Scroll-driven word-by-word blur reveal paragraph.",
+	"keywords": [ "blur", "headline", "animation" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/blur-view.js",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"default": "Modern teams use our platform to elevate every customer touchpoint, blending human expertise with AI capabilities in a unified system that drives continuous improvement across all channels."
+		}
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}

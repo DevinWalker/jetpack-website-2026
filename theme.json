@@ -1,0 +1,76 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": true,
+		"color": {
+			"defaultPalette": false,
+			"palette": [
+				{ "slug": "accent",             "color": "#a8d946", "name": "Accent" },
+				{ "slug": "background",         "color": "#f5f5f5", "name": "Background" },
+				{ "slug": "foreground",         "color": "#0a0a0a", "name": "Foreground" },
+				{ "slug": "frame",              "color": "#ffffff", "name": "Frame" },
+				{ "slug": "muted",              "color": "#f5f5f5", "name": "Muted" },
+				{ "slug": "muted-foreground",   "color": "#737373", "name": "Muted Foreground" },
+				{ "slug": "border",             "color": "#e5e5e5", "name": "Border" },
+				{ "slug": "card-primary",       "color": "#a8d946", "name": "Card Primary" },
+				{ "slug": "card-secondary",     "color": "#e8f5c8", "name": "Card Secondary" },
+				{ "slug": "card-foreground",    "color": "#171717", "name": "Card Foreground" }
+			]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"fontFamilies": [
+				{
+					"fontFamily": "Geist, system-ui, -apple-system, sans-serif",
+					"slug": "sans",
+					"name": "Geist Sans"
+				},
+				{
+					"fontFamily": "Geist Mono, ui-monospace, monospace",
+					"slug": "mono",
+					"name": "Geist Mono"
+				}
+			]
+		},
+		"spacing": {
+			"units": [ "px", "em", "rem", "vh", "vw", "%" ]
+		},
+		"layout": {
+			"contentSize": "80rem",
+			"wideSize": "90rem"
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "#f5f5f5",
+			"text": "#0a0a0a"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--sans)",
+			"fontSize": "1rem",
+			"lineHeight": "1.5"
+		},
+		"elements": {
+			"link": {
+				"typography": { "textDecoration": "none" }
+			}
+		},
+		"blocks": {
+			"core/html": {
+				"spacing": {
+					"margin": { "top": "0", "bottom": "0" }
+				}
+			}
+		}
+	},
+	"customTemplates": [
+		{
+			"name": "front-page",
+			"title": "Front Page",
+			"postTypes": [ "page" ]
+		}
+	],
+	"templateParts": []
+}

@@ -1,0 +1,47 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/faq",
+	"version": "1.0.0",
+	"title": "FAQ",
+	"category": "jetpack-theme",
+	"description": "Animated accordion FAQ section.",
+	"keywords": [ "faq", "accordion", "questions" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"attributes": {
+		"sectionTitle":       { "type": "string", "default": "Everything you need to know" },
+		"sectionDescription": { "type": "string", "default": "Can't find the answer you're looking for? Reach out!" },
+		"ctaPrimaryText":     { "type": "string", "default": "Get Started" },
+		"ctaPrimaryUrl":      { "type": "string", "default": "https://jetpack.com/pricing/" },
+		"ctaSecondaryText":   { "type": "string", "default": "Contact Support" },
+		"ctaSecondaryUrl":    { "type": "string", "default": "https://jetpack.com/support/" },
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"question": "How does the 14-day free trial work?",
+					"answer":   "Start using our platform immediately with full access to all features. No credit card required. At the end of your trial, choose a plan that fits your needs or continue with our free tier."
+				},
+				{
+					"question": "Can I switch plans at any time?",
+					"answer":   "Absolutely! You can upgrade or downgrade your plan at any time. When upgrading, you'll get immediate access to new features. When downgrading, changes take effect at your next billing cycle."
+				},
+				{
+					"question": "What integrations do you support?",
+					"answer":   "We integrate with all major platforms including Slack, Zendesk, Salesforce, HubSpot, Intercom, and 50+ other tools. Our API also allows custom integrations for enterprise customers."
+				},
+				{
+					"question": "How secure is my data?",
+					"answer":   "Security is our top priority. We use bank-level encryption (AES-256), are SOC 2 Type II certified, and GDPR compliant. All data is stored in secure, redundant data centers with 99.99% uptime."
+				},
+				{
+					"question": "Do you offer dedicated support?",
+					"answer":   "All plans include email support with 24-hour response times. Premium plans get priority support with 4-hour response times. Enterprise customers receive a dedicated success manager and phone support."
+				}
+			]
+		}
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}

@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/pricing",
+	"version": "1.0.0",
+	"title": "Pricing",
+	"category": "jetpack-theme",
+	"description": "Three-tier pricing section.",
+	"keywords": [ "pricing", "plans" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/scroll-animations.js",
+	"attributes": {
+		"sectionTitle":       { "type": "string", "default": "Simple, transparent pricing" },
+		"sectionDescription": { "type": "string", "default": "Choose the plan that works best for your team. All plans include a 14-day free trial." },
+		"plans": {
+			"type": "array",
+			"default": [
+				{
+					"name":         "Starter",
+					"price":        24,
+					"monthlyPrice": 40,
+					"description":  "Perfect for small teams getting started",
+					"features":     [ "2 Team Members", "10GB Storage", "Basic Analytics", "Email Support" ],
+					"popular":      false
+				},
+				{
+					"name":         "Premium",
+					"price":        99,
+					"monthlyPrice": 120,
+					"description":  "Best for growing teams with advanced needs",
+					"features":     [ "10 Team Members", "50GB Storage", "Advanced Analytics", "Priority Support" ],
+					"popular":      true
+				},
+				{
+					"name":         "Enterprise",
+					"price":        125,
+					"monthlyPrice": 150,
+					"description":  "For large organizations requiring scale",
+					"features":     [ "Unlimited Members", "2TB Storage", "Custom Integrations", "Dedicated Support" ],
+					"popular":      false
+				}
+			]
+		}
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}

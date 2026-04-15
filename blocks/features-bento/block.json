@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/features-bento",
+	"version": "1.0.0",
+	"title": "Features Bento",
+	"category": "jetpack-theme",
+	"description": "Bento-grid features section.",
+	"keywords": [ "features", "bento", "grid" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/scroll-animations.js",
+	"attributes": {
+		"stepByStep": {
+			"type": "object",
+			"default": {
+				"title":    "Guided Onboarding For Every Team",
+				"subtitle": "Get your team up and running in minutes with step-by-step walkthroughs"
+			}
+		},
+		"dashboard": {
+			"type": "object",
+			"default": {
+				"title":    "Real-time Data",
+				"subtitle": "Monitor metrics, analytics, and team activity instantly"
+			}
+		},
+		"trustedBy": {
+			"type": "object",
+			"default": {
+				"count":       "27 million",
+				"rating":      "4.9",
+				"reviewCount": "48k+"
+			}
+		},
+		"builtToScale": {
+			"type": "object",
+			"default": {
+				"title":    "Built to Scale",
+				"subtitle": "Enterprise-ready infrastructure that grows with you"
+			}
+		},
+		"stats": {
+			"type": "array",
+			"default": [
+				{ "icon": "🚀", "label": "2,598 Deploys",  "change": "+24%" },
+				{ "icon": "⚡", "label": "99.9% Uptime",   "change": "+0.2%" }
+			]
+		}
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}

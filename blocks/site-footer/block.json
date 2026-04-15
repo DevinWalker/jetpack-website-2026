@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/site-footer",
+	"version": "1.0.0",
+	"title": "Site Footer",
+	"category": "jetpack-theme",
+	"description": "Footer with CTA section, nav menus, and copyright.",
+	"keywords": [ "footer", "navigation" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"attributes": {
+		"ctaHeadline":    { "type": "string", "default": "Start building something truly amazing today" },
+		"ctaPlaceholder": { "type": "string", "default": "Enter your email" },
+		"ctaButtonText":  { "type": "string", "default": "Join Waitlist" },
+		"copyright":      { "type": "string", "default": "" }
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}
