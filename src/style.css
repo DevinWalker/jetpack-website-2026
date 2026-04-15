@@ -480,15 +480,22 @@ body {
   }
 }
 
-/* Quote icon — typographic open-quote matching live site */
+/* Quote icon — SVG from live jetpack.com site */
 .jetpack-slide__quote-icon {
   display: block;
-  font-size: 3.5rem;
-  line-height: 1;
-  color: #069E08;
-  opacity: 0.35;
-  margin-bottom: 0.5rem;
-  font-family: Georgia, serif;
+  width: 31px;
+  height: 27px;
+  margin-bottom: 1.25rem;
+}
+.jetpack-slide__quote-icon::before {
+  content: '';
+  display: block;
+  width: 31px;
+  height: 27px;
+  background-image: url('../assets/quotation.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: rotate(180deg);
 }
 
 /* Content: quote at center, nav at bottom */

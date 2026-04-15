@@ -26,7 +26,7 @@ $has_nav = $count > 1;
 
 					<div class="jetpack-slide__content">
 						<div>
-						<span class="jetpack-slide__quote-icon" aria-hidden="true">&ldquo;</span>
+						<span class="jetpack-slide__quote-icon" aria-hidden="true"></span>
 							<blockquote class="jetpack-slide__quote"><?php echo esc_html( $t['quote'] ); ?></blockquote>
 							<div class="jetpack-slide__author">
 								<span class="jetpack-slide__name"><?php echo esc_html( $t['name'] ); ?></span>

@@ -80,13 +80,12 @@ if ( empty( $footer_sections ) ) {
 			<div class="flex items-start justify-between gap-12 max-[850px]:flex-col max-[850px]:gap-10">
 
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center gap-2" aria-label="<?php esc_attr_e( 'Jetpack home', 'jetpack-theme' ); ?>">
-					<img
-						src="<?php echo esc_url( $theme_uri . '/assets/jetpack-logo-classic.svg' ); ?>"
-						alt="Jetpack"
-						width="120"
-						height="32"
-						class="brightness-0"
-					/>
+				<img
+					src="<?php echo esc_url( $theme_uri . '/assets/jetpack-logo-dark.svg' ); ?>"
+					alt="Jetpack"
+					width="120"
+					height="32"
+				/>
 				</a>
 
 				<nav class="flex gap-16 max-[850px]:gap-10 max-[850px]:flex-wrap" aria-label="<?php esc_attr_e( 'Footer navigation', 'jetpack-theme' ); ?>">
