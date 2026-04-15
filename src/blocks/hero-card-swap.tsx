@@ -162,7 +162,7 @@ function HeroCards() {
 							src={ `${ THEME_URI }/assets/jetpack-paid-traffic.png` }
 							alt=""
 							aria-hidden="true"
-							className="absolute inset-0 w-full h-full object-contain object-top"
+							className="absolute inset-0 w-full h-full object-cover object-top"
 							loading={ i === 0 ? 'eager' : 'lazy' }
 							decoding="async"
 							style={ {

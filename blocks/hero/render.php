@@ -37,8 +37,8 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Content */ ?>
-	<div class="flex items-start justify-center px-6 pt-32 max-[850px]:pt-16 relative z-10">
-		<div class="flex flex-col items-center max-[850px]:items-start text-center max-[850px]:text-left max-w-4xl max-[850px]:w-full">
+	<div class="flex items-start justify-center px-6 pt-32 max-[850px]:pt-24 relative z-10">
+		<div class="flex flex-col items-center text-center max-w-4xl max-[850px]:w-full">
 
 			<?php /* Changelog badge */ ?>
 			<a
@@ -55,7 +55,7 @@ $a = wp_parse_args( $attributes, [
 			</a>
 
 			<?php /* Headline — each line animates independently via hero-view.js */ ?>
-			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-black">
+			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-6xl font-bold tracking-tight leading-[1.1] mb-6 text-black">
 				<span class="jetpack-hero__headline-line block opacity-0 translate-y-5">
 					<?php echo esc_html( $a['headlineLine1'] ); ?>
 				</span>
@@ -70,10 +70,10 @@ $a = wp_parse_args( $attributes, [
 
 			<a
 				href="<?php echo esc_url( $a['ctaUrl'] ); ?>"
-				class="jetpack-hero__cta group relative inline-flex items-center max-[850px]:w-full opacity-0 scale-95"
-			>
-				<span class="absolute right-0 inset-y-0 w-[calc(100%-2rem)] max-[850px]:w-full rounded-xl bg-accent"></span>
-				<span class="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium max-[850px]:flex-1">
+			class="jetpack-hero__cta group relative inline-flex items-center opacity-0 scale-95"
+		>
+			<span class="absolute right-0 inset-y-0 w-[calc(100%-2rem)] rounded-xl bg-accent"></span>
+			<span class="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium">
 					<?php echo esc_html( $a['ctaText'] ); ?>
 				</span>
 				<span class="relative -left-px z-10 w-11 h-11 rounded-xl flex items-center justify-center text-black">
@@ -85,7 +85,7 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Card swap — React mounts here via hero-card-swap.js */ ?>
-	<div class="jetpack-hero__dashboard relative px-4 max-[768px]:px-2 max-[480px]:px-0 mt-0 max-[850px]:mt-4 z-10 opacity-0 translate-y-10">
+	<div class="jetpack-hero__dashboard relative px-6 max-[768px]:px-4 max-[480px]:px-0 mt-0 max-[850px]:mt-16 z-10 opacity-0 translate-y-10">
 		<div class="relative max-w-5xl mx-auto aspect-[4/3] max-h-[720px] rounded-2xl max-[480px]:rounded-lg">
 			<div
 				id="jetpack-card-swap-mount"
