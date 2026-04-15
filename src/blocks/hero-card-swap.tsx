@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { Shield, Zap, TrendingUp } from 'lucide-react';
@@ -7,6 +7,7 @@ import CardSwap, { Card } from '@/components/react-bits/CardSwap';
 const mount = document.getElementById( 'jetpack-card-swap-mount' );
 const THEME_URI = ( mount as HTMLElement | null )?.dataset.themeUri ?? '';
 const SWAP_DELAY = 5000;
+const DEFAULT_CARD_HEIGHT = 560;
 
 interface PillarCard {
 	pillLabel: string;
@@ -55,8 +56,20 @@ function HeroCards() {
 	const wrapperRef = useRef< HTMLDivElement >( null );
 
 	const [ paused, setPaused ] = useState( false );
+	const [ cardHeight, setCardHeight ] = useState( DEFAULT_CARD_HEIGHT );
 	const hovered = useRef( false );
 	const inView  = useRef( true );
+
+	useLayoutEffect( () => {
+		const container = wrapperRef.current?.parentElement;
+		if ( ! container ) return;
+		const ro = new ResizeObserver( ( [ entry ] ) => {
+			const h = Math.round( entry.contentRect.height ) || DEFAULT_CARD_HEIGHT;
+			setCardHeight( Math.min( h, DEFAULT_CARD_HEIGHT ) );
+		} );
+		ro.observe( container );
+		return () => ro.disconnect();
+	}, [] );
 
 	const resolvePause = useCallback( () => {
 		setPaused( hovered.current || ! inView.current );
@@ -132,7 +145,7 @@ function HeroCards() {
 		<div ref={ wrapperRef } className="relative w-full h-full">
 			<CardSwap
 				width="100%"
-				height={ 560 }
+				height={ cardHeight }
 				cardDistance={ 0 }
 				verticalDistance={ 80 }
 				zDistance={ 150 }
@@ -141,7 +154,7 @@ function HeroCards() {
 				skewAmount={ 0 }
 				easing="elastic"
 				onSwap={ handleSwap }
-				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.85] max-[480px]:scale-[0.7]"
+				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom-left"
 			>
 				{ CARDS.map( ( card, i ) => (
 					<Card key={ i } className="bg-transparent overflow-hidden p-0">
@@ -149,7 +162,7 @@ function HeroCards() {
 							src={ `${ THEME_URI }/assets/jetpack-paid-traffic.png` }
 							alt=""
 							aria-hidden="true"
-							className="absolute inset-0 w-full h-full object-cover object-top"
+							className="absolute inset-0 w-full h-full object-contain object-top"
 							loading={ i === 0 ? 'eager' : 'lazy' }
 							decoding="async"
 							style={ {
