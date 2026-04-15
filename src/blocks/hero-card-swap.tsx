@@ -8,15 +8,16 @@ const THEME_URI = ( mount as HTMLElement | null )?.dataset.themeUri ?? '';
 function HeroCards() {
 	return (
 		<CardSwap
-			width={ 500 }
-			height={ 400 }
-			cardDistance={ 60 }
-			verticalDistance={ 65 }
+			width="100%"
+			height={ 440 }
+			cardDistance={ 0 }
+			verticalDistance={ 80 }
+			zDistance={ 150 }
 			delay={ 5000 }
 			pauseOnHover={ false }
 			skewAmount={ 0 }
 			easing="elastic"
-			containerClassName="absolute bottom-[-4rem] left-1/2 -translate-x-1/2 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
+			containerClassName="absolute bottom-[-4rem] left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
 		>
 			<Card className="bg-neutral-900 border-neutral-700 overflow-hidden p-0">
 				<img

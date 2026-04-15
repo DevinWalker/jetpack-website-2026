@@ -33,10 +33,16 @@ interface Slot {
 	zIndex: number;
 }
 
-const makeSlot = ( i: number, distX: number, distY: number, total: number ): Slot => ( {
+const makeSlot = (
+	i: number,
+	distX: number,
+	distY: number,
+	total: number,
+	zDist?: number,
+): Slot => ( {
 	x: i * distX,
 	y: -i * distY,
-	z: -i * distX * 1.5,
+	z: -i * ( zDist ?? distX * 1.5 ),
 	zIndex: total - i,
 } );
 
@@ -72,6 +78,8 @@ interface CardSwapProps {
 	onCardClick?: ( idx: number ) => void;
 	skewAmount?: number;
 	easing?: 'linear' | 'elastic';
+	/** Z-axis distance between stacked cards. Defaults to cardDistance × 1.5. */
+	zDistance?: number;
 	/** Override the outer container's positioning/transform classes entirely. */
 	containerClassName?: string;
 	children: ReactNode;
@@ -90,6 +98,7 @@ const CardSwap = ( {
 	onCardClick,
 	skewAmount = 6,
 	easing = 'elastic',
+	zDistance,
 	containerClassName,
 	children,
 }: CardSwapProps ) => {
@@ -128,7 +137,7 @@ const CardSwap = ( {
 		const total = refs.length;
 		refs.forEach( ( r, i ) => {
 			if ( r.current ) {
-				placeNow( r.current, makeSlot( i, cardDistance, verticalDistance, total ), skewAmount );
+				placeNow( r.current, makeSlot( i, cardDistance, verticalDistance, total, zDistance ), skewAmount );
 			}
 		} );
 
@@ -152,7 +161,7 @@ const CardSwap = ( {
 			rest.forEach( ( idx, i ) => {
 				const el = refs[ idx ].current;
 				if ( ! el ) return;
-				const slot = makeSlot( i, cardDistance, verticalDistance, refs.length );
+				const slot = makeSlot( i, cardDistance, verticalDistance, refs.length, zDistance );
 				tl.set( el, { zIndex: slot.zIndex }, 'promote' );
 				tl.to(
 					el,
@@ -167,7 +176,7 @@ const CardSwap = ( {
 				);
 			} );
 
-			const backSlot = makeSlot( refs.length - 1, cardDistance, verticalDistance, refs.length );
+			const backSlot = makeSlot( refs.length - 1, cardDistance, verticalDistance, refs.length, zDistance );
 			tl.addLabel( 'return', `promote+=${ config.durMove * config.returnDelay }` );
 			tl.call(
 				() => {
@@ -218,7 +227,7 @@ const CardSwap = ( {
 		}
 		return () => clearInterval( intervalRef.current );
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing ] );
+	}, [ cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, zDistance ] );
 
 	const rendered = childArr.map( ( child, i ) =>
 		isValidElement< CardProps >( child )
