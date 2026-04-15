@@ -58,8 +58,9 @@
 .wp-block-media-text .wp-block-media-text__media img {
 	width: 100%;
 	height: auto;
-	border-radius: 1rem; /* rounded-2xl */
-	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+	border-radius: 0;
+	box-shadow: none;
+	background: none;
 }
 
 /* Testimonial cards: image fills the column flush — no individual border-radius or shadow */

@@ -688,18 +688,11 @@ body {
 	border-bottom: 1px solid var(--border);
 	padding-bottom: 1.25rem;
 }
-.jetpack-post-author .wp-block-post-author__avatar {
-	display: none;
-}
-.jetpack-post-author .wp-block-post-author__content {
-	display: flex;
-	flex-direction: column;
-	padding: 0;
-}
-.jetpack-post-author .wp-block-post-author__name {
+.jetpack-post-author.wp-block-post-author-name {
 	font-size: 0.875rem;
 	font-weight: 500;
 	color: var(--foreground);
+	margin: 0;
 }
 .jetpack-post-meta-date.wp-block-post-date,
 .jetpack-post-meta-date time {
@@ -1050,8 +1043,9 @@ ul.jetpack-related-grid__items > li {
 .jetpack-post-grid__items > .wp-block-post .jetpack-card-category {
 	margin-bottom: 0.3125rem;
 }
+/* Tighter title→excerpt gap — browser h3 defaults overridden above with !important */
 .jetpack-post-grid__items > .wp-block-post .jetpack-card-title {
-	margin-bottom: 0.375rem;
+	margin-bottom: 0.1875rem;
 }
 .jetpack-post-grid__items > .wp-block-post .jetpack-card-excerpt {
 	margin-bottom: 0.5rem;
@@ -1133,7 +1127,9 @@ ul.jetpack-related-grid__items > li {
 	font-weight: 500;
 	line-height: 1.45;
 	color: var(--foreground);
-	margin: 0;
+	/* Reset all browser and WordPress heading margins */
+	margin-block: 0 !important;
+	margin: 0 !important;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
@@ -1148,12 +1144,17 @@ ul.jetpack-related-grid__items > li {
 	color: var(--accent);
 }
 
+/* Reset excerpt container margin so only the card-level spacing rule applies */
+.jetpack-card-excerpt.wp-block-post-excerpt {
+	margin-block: 0 !important;
+	margin: 0 !important;
+}
 .jetpack-card-excerpt.wp-block-post-excerpt p,
 .jetpack-card-excerpt .wp-block-post-excerpt__excerpt {
 	font-size: 0.875rem;
 	line-height: 1.6;
 	color: var(--muted-foreground);
-	margin: 0;
+	margin: 0 !important;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
@@ -1163,36 +1164,30 @@ ul.jetpack-related-grid__items > li {
 	display: none;
 }
 
-/* Card author — name only, no avatar */
-.jetpack-card-author.wp-block-post-author {
-	display: inline !important;
-	margin: 0;
-}
-.jetpack-card-author .wp-block-post-author__avatar {
-	display: none;
-}
-.jetpack-card-author .wp-block-post-author__content {
-	display: inline;
-	padding: 0;
-}
-.jetpack-card-author .wp-block-post-author__name {
-	display: inline;
-	font-size: 0.75rem;
-	font-weight: 500;
-	color: var(--foreground);
-	margin: 0;
-}
-.jetpack-card-author .wp-block-post-author__bio {
-	display: none;
-}
-
-/* Byline row: avatar + author + separator + date */
+/* Byline row: "Author · Date" */
 .jetpack-card-byline {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	gap: 0.375rem;
-	flex-wrap: wrap;
+	gap: 0;
+	flex-wrap: nowrap;
+}
+
+/* post-author-name renders a single <div> with the name text */
+.jetpack-card-author.wp-block-post-author-name {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--foreground);
+	white-space: nowrap;
+	margin: 0;
+}
+
+/* "·" separator — only shown when author is non-empty */
+.jetpack-card-author.wp-block-post-author-name:not(:empty) + .jetpack-card-date::before {
+	content: "·";
+	margin: 0 0.3125rem;
+	color: var(--muted-foreground);
+	font-weight: 400;
 }
 
 .jetpack-card-date.wp-block-post-date,

@@ -65,6 +65,29 @@ if ( ! jetpack_is_production() ) {
 	} );
 }
 
+// ─── Local dev: author name fallback ─────────────────────────────────────────
+// Production posts reference WordPress.com user IDs that don't exist in the
+// local Studio DB. Filter the_author so cards show a placeholder instead of
+// rendering empty. This filter only runs outside production.
+
+if ( ! jetpack_is_production() ) {
+	add_filter( 'the_author', function ( ?string $name ): string {
+		if ( ! empty( $name ) ) {
+			return $name;
+		}
+		// Attempt to get the name from wp_usermeta cached during import,
+		// then fall back to a readable placeholder.
+		global $post;
+		if ( ! empty( $post->post_author ) ) {
+			$cached = get_user_meta( (int) $post->post_author, 'display_name', true );
+			if ( ! empty( $cached ) ) {
+				return $cached;
+			}
+		}
+		return 'Jetpack Team';
+	} );
+}
+
 // ─── Gravatar / Avatar ───────────────────────────────────────────────────────
 // WordPress 6.9 calls https://secure.gravatar.com/avatar/{sha256_hash} with a
 // 2× srcset automatically. The pre_get_avatar_data filter lets us guarantee
@@ -89,12 +112,8 @@ add_filter( 'pre_get_avatar_data', function ( array $args ): array {
 // ─── Theme Setup ─────────────────────────────────────────────────────────────
 
 add_action( 'after_setup_theme', function (): void {
+	// Opt into WP's default block CSS. Not auto-enabled — all others below are.
 	add_theme_support( 'wp-block-styles' );
-	add_theme_support( 'editor-styles' );
-	add_theme_support( 'responsive-embeds' );
-	add_theme_support( 'automatic-feed-links' );
-	add_theme_support( 'title-tag' );
-	add_theme_support( 'post-thumbnails' );
 
 	// Navigation menu locations.
 	register_nav_menus( [

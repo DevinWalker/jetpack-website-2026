@@ -69,7 +69,7 @@ requestAnimationFrame( () => {
 		createRoot( accent ).render(
 			createElement( FuzzyText, {
 				children:           accentText,
-				fontSize:           'clamp(3.75rem, 7vw, 6rem)',
+				fontSize:           '6rem',
 				fontWeight:         700,
 				fontFamily:         'inherit',
 				color:              '#069E08',
