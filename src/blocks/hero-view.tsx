@@ -87,3 +87,45 @@ requestAnimationFrame( () => {
 		transition( logos,     FADE, { opacity: '1' },                             1.0, 0.8 );
 	} );
 } );
+
+// ── Logo loop — rAF velocity animation matching LogoLoop component ────────────
+// Smooth exponential easing toward target velocity; pauses gracefully on hover.
+
+( () => {
+	const track = document.querySelector< HTMLElement >( '.jetpack-logo-track' );
+	const seq   = document.querySelector< HTMLElement >( '[data-logo-seq]' );
+	if ( ! track || ! seq ) return;
+
+	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) return;
+
+	const SPEED     = 60;   // px/s — matches LogoLoop speed prop
+	const SMOOTH_TAU = 0.25; // smoothing time constant (seconds)
+
+	let offset    = 0;
+	let velocity  = 0;
+	let lastTs: number | null = null;
+	let hovered   = false;
+
+	track.addEventListener( 'mouseenter', () => { hovered = true; } );
+	track.addEventListener( 'mouseleave', () => { hovered = false; } );
+
+	const tick = ( ts: number ) => {
+		if ( lastTs === null ) lastTs = ts;
+		const dt = Math.max( 0, ts - lastTs ) / 1000;
+		lastTs = ts;
+
+		const target      = hovered ? 0 : SPEED;
+		const easingFactor = 1 - Math.exp( -dt / SMOOTH_TAU );
+		velocity += ( target - velocity ) * easingFactor;
+
+		const seqWidth = seq.getBoundingClientRect().width;
+		if ( seqWidth > 0 ) {
+			offset = ( ( offset + velocity * dt ) % seqWidth + seqWidth ) % seqWidth;
+			track.style.transform = `translate3d(${ -offset }px, 0, 0)`;
+		}
+
+		requestAnimationFrame( tick );
+	};
+
+	requestAnimationFrame( tick );
+} )();

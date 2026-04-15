@@ -226,7 +226,7 @@ body {
   from { transform: translateY(-100px); }
   to   { transform: translateY(0); }
 }
-@media (max-width: 850px) {
+@media (max-width: 900px) {
   .jetpack-header {
     animation-name: jetpackHeaderSlideInMobile;
   }
@@ -241,21 +241,9 @@ body {
   max-height: 500px !important;
 }
 
-/* Logo marquee */
-@keyframes jetpackMarquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+/* Logo marquee — animation driven by hero-view.js (rAF velocity loop) */
 .jetpack-logo-track {
-  animation: jetpackMarquee 18s linear infinite;
-}
-.jetpack-logo-track:hover {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .jetpack-logo-track {
-    animation: none;
-  }
+  cursor: default;
 }
 
 /* Remove WP global styles underline from header nav links */

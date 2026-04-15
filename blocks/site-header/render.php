@@ -7,7 +7,7 @@
  * @var array $attributes Block attributes.
  */
 
-$cta_text  = $attributes['ctaText'] ?? 'Try for free';
+$cta_text  = $attributes['ctaText'] ?? 'Get Started';
 $cta_url   = $attributes['ctaUrl']  ?? 'https://jetpack.com/pricing/';
 $theme_uri = get_template_directory_uri();
 
@@ -16,14 +16,14 @@ $primary_items = jetpack_get_menu( 'primary' );
 $nav_tree      = jetpack_build_nav_tree( $primary_items );
 ?>
 <header
-	class="jetpack-header fixed shadow-[0_0_40px_rgba(0,0,0,0.08)] rounded-b-[2rem] top-2.5 left-1/2 -translate-x-1/2 w-full max-w-5xl max-[1200px]:max-w-2xl bg-frame z-[9998] max-[850px]:top-0 max-[850px]:left-0 max-[850px]:right-0 max-[850px]:translate-x-0 max-[850px]:w-full max-[850px]:max-w-none max-[850px]:rounded-none max-[850px]:rounded-b-[2rem] max-[850px]:overflow-hidden"
+	class="jetpack-header fixed shadow-[0_0_40px_rgba(0,0,0,0.08)] rounded-b-[2rem] top-2.5 left-1/2 -translate-x-1/2 w-full max-w-5xl bg-frame z-[9998] max-[900px]:top-0 max-[900px]:left-0 max-[900px]:right-0 max-[900px]:translate-x-0 max-[900px]:w-full max-[900px]:max-w-none max-[900px]:rounded-none max-[900px]:rounded-b-[2rem] max-[900px]:overflow-hidden"
 	data-wp-interactive="jetpack-theme/header"
 	<?php echo wp_kses_data( wp_interactivity_data_wp_context( [ 'openMenu' => null, 'mobileOpen' => false ] ) ); ?>
 >
-	<div class="h-20 max-[850px]:h-18 flex items-center justify-between px-4 max-[850px]:px-6">
+	<div class="h-20 max-[900px]:h-18 flex items-center justify-between px-4 max-[900px]:px-6">
 
 		<?php /* Logo */ ?>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center ml-4 max-[850px]:ml-0" aria-label="<?php esc_attr_e( 'Jetpack home', 'jetpack-theme' ); ?>">
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="flex items-center ml-4 max-[900px]:ml-0" aria-label="<?php esc_attr_e( 'Jetpack home', 'jetpack-theme' ); ?>">
 			<img
 				src="<?php echo esc_url( $theme_uri . '/assets/jetpack-logo-classic.svg' ); ?>"
 				alt="Jetpack"
@@ -34,7 +34,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 
 		<?php /* Desktop nav */ ?>
 		<?php if ( ! empty( $nav_tree ) ) : ?>
-		<nav class="flex items-center gap-1 max-[1200px]:gap-0 max-[850px]:hidden" aria-label="<?php esc_attr_e( 'Primary navigation', 'jetpack-theme' ); ?>">
+		<nav class="flex items-center gap-1 max-[1280px]:gap-0 max-[900px]:hidden" aria-label="<?php esc_attr_e( 'Primary navigation', 'jetpack-theme' ); ?>">
 			<?php foreach ( $nav_tree as $item ) : ?>
 
 				<?php if ( ! empty( $item['children'] ) ) : ?>
@@ -46,7 +46,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 					<?php echo wp_kses_data( wp_interactivity_data_wp_context( [ 'menuId' => (string) $item['id'] ] ) ); ?>
 				>
 					<button
-						class="flex items-center gap-1 px-4 py-2 max-[1200px]:px-3 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors rounded-full hover:bg-foreground/5"
+						class="flex items-center gap-1 px-4 py-2 max-[1280px]:px-2.5 text-[0.9375rem] max-[1280px]:text-sm font-medium text-foreground/80 hover:text-foreground transition-colors rounded-full hover:bg-foreground/5"
 						data-wp-bind--aria-expanded="state.openMenu === context.menuId"
 						aria-haspopup="true"
 					>
@@ -73,7 +73,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 				<?php /* Simple nav link */ ?>
 				<a
 					href="<?php echo esc_url( $item['url'] ); ?>"
-					class="px-4 py-2 max-[1200px]:px-3 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors rounded-full hover:bg-foreground/5"
+					class="px-4 py-2 max-[1280px]:px-2.5 text-[0.9375rem] max-[1280px]:text-sm font-medium text-foreground/80 hover:text-foreground transition-colors rounded-full hover:bg-foreground/5"
 				>
 					<?php echo esc_html( $item['label'] ); ?>
 				</a>
@@ -84,7 +84,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 		<?php endif; ?>
 
 		<?php /* Desktop CTAs */ ?>
-		<div class="flex items-center gap-4 max-[850px]:hidden">
+		<div class="flex items-center gap-4 max-[900px]:hidden">
 			<a href="<?php echo esc_url( wp_login_url() ); ?>" class="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
 				<?php esc_html_e( 'Sign in', 'jetpack-theme' ); ?>
 			</a>
@@ -99,7 +99,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 
 		<?php /* Mobile hamburger */ ?>
 		<button
-			class="hidden max-[850px]:flex items-center justify-center w-10 h-10 flex-col gap-1.5"
+			class="hidden max-[900px]:flex items-center justify-center w-10 h-10 flex-col gap-1.5"
 			data-wp-on--click="actions.toggleMobile"
 			data-wp-bind--aria-expanded="state.mobileOpen"
 			aria-label="<?php esc_attr_e( 'Toggle menu', 'jetpack-theme' ); ?>"
@@ -112,7 +112,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 
 	<?php /* Mobile nav panel */ ?>
 	<div
-		class="jetpack-mobile-nav hidden max-[850px]:block overflow-hidden"
+		class="jetpack-mobile-nav hidden max-[900px]:block overflow-hidden"
 		style="max-height:0;transition:max-height 0.3s ease"
 		data-wp-class--jetpack-mobile-open="state.mobileOpen"
 	>
@@ -182,7 +182,7 @@ $nav_tree      = jetpack_build_nav_tree( $primary_items );
 	</div>
 
 	<?php /* Corner decorations (CSS only, no React) */ ?>
-	<svg class="absolute top-0 -left-[3.0625rem] rotate-180 text-frame pointer-events-none max-[850px]:hidden" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true"><path d="M5.50871e-06 0C-0.00788227 37.3001 8.99616 50.0116 50 50H5.50871e-06V0Z" fill="currentColor"/></svg>
-	<svg class="absolute top-0 -right-[3.0625rem] rotate-90 text-frame pointer-events-none max-[850px]:hidden" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true"><path d="M5.50871e-06 0C-0.00788227 37.3001 8.99616 50.0116 50 50H5.50871e-06V0Z" fill="currentColor"/></svg>
+	<svg class="absolute top-0 -left-[3.0625rem] rotate-180 text-frame pointer-events-none max-[900px]:hidden" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true"><path d="M5.50871e-06 0C-0.00788227 37.3001 8.99616 50.0116 50 50H5.50871e-06V0Z" fill="currentColor"/></svg>
+	<svg class="absolute top-0 -right-[3.0625rem] rotate-90 text-frame pointer-events-none max-[900px]:hidden" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true"><path d="M5.50871e-06 0C-0.00788227 37.3001 8.99616 50.0116 50 50H5.50871e-06V0Z" fill="currentColor"/></svg>
 
 </header>

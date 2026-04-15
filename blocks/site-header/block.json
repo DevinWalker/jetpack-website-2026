@@ -10,7 +10,7 @@
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
 	"attributes": {
-		"ctaText": { "type": "string", "default": "Try for free" },
+		"ctaText": { "type": "string", "default": "Get Started" },
 		"ctaUrl":  { "type": "string", "default": "https://jetpack.com/pricing/" }
 	},
 	"supports": { "html": false, "multiple": false },
