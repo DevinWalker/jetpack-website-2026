@@ -106,24 +106,27 @@ function HeroCards() {
 						} }
 					/>
 
-					{ /* Text overlay — opacity-0 until card is promoted to front */ }
+					{ /* Toast — opacity-0 until card is promoted to front */ }
 					<div
 						ref={ ( el ) => { textRefs.current[ i ] = el; } }
-						className="absolute bottom-0 left-0 right-0 px-8 py-6 flex flex-col items-center text-center bg-neutral-950/90"
+						className="absolute top-5 left-5 right-5 px-4 py-3 rounded-xl bg-neutral-950/90 flex items-start gap-3 shadow-lg"
 						style={ { opacity: 0 } }
 					>
-						<div className={ `inline-flex items-center gap-2 ${ card.pillBg } ${ card.pillColor } text-xs font-semibold px-2.5 py-1 rounded-full mb-3` }>
+						{ /* Pill / icon badge */ }
+						<div className={ `shrink-0 inline-flex items-center gap-1.5 ${ card.pillBg } ${ card.pillColor } text-[11px] font-semibold px-2 py-1 rounded-md mt-0.5` }>
 							{ card.pillIcon }
 							{ card.pillLabel }
 						</div>
 
-						<h3 className="text-white text-2xl font-bold leading-snug mb-2">
-							{ card.headline }
-						</h3>
-
-						<p className="text-neutral-300 text-sm leading-relaxed max-w-xl">
-							{ card.body }
-						</p>
+						{ /* Text */ }
+						<div className="min-w-0">
+							<p className="text-white text-sm font-semibold leading-tight mb-0.5">
+								{ card.headline }
+							</p>
+							<p className="text-neutral-400 text-xs leading-snug">
+								{ card.body }
+							</p>
+						</div>
 					</div>
 				</Card>
 			) ) }
