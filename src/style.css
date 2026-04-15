@@ -965,17 +965,12 @@ body {
 	z-index: 1;
 	margin-top: -4.5rem;
 	margin-bottom: 0;
-	background-color: #ffffff;
-	border-radius: 2rem;
-	border: 1px solid var(--border);
-	box-shadow: 0 20px 60px -20px rgb(0 0 0 / 0.12);
-	padding: 2.5rem 1.5rem;
+	padding-top: 3rem;
 }
 @media (min-width: 640px) {
 	.jetpack-blog-card-container {
-		padding: 3.5rem 2.5rem;
 		margin-top: -5rem;
-		border-radius: 2.25rem;
+		padding-top: 3.5rem;
 	}
 }
 
@@ -1035,10 +1030,36 @@ ul.jetpack-related-grid__items > li {
 	flex-direction: column;
 	gap: 0;
 	cursor: pointer;
+	background: #ffffff;
+	border: 1px solid var(--border);
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 0.04), 0 4px 16px -4px rgb(0 0 0 / 0.08);
+	padding: 0 1rem 1.25rem;
+	transition: box-shadow 0.25s ease, border-color 0.25s ease;
+	will-change: opacity, transform;
+}
+.jetpack-post-grid__items > .wp-block-post:hover {
+	box-shadow: 0 4px 12px rgb(0 0 0 / 0.06), 0 16px 40px -8px rgb(0 0 0 / 0.12);
+	border-color: #d4d4d4;
 }
 /* Natural spacing: more room after image, tight between text items */
 .jetpack-post-grid__items > .wp-block-post .jetpack-card-image {
 	margin-bottom: 0.875rem;
+}
+/* Bleed featured image flush to card edges — card overflow:hidden rounds the top corners */
+.jetpack-post-grid__items > .wp-block-post .jetpack-card-image.wp-block-post-featured-image {
+	margin-top: 0;
+	margin-left: -1rem;
+	margin-right: -1rem;
+	border-radius: 0;
+}
+.jetpack-post-grid__items > .wp-block-post .jetpack-card-image > a,
+.jetpack-post-grid__items > .wp-block-post .jetpack-card-image > .wp-block-post-featured-image__anchor {
+	border-radius: 0 !important;
+}
+.jetpack-post-grid__items > .wp-block-post .jetpack-card-image img {
+	border-radius: 0;
 }
 .jetpack-post-grid__items > .wp-block-post .jetpack-card-category {
 	margin-bottom: 0.3125rem;
