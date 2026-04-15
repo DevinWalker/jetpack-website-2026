@@ -41,7 +41,7 @@ if ( empty( $footer_sections ) ) {
 	<div class="absolute left-1/2 -translate-x-1/2 top-0 w-full max-w-5xl">
 		<div class="relative w-full rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.10)]">
 			<div
-				class="absolute inset-0 bg-center bg-no-repeat brightness-150 blur scale-125"
+				class="absolute inset-0 bg-center bg-no-repeat scale-125"
 				style="background-image:url(<?php echo esc_url( $theme_uri . '/assets/BG.jpg' ); ?>);background-size:150%"
 				aria-hidden="true"
 			></div>

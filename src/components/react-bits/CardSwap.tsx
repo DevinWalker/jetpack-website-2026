@@ -169,6 +169,14 @@ const CardSwap = ( {
 			} );
 
 			tl.addLabel( 'promote', `-=${ config.durDrop * config.promoteOverlap }` );
+			tl.call(
+				() => {
+					order.current = [ ...rest, front ];
+					onSwap?.( order.current[ 0 ] );
+				},
+				undefined,
+				'promote'
+			);
 			rest.forEach( ( idx, i ) => {
 				const el = refs[ idx ].current;
 				if ( ! el ) return;
@@ -207,11 +215,6 @@ const CardSwap = ( {
 				},
 				'return'
 			);
-
-			tl.call( () => {
-				order.current = [ ...rest, front ];
-				onSwap?.( order.current[ 0 ] );
-			} );
 		};
 
 		swapRef.current = swap;

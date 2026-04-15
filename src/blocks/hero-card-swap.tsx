@@ -8,104 +8,11 @@ const mount = document.getElementById( 'jetpack-card-swap-mount' );
 const THEME_URI = ( mount as HTMLElement | null )?.dataset.themeUri ?? '';
 const SWAP_DELAY = 5000;
 
-/* ── Circular countdown ring ─────────────────────────────────────────────── */
-
-const RING_SIZE   = 28;
-const RING_STROKE = 2;
-const RING_R      = ( RING_SIZE - RING_STROKE ) / 2;
-const RING_C      = 2 * Math.PI * RING_R;
-
-function CircularTimer( { duration, paused, resetKey }: {
-	duration: number;
-	paused: boolean;
-	resetKey: number;
-} ) {
-	const circleRef = useRef< SVGCircleElement >( null );
-	const startRef  = useRef( 0 );
-	const elapsed   = useRef( 0 );
-	const rafRef    = useRef( 0 );
-
-	useEffect( () => {
-		elapsed.current  = 0;
-		startRef.current = performance.now();
-
-		const tick = ( now: number ) => {
-			elapsed.current = Math.min( now - startRef.current, duration );
-			const progress  = elapsed.current / duration;
-			if ( circleRef.current ) {
-				circleRef.current.style.strokeDashoffset = String( RING_C * ( 1 - progress ) );
-			}
-			if ( progress < 1 ) {
-				rafRef.current = requestAnimationFrame( tick );
-			}
-		};
-
-		rafRef.current = requestAnimationFrame( tick );
-		return () => cancelAnimationFrame( rafRef.current );
-	}, [ resetKey, duration ] );
-
-	useEffect( () => {
-		if ( paused ) {
-			cancelAnimationFrame( rafRef.current );
-		} else {
-			if ( elapsed.current >= duration ) return;
-			startRef.current = performance.now() - elapsed.current;
-
-			const tick = ( now: number ) => {
-				elapsed.current = Math.min( now - startRef.current, duration );
-				const progress  = elapsed.current / duration;
-				if ( circleRef.current ) {
-					circleRef.current.style.strokeDashoffset = String( RING_C * ( 1 - progress ) );
-				}
-				if ( progress < 1 ) {
-					rafRef.current = requestAnimationFrame( tick );
-				}
-			};
-
-			rafRef.current = requestAnimationFrame( tick );
-			return () => cancelAnimationFrame( rafRef.current );
-		}
-	}, [ paused, duration ] );
-
-	return (
-		<svg
-			width={ 40 }
-			height={ 40 }
-			viewBox={ `0 0 ${ RING_SIZE } ${ RING_SIZE }` }
-			className="absolute top-3 right-3 z-50 -rotate-90"
-			aria-hidden="true"
-			data-timer
-		>
-			<circle
-				cx={ RING_SIZE / 2 }
-				cy={ RING_SIZE / 2 }
-				r={ RING_R }
-				fill="none"
-				stroke="red"
-				strokeOpacity={ 0.5 }
-				strokeWidth={ 3 }
-			/>
-			<circle
-				ref={ circleRef }
-				cx={ RING_SIZE / 2 }
-				cy={ RING_SIZE / 2 }
-				r={ RING_R }
-				fill="none"
-				stroke="lime"
-				strokeOpacity={ 1 }
-				strokeWidth={ 3 }
-				strokeDasharray={ RING_C }
-				strokeDashoffset={ RING_C }
-				strokeLinecap="round"
-			/>
-		</svg>
-	);
-}
-
 interface PillarCard {
 	pillLabel: string;
 	pillColor: string;
 	pillBg: string;
+	barBg: string;
 	PillIcon: typeof Shield;
 	headline: string;
 	body: string;
@@ -116,6 +23,7 @@ const CARDS: PillarCard[] = [
 		pillLabel: 'Security & Backups',
 		pillColor: 'text-emerald-400',
 		pillBg:    'bg-emerald-500/20',
+		barBg:     'bg-emerald-400',
 		PillIcon:  Shield,
 		headline: 'Protected around the clock.',
 		body:     'Real-time malware scanning, automated backups, and one-click restores keep your site safe — without lifting a finger.',
@@ -124,6 +32,7 @@ const CARDS: PillarCard[] = [
 		pillLabel: 'Speed & Performance',
 		pillColor: 'text-sky-400',
 		pillBg:    'bg-sky-500/20',
+		barBg:     'bg-sky-400',
 		PillIcon:  Zap,
 		headline: 'Lightning-fast, every time.',
 		body:     'Automatic image optimisation, a global CDN, and built-in caching make every page load faster for every visitor.',
@@ -132,6 +41,7 @@ const CARDS: PillarCard[] = [
 		pillLabel: 'Growth & Traffic',
 		pillColor: 'text-violet-400',
 		pillBg:    'bg-violet-500/20',
+		barBg:     'bg-violet-400',
 		PillIcon:  TrendingUp,
 		headline: 'Grow your audience, effortlessly.',
 		body:     'Auto-share to every social network, boost posts to millions of WordPress.com readers, and climb search rankings with built-in SEO tools.',
@@ -140,15 +50,32 @@ const CARDS: PillarCard[] = [
 
 function HeroCards() {
 	const textRefs   = useRef< ( HTMLDivElement | null )[] >( [ null, null, null ] );
+	const barRefs    = useRef< ( HTMLDivElement | null )[] >( [ null, null, null ] );
+	const barTween   = useRef< gsap.core.Tween | null >( null );
 	const wrapperRef = useRef< HTMLDivElement >( null );
 
-	const [ paused, setPaused ]     = useState( false );
-	const [ resetKey, setResetKey ] = useState( 0 );
+	const [ paused, setPaused ] = useState( false );
 	const hovered = useRef( false );
 	const inView  = useRef( true );
 
 	const resolvePause = useCallback( () => {
 		setPaused( hovered.current || ! inView.current );
+	}, [] );
+
+	const startBar = useCallback( ( index: number ) => {
+		barTween.current?.kill();
+		barRefs.current.forEach( ( el ) => {
+			if ( el ) gsap.set( el, { scaleX: 0 } );
+		} );
+		const bar = barRefs.current[ index ];
+		if ( bar ) {
+			gsap.set( bar, { scaleX: 1 } );
+			barTween.current = gsap.to( bar, {
+				scaleX: 0,
+				duration: SWAP_DELAY / 1000,
+				ease: 'none',
+			} );
+		}
 	}, [] );
 
 	useEffect( () => {
@@ -178,27 +105,31 @@ function HeroCards() {
 		if ( el ) {
 			gsap.to( el, { opacity: 1, duration: 0.7, delay: 0, ease: 'power2.out' } );
 		}
-		const timer = wrapperRef.current?.querySelector< SVGElement >( '[data-timer]' );
-		if ( timer ) {
-			gsap.to( timer, { opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' } );
+		startBar( 0 );
+	}, [ startBar ] );
+
+	useEffect( () => {
+		if ( paused ) {
+			barTween.current?.pause();
+		} else {
+			barTween.current?.resume();
 		}
-	}, [] );
+	}, [ paused ] );
 
 	const handleSwap = useCallback( ( frontIndex: number ) => {
-		setResetKey( ( k ) => k + 1 );
+		startBar( frontIndex );
 		textRefs.current.forEach( ( el, i ) => {
 			if ( ! el ) return;
 			if ( i === frontIndex ) {
-				gsap.to( el, { opacity: 1, duration: 0.7, delay: 0.1, ease: 'power2.out' } );
+				gsap.to( el, { opacity: 1, duration: 0.4, delay: 0.35, ease: 'power2.out' } );
 			} else {
 				gsap.to( el, { opacity: 0, duration: 0.25, ease: 'power2.in' } );
 			}
 		} );
-	}, [] );
+	}, [ startBar ] );
 
 	return (
 		<div ref={ wrapperRef } className="relative w-full h-full">
-			<CircularTimer duration={ SWAP_DELAY } paused={ paused } resetKey={ resetKey } />
 			<CardSwap
 				width="100%"
 				height={ 560 }
@@ -210,7 +141,7 @@ function HeroCards() {
 				skewAmount={ 0 }
 				easing="elastic"
 				onSwap={ handleSwap }
-				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.75] max-[480px]:scale-[0.55]"
+				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom max-[768px]:scale-[0.85] max-[480px]:scale-[0.7]"
 			>
 				{ CARDS.map( ( card, i ) => (
 					<Card key={ i } className="bg-transparent overflow-hidden p-0">
@@ -229,7 +160,7 @@ function HeroCards() {
 
 						<div
 							ref={ ( el ) => { textRefs.current[ i ] = el; } }
-							className="absolute top-8 right-4 max-w-sm px-4 py-3.5 rounded-xl bg-neutral-950/75 flex flex-col gap-2 shadow-lg"
+							className="absolute top-8 left-1/2 -translate-x-1/2 w-[420px] max-w-[calc(100%-2rem)] px-4 py-3.5 rounded-xl bg-neutral-950/75 flex flex-col gap-2 shadow-lg overflow-hidden"
 							style={ { opacity: 0 } }
 						>
 						<div className={ `self-start inline-flex items-center gap-1 ${ card.pillBg } ${ card.pillColor } text-[10px] font-semibold px-2 py-0.5 rounded-md` }>
@@ -245,6 +176,12 @@ function HeroCards() {
 									{ card.body }
 								</p>
 							</div>
+
+							<div
+								ref={ ( el ) => { barRefs.current[ i ] = el; } }
+								className={ `absolute top-0 left-0 right-0 h-[2px] ${ card.barBg } origin-left` }
+								style={ { transform: 'scaleX(0)' } }
+							/>
 						</div>
 					</Card>
 				) ) }

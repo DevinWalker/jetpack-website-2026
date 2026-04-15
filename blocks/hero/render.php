@@ -25,7 +25,7 @@ $a = wp_parse_args( $attributes, [
 	data-wp-interactive="jetpack-theme/hero"
 >
 	<div
-		class="jetpack-hero__bg absolute inset-0 min-[850px]:inset-2.5 -z-10 rounded-br-[2rem] rounded-bl-[2rem] min-[850px]:scale-105 overflow-hidden brightness-125"
+		class="jetpack-hero__bg absolute inset-0 min-[850px]:inset-2.5 -z-10 rounded-br-[2rem] rounded-bl-[2rem] scale-125 overflow-hidden brightness-120 blur"
 		aria-hidden="true"
 	>
 		<img
@@ -85,8 +85,8 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Card swap — React mounts here via hero-card-swap.js */ ?>
-	<div class="jetpack-hero__dashboard relative px-6 mt-0 max-[850px]:mt-4 z-10 opacity-0 translate-y-10">
-		<div class="relative max-w-5xl mx-auto h-[720px] max-[768px]:h-[540px] max-[480px]:h-[380px] overflow-hidden rounded-2xl">
+	<div class="jetpack-hero__dashboard relative px-6 max-[768px]:px-3 max-[480px]:px-0 mt-0 max-[850px]:mt-4 z-10 opacity-0 translate-y-10">
+		<div class="relative max-w-5xl mx-auto h-[720px] max-[768px]:h-[540px] max-[480px]:h-[420px] overflow-hidden rounded-2xl max-[480px]:rounded-none">
 			<div
 				id="jetpack-card-swap-mount"
 				class="relative w-full h-full"
