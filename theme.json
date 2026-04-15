@@ -44,8 +44,8 @@
 			"units": [ "px", "em", "rem", "vh", "vw", "%" ]
 		},
 		"layout": {
-			"contentSize": "80rem",
-			"wideSize": "90rem"
+			"contentSize": "64rem",
+			"wideSize": "56rem"
 		}
 	},
 	"styles": {
