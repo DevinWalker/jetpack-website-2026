@@ -82,6 +82,8 @@ interface CardSwapProps {
 	zDistance?: number;
 	/** Override the outer container's positioning/transform classes entirely. */
 	containerClassName?: string;
+	/** Fires with the index of the card that just became the front card. */
+	onSwap?: ( frontIndex: number ) => void;
 	children: ReactNode;
 }
 
@@ -100,6 +102,7 @@ const CardSwap = ( {
 	easing = 'elastic',
 	zDistance,
 	containerClassName,
+	onSwap,
 	children,
 }: CardSwapProps ) => {
 	const config: AnimConfig =
@@ -199,6 +202,7 @@ const CardSwap = ( {
 
 			tl.call( () => {
 				order.current = [ ...rest, front ];
+				onSwap?.( order.current[ 0 ] );
 			} );
 		};
 
