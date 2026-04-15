@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import CardSwap, { Card } from '@/components/react-bits/CardSwap';
@@ -10,7 +10,7 @@ interface PillarCard {
 	pillLabel: string;
 	pillColor: string;
 	pillBg: string;
-	pillIcon: React.ReactNode;
+	pillIcon: ReactNode;
 	headline: string;
 	body: string;
 }

@@ -1,16 +1,20 @@
-import React, {
+import {
 	Children,
 	cloneElement,
+	createRef,
 	forwardRef,
 	isValidElement,
 	useEffect,
 	useMemo,
 	useRef,
+	type HTMLAttributes,
+	type MouseEvent,
 	type ReactNode,
+	type Ref,
 } from 'react';
 import gsap from 'gsap';
 
-interface CardProps extends React.HTMLAttributes< HTMLDivElement > {
+interface CardProps extends HTMLAttributes< HTMLDivElement > {
 	customClass?: string;
 	children?: ReactNode;
 }
@@ -126,7 +130,7 @@ const CardSwap = ( {
 
 	const childArr = useMemo( () => Children.toArray( children ), [ children ] );
 	const refs = useMemo(
-		() => childArr.map( () => React.createRef< HTMLDivElement >() ),
+		() => childArr.map( () => createRef< HTMLDivElement >() ),
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ childArr.length ]
 	);
@@ -237,9 +241,9 @@ const CardSwap = ( {
 		isValidElement< CardProps >( child )
 			? cloneElement( child, {
 					key: i,
-					ref: refs[ i ] as React.Ref< HTMLDivElement >,
+					ref: refs[ i ] as Ref< HTMLDivElement >,
 					style: { width, height, ...( ( child.props as CardProps ).style ?? {} ) },
-					onClick: ( e: React.MouseEvent< HTMLDivElement > ) => {
+					onClick: ( e: MouseEvent< HTMLDivElement > ) => {
 						( child.props as CardProps ).onClick?.( e );
 						onCardClick?.( i );
 					},
