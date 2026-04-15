@@ -11,18 +11,18 @@
 	"editorScript": "file:../../build/editor.js",
 	"viewScript": "file:../../build/scroll-animations.js",
 	"attributes": {
-		"stepByStep": {
+		"backup": {
 			"type": "object",
 			"default": {
-				"title":    "Guided Onboarding For Every Team",
-				"subtitle": "Get your team up and running in minutes with step-by-step walkthroughs"
+				"title":    "Real-time Backups",
+				"subtitle": "Every change saved automatically. Restore your site with one click."
 			}
 		},
-		"dashboard": {
+		"siteStats": {
 			"type": "object",
 			"default": {
-				"title":    "Real-time Data",
-				"subtitle": "Monitor metrics, analytics, and team activity instantly"
+				"title":    "Understand Your Audience",
+				"subtitle": "Real-time stats that show who's reading, sharing, and coming back."
 			}
 		},
 		"trustedBy": {
@@ -33,18 +33,18 @@
 				"reviewCount": "48k+"
 			}
 		},
-		"builtToScale": {
+		"performance": {
 			"type": "object",
 			"default": {
-				"title":    "Built to Scale",
-				"subtitle": "Enterprise-ready infrastructure that grows with you"
+				"title":    "Speed & SEO",
+				"subtitle": "One-click performance boost for faster pages and better search rankings."
 			}
 		},
-		"stats": {
+		"perfStats": {
 			"type": "array",
 			"default": [
-				{ "icon": "🚀", "label": "2,598 Deploys",  "change": "+24%" },
-				{ "icon": "⚡", "label": "99.9% Uptime",   "change": "+0.2%" }
+				{ "icon": "⚡", "label": "Page Speed Score", "change": "+43pts" },
+				{ "icon": "🛡️", "label": "Malware Scans",    "change": "Daily" }
 			]
 		}
 	},

@@ -9,7 +9,10 @@
 	"keywords": [ "hero", "jetpack", "landing" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
-	"viewScript": "file:../../build/hero-view.js",
+	"viewScript": [
+		"file:../../build/hero-view.js",
+		"file:../../build/hero-card-swap.js"
+	],
 	"attributes": {
 		"badgeText":     { "type": "string", "default": "Now Available" },
 		"changelogText": { "type": "string", "default": "Jetpack Social in 15.7" },

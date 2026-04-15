@@ -226,7 +226,7 @@ body {
   from { transform: translateY(-100px); }
   to   { transform: translateY(0); }
 }
-@media (max-width: 850px) {
+@media (max-width: 900px) {
   .jetpack-header {
     animation-name: jetpackHeaderSlideInMobile;
   }
@@ -241,21 +241,9 @@ body {
   max-height: 500px !important;
 }
 
-/* Logo marquee */
-@keyframes jetpackMarquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
+/* Logo marquee — animation driven by hero-view.js (rAF velocity loop) */
 .jetpack-logo-track {
-  animation: jetpackMarquee 30s linear infinite;
-}
-.jetpack-logo-track:hover {
-  animation-play-state: paused;
-}
-@media (prefers-reduced-motion: reduce) {
-  .jetpack-logo-track {
-    animation: none;
-  }
+  cursor: default;
 }
 
 /* Remove WP global styles underline from header nav links */
@@ -293,6 +281,18 @@ body {
   .admin-bar .site-corner--top-right {
     top: calc(10px + 46px);
   }
+}
+
+/* Production Jetpack.com backward-compatibility styles */
+@import "./compat/media-text-styles.css";
+
+/* Hero background — gentle floating drift */
+.jetpack-hero__bg {
+  animation: heroFloat 10s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(12px) scale(1.01); }
+  50%      { transform: translateY(-35px) scale(0.99); }
 }
 
 /* Badge link — remove browser/WP default underline */

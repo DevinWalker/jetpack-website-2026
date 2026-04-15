@@ -11,10 +11,10 @@ $a = wp_parse_args( $attributes, [
 	'badgeText'     => 'Now Available',
 	'changelogText' => 'Jetpack Social in 15.7',
 	'changelogUrl'  => 'https://jetpack.com/changelog',
-	'headlineLine1' => 'Give WordPress',
-	'headlineAccent'=> 'Superpowers',
-	'subheadline'   => 'Your site could be losing visitors right now—to slow load times, security gaps, or content no one can find.',
-	'ctaText'       => 'Get Started Free',
+	'headlineLine1' => 'Your WordPress,',
+	'headlineAccent'=> 'Supercharged.',
+	'subheadline'   => 'Right now, your site could be losing visitors to slow load times, poor search rankings, or content no one can find—while your competitors capture the customers you\'re missing.',
+	'ctaText'       => 'Get Started',
 	'ctaUrl'        => 'https://jetpack.com/pricing/',
 ] );
 ?>
@@ -25,7 +25,7 @@ $a = wp_parse_args( $attributes, [
 	data-wp-interactive="jetpack-theme/hero"
 >
 	<div
-		class="jetpack-hero__bg absolute inset-0 min-[850px]:inset-2.5 -z-10 rounded-br-[2rem] rounded-bl-[2rem] min-[850px]:scale-105 overflow-hidden brightness-125"
+		class="jetpack-hero__bg absolute inset-0 min-[850px]:inset-2.5 -z-10 rounded-br-[2rem] rounded-bl-[2rem] scale-125 overflow-hidden brightness-120 blur"
 		aria-hidden="true"
 	>
 		<img
@@ -37,8 +37,8 @@ $a = wp_parse_args( $attributes, [
 	</div>
 
 	<?php /* Content */ ?>
-	<div class="flex items-start justify-center px-6 pt-36 max-[850px]:pt-28 relative z-10">
-		<div class="flex flex-col items-center max-[850px]:items-start text-center max-[850px]:text-left max-w-4xl max-[850px]:w-full">
+	<div class="flex items-start justify-center px-6 pt-32 max-[850px]:pt-24 relative z-10">
+		<div class="flex flex-col items-center text-center max-w-4xl max-[850px]:w-full">
 
 			<?php /* Changelog badge */ ?>
 			<a
@@ -54,24 +54,26 @@ $a = wp_parse_args( $attributes, [
 				<svg class="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-600 group-hover:translate-x-0.5 transition-all duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 			</a>
 
-			<?php /* Headline — view script enhances with StaggeredText */ ?>
-			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-5xl font-medium tracking-tight leading-[1.1] mb-6 text-black opacity-0 translate-y-5">
-				<?php echo esc_html( $a['headlineLine1'] ); ?>
-				<span class="jetpack-hero__accent block text-accent">
+			<?php /* Headline — each line animates independently via hero-view.js */ ?>
+			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-6xl font-bold tracking-tight leading-[1.1] mb-6 text-black">
+				<span class="jetpack-hero__headline-line block opacity-0 translate-y-5">
+					<?php echo esc_html( $a['headlineLine1'] ); ?>
+				</span>
+				<span class="jetpack-hero__accent block text-accent opacity-0 translate-y-5">
 					<?php echo esc_html( $a['headlineAccent'] ); ?>
 				</span>
 			</h1>
 
-			<p class="jetpack-hero__body text-lg text-neutral-600 mb-8 max-w-2xl opacity-0 translate-y-5">
+			<p class="jetpack-hero__body text-lg text-neutral-600 mb-12 max-w-2xl opacity-0 translate-y-5">
 				<?php echo esc_html( $a['subheadline'] ); ?>
 			</p>
 
 			<a
 				href="<?php echo esc_url( $a['ctaUrl'] ); ?>"
-				class="jetpack-hero__cta group relative inline-flex items-center max-[850px]:w-full opacity-0 scale-95"
-			>
-				<span class="absolute right-0 inset-y-0 w-[calc(100%-2rem)] max-[850px]:w-full rounded-xl bg-accent"></span>
-				<span class="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium max-[850px]:flex-1">
+			class="jetpack-hero__cta group relative inline-flex items-center opacity-0 scale-95"
+		>
+			<span class="absolute right-0 inset-y-0 w-[calc(100%-2rem)] rounded-xl bg-accent"></span>
+			<span class="relative z-10 px-6 py-3 rounded-xl bg-black text-white font-medium">
 					<?php echo esc_html( $a['ctaText'] ); ?>
 				</span>
 				<span class="relative -left-px z-10 w-11 h-11 rounded-xl flex items-center justify-center text-black">
@@ -82,25 +84,24 @@ $a = wp_parse_args( $attributes, [
 		</div>
 	</div>
 
-	<?php /* Dashboard screenshot */ ?>
-	<div class="jetpack-hero__dashboard relative px-6 mt-24 max-[850px]:mt-10 z-10 opacity-0 translate-y-10">
-		<div class="relative max-w-5xl mx-auto">
-			<div class="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-2xl/5" style="mask-image:linear-gradient(to bottom,black 50%,transparent 100%); -webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%)">
-				<img
-					src="<?php echo esc_url( get_template_directory_uri() . '/assets/dashboardmock.png' ); ?>"
-					alt="<?php esc_attr_e( 'Jetpack dashboard preview', 'jetpack-theme' ); ?>"
-					class="w-full h-auto invert contrast-125"
-					loading="lazy"
-					decoding="async"
-				/>
-			</div>
+	<?php /* Card swap — React mounts here via hero-card-swap.js */ ?>
+	<div class="jetpack-hero__dashboard relative px-6 max-[768px]:px-4 max-[480px]:px-0 -mt-4 max-[850px]:mt-16 z-10 opacity-0 translate-y-10">
+		<div class="relative max-w-5xl mx-auto aspect-[4/3] max-h-[720px] rounded-2xl max-[480px]:rounded-lg">
+			<div
+				id="jetpack-card-swap-mount"
+				class="relative w-full h-full"
+				data-theme-uri="<?php echo esc_url( get_template_directory_uri() ); ?>"
+			></div>
 		</div>
 	</div>
 
-	<?php /* Logo loop — pure CSS marquee, no React needed */ ?>
-	<div class="jetpack-hero__logos pt-24 pb-12 z-10 opacity-0">
-		<div class="overflow-hidden max-w-5xl mx-auto px-6" style="mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent); -webkit-mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent)">
-			<div class="jetpack-logo-track flex items-center gap-[7.75rem] will-change-transform">
+	<?php /* Logo loop — rAF velocity animation driven by hero-view.js */ ?>
+	<div class="jetpack-hero__logos pt-20 pb-12 z-10 opacity-0">
+		<div
+			class="relative overflow-hidden w-full"
+			style="mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,black 20%,black 80%,transparent)"
+		>
+			<div class="jetpack-logo-track flex w-max will-change-transform select-none">
 				<?php
 				$logos = [
 					[ 'src' => 'social-proof-logos/wp.com.png',                 'alt' => 'WordPress.com' ],
@@ -109,20 +110,26 @@ $a = wp_parse_args( $attributes, [
 					[ 'src' => 'social-proof-logos/dreamhost-1.png',             'alt' => 'DreamHost' ],
 					[ 'src' => 'social-proof-logos/hostgator.webp',              'alt' => 'HostGator' ],
 				];
-				// Duplicate for seamless loop.
-				$all_logos = array_merge( $logos, $logos );
-				foreach ( $all_logos as $i => $logo ) :
-					$aria = $i >= count( $logos ) ? ' aria-hidden="true"' : '';
+				// Render 4 copies — first has data-logo-seq for width measurement.
+				for ( $copy = 0; $copy < 4; $copy++ ) :
+					$copy_aria = $copy > 0 ? ' aria-hidden="true"' : '';
+					$copy_ref  = $copy === 0 ? ' data-logo-seq' : '';
 				?>
-				<span class="flex-none h-[2.625rem] w-auto invert"<?php echo $aria; ?>>
-					<img
-						src="<?php echo esc_url( get_template_directory_uri() . '/assets/' . $logo['src'] ); ?>"
-						alt="<?php echo esc_attr( $logo['alt'] ); ?>"
-						class="h-full w-auto object-contain"
-						loading="lazy"
-					/>
-				</span>
-				<?php endforeach; ?>
+				<ul class="flex items-center"<?php echo $copy_aria . $copy_ref; ?>>
+					<?php foreach ( $logos as $logo ) : ?>
+					<li class="flex-none mr-[7.75rem]">
+						<span class="inline-flex items-center h-[2.625rem] brightness-0 invert">
+							<img
+								src="<?php echo esc_url( get_template_directory_uri() . '/assets/' . $logo['src'] ); ?>"
+								alt="<?php echo esc_attr( $logo['alt'] ); ?>"
+								class="h-full w-auto object-contain"
+								loading="lazy"
+							/>
+						</span>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+				<?php endfor; ?>
 			</div>
 		</div>
 	</div>

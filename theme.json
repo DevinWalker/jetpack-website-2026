@@ -16,7 +16,13 @@
 				{ "slug": "border",             "color": "#e5e5e5", "name": "Border" },
 				{ "slug": "card-primary",       "color": "#a8d946", "name": "Card Primary" },
 				{ "slug": "card-secondary",     "color": "#e8f5c8", "name": "Card Secondary" },
-				{ "slug": "card-foreground",    "color": "#171717", "name": "Card Foreground" }
+				{ "slug": "card-foreground",    "color": "#171717", "name": "Card Foreground" },
+				{ "slug": "white",              "color": "#ffffff", "name": "White" },
+				{ "slug": "gray-0",             "color": "#f6f7f7", "name": "Gray 0" },
+				{ "slug": "gray-70",            "color": "#646970", "name": "Gray 70" },
+				{ "slug": "green-0",            "color": "#f0f6e8", "name": "Green 0" },
+				{ "slug": "jetpack-green-50",   "color": "#069e08", "name": "Jetpack Green 50" },
+				{ "slug": "jetpack-green-60",   "color": "#007117", "name": "Jetpack Green 60" }
 			]
 		},
 		"typography": {
@@ -69,6 +75,11 @@
 		{
 			"name": "front-page",
 			"title": "Front Page",
+			"postTypes": [ "page" ]
+		},
+		{
+			"name": "page",
+			"title": "Page",
 			"postTypes": [ "page" ]
 		}
 	],

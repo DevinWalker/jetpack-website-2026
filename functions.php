@@ -106,6 +106,18 @@ add_action( 'wp_enqueue_scripts', function (): void {
 		$int_data['version'],
 		true
 	);
+
+	// Scroll animations — loaded globally so production media-text sections
+	// on product pages get entrance animations even without bento/pricing blocks.
+	$sa_asset = $theme_dir . '/build/scroll-animations.asset.php';
+	$sa_data  = file_exists( $sa_asset ) ? require $sa_asset : [ 'dependencies' => [], 'version' => '1.0.0' ];
+	wp_enqueue_script(
+		'jetpack-theme-scroll-animations',
+		$theme_uri . '/build/scroll-animations.js',
+		$sa_data['dependencies'],
+		$sa_data['version'],
+		true
+	);
 } );
 
 // ─── Enqueue Block Editor Assets ─────────────────────────────────────────────
@@ -136,6 +148,7 @@ add_action( 'init', function (): void {
 	$block_slugs = [
 		'hero',
 		'blur-headline',
+		'features-highlights',
 		'features-bento',
 		'testimonials',
 		'pricing',
@@ -150,6 +163,43 @@ add_action( 'init', function (): void {
 			register_block_type( $block_path );
 		}
 	}
+} );
+
+// ─── Register Block Styles for Production Compatibility ──────────────────────
+// Production Jetpack.com uses these custom block styles on core blocks.
+// Registering them ensures content authored on production renders correctly.
+
+add_action( 'init', function (): void {
+	$paragraph_icon_styles = [
+		'growth', 'performance', 'key', 'stats', 'social', 'newsletter',
+		'blaze', 'cloud', 'shield', 'videopress', 'search', 'antispam',
+	];
+	foreach ( $paragraph_icon_styles as $variant ) {
+		register_block_style( 'core/paragraph', [
+			'name'  => 'jetpack-with-' . $variant . '-icon',
+			'label' => ucfirst( $variant ) . ' Icon',
+		] );
+	}
+
+	register_block_style( 'core/paragraph', [
+		'name'  => 'jetpack-paid-feature-label',
+		'label' => 'Paid Feature Label',
+	] );
+
+	register_block_style( 'core/paragraph', [
+		'name'  => 'jetpack-quote',
+		'label' => 'Jetpack Quote',
+	] );
+
+	register_block_style( 'core/list', [
+		'name'  => 'jetpack-checklist',
+		'label' => 'Jetpack Checklist',
+	] );
+
+	register_block_style( 'core/button', [
+		'name'  => 'jetpack-button',
+		'label' => 'Jetpack Button',
+	] );
 } );
 
 // ─── Viewport Frame & Corner Decorations ─────────────────────────────────────
