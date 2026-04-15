@@ -247,7 +247,7 @@ body {
   to   { transform: translateX(-50%); }
 }
 .jetpack-logo-track {
-  animation: jetpackMarquee 30s linear infinite;
+  animation: jetpackMarquee 18s linear infinite;
 }
 .jetpack-logo-track:hover {
   animation-play-state: paused;

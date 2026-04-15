@@ -54,10 +54,12 @@ $a = wp_parse_args( $attributes, [
 				<svg class="w-3.5 h-3.5 text-neutral-400 group-hover:text-neutral-600 group-hover:translate-x-0.5 transition-all duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 			</a>
 
-			<?php /* Headline — view script enhances with StaggeredText */ ?>
-			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-5xl font-medium tracking-tight leading-[1.1] mb-6 text-black opacity-0 translate-y-5">
-				<?php echo esc_html( $a['headlineLine1'] ); ?>
-				<span class="jetpack-hero__accent block text-accent">
+			<?php /* Headline — each line animates independently via hero-view.js */ ?>
+			<h1 class="jetpack-hero__headline text-8xl max-[850px]:text-5xl font-bold tracking-tight leading-[1.1] mb-6 text-black">
+				<span class="jetpack-hero__headline-line block opacity-0 translate-y-5">
+					<?php echo esc_html( $a['headlineLine1'] ); ?>
+				</span>
+				<span class="jetpack-hero__accent block text-accent opacity-0 translate-y-5">
 					<?php echo esc_html( $a['headlineAccent'] ); ?>
 				</span>
 			</h1>
@@ -87,9 +89,9 @@ $a = wp_parse_args( $attributes, [
 		<div class="relative max-w-5xl mx-auto">
 			<div class="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-2xl/5" style="mask-image:linear-gradient(to bottom,black 50%,transparent 100%); -webkit-mask-image:linear-gradient(to bottom,black 50%,transparent 100%)">
 				<img
-					src="<?php echo esc_url( get_template_directory_uri() . '/assets/dashboardmock.png' ); ?>"
-					alt="<?php esc_attr_e( 'Jetpack dashboard preview', 'jetpack-theme' ); ?>"
-					class="w-full h-auto invert contrast-125"
+				src="<?php echo esc_url( get_template_directory_uri() . '/assets/jetpack-paid-traffic.png' ); ?>"
+				alt="<?php esc_attr_e( 'Jetpack paid traffic dashboard', 'jetpack-theme' ); ?>"
+					class="w-full h-auto"
 					loading="lazy"
 					decoding="async"
 				/>
@@ -114,7 +116,7 @@ $a = wp_parse_args( $attributes, [
 				foreach ( $all_logos as $i => $logo ) :
 					$aria = $i >= count( $logos ) ? ' aria-hidden="true"' : '';
 				?>
-				<span class="flex-none h-[2.625rem] w-auto invert"<?php echo $aria; ?>>
+				<span class="flex-none h-[2.625rem] w-auto brightness-0 invert"<?php echo $aria; ?>>
 					<img
 						src="<?php echo esc_url( get_template_directory_uri() . '/assets/' . $logo['src'] ); ?>"
 						alt="<?php echo esc_attr( $logo['alt'] ); ?>"
