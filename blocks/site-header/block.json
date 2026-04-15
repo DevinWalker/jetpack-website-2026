@@ -11,7 +11,7 @@
 	"editorScript": "file:../../build/editor.js",
 	"attributes": {
 		"ctaText": { "type": "string", "default": "Get Started" },
-		"ctaUrl":  { "type": "string", "default": "https://jetpack.com/pricing/" }
+		"ctaUrl":  { "type": "string" }
 	},
 	"supports": { "html": false, "multiple": false },
 	"render": "file:./render.php"

@@ -258,6 +258,12 @@ add_action( 'enqueue_block_editor_assets', function (): void {
 		$asset['version'],
 		true
 	);
+
+	wp_add_inline_script(
+		'jetpack-editor',
+		'window.jetpackThemeData=' . wp_json_encode( [ 'homeUrl' => untrailingslashit( home_url() ) ] ) . ';',
+		'before'
+	);
 } );
 
 // ─── Register Custom Blocks ───────────────────────────────────────────────────

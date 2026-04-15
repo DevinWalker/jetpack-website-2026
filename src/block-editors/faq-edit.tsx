@@ -39,9 +39,9 @@ export function FAQEdit( { attributes, setAttributes }: Props ) {
 			<InspectorControls>
 				<PanelBody title={ __( 'CTA Buttons', 'jetpack-theme' ) } initialOpen>
 					<TextControl label={ __( 'Primary text', 'jetpack-theme' ) } value={ attributes.ctaPrimaryText }   onChange={ ( v ) => setAttributes( { ctaPrimaryText: v } ) } />
-					<TextControl label={ __( 'Primary URL', 'jetpack-theme' ) }  value={ attributes.ctaPrimaryUrl }    onChange={ ( v ) => setAttributes( { ctaPrimaryUrl: v } ) } __nextHasNoMarginBottom />
-					<TextControl label={ __( 'Secondary text', 'jetpack-theme' ) } value={ attributes.ctaSecondaryText } onChange={ ( v ) => setAttributes( { ctaSecondaryText: v } ) } />
-					<TextControl label={ __( 'Secondary URL', 'jetpack-theme' ) }  value={ attributes.ctaSecondaryUrl }  onChange={ ( v ) => setAttributes( { ctaSecondaryUrl: v } ) } __nextHasNoMarginBottom />
+				<TextControl label={ __( 'Primary URL', 'jetpack-theme' ) }  value={ attributes.ctaPrimaryUrl ?? '' }    help={ `Default: ${ window.jetpackThemeData?.homeUrl ?? '' }/pricing/` } onChange={ ( v ) => setAttributes( { ctaPrimaryUrl: v } ) } __nextHasNoMarginBottom />
+				<TextControl label={ __( 'Secondary text', 'jetpack-theme' ) } value={ attributes.ctaSecondaryText } onChange={ ( v ) => setAttributes( { ctaSecondaryText: v } ) } />
+				<TextControl label={ __( 'Secondary URL', 'jetpack-theme' ) }  value={ attributes.ctaSecondaryUrl ?? '' }  help={ `Default: ${ window.jetpackThemeData?.homeUrl ?? '' }/support/` } onChange={ ( v ) => setAttributes( { ctaSecondaryUrl: v } ) } __nextHasNoMarginBottom />
 				</PanelBody>
 			</InspectorControls>
 
