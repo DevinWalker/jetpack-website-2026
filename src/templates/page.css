@@ -1,11 +1,11 @@
 /* ── Kill WordPress flow-layout block-gap on the front-page main group ── */
-/* The group has explicit 0 margin/padding but WordPress still injects
-   --wp--style--block-gap margins between every direct block child.
-   Resetting the variable here eliminates every seam in one shot;
-   each block section owns its own vertical rhythm via py-* utilities. */
+/* WordPress core injects:
+ *   :root :where(.is-layout-flow) > * { margin-block-start: 24px; }
+ * That hardcoded 24px creates gray stripes between every block wrapper.
+ * Override it directly: (0,2,1) specificity beats WP core's (0,1,1). */
 
-.jetpack-page-content.wp-block-group {
-  --wp--style--block-gap: 0;
+.jetpack-page-content.wp-block-group > * {
+  margin-block-start: 0;
 }
 
 /* ── Block wrapper backgrounds ───────────────────────────────────── */

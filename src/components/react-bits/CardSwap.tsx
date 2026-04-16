@@ -4,7 +4,9 @@ import {
 	createRef,
 	forwardRef,
 	isValidElement,
+	useCallback,
 	useEffect,
+	useImperativeHandle,
 	useMemo,
 	useRef,
 	type HTMLAttributes,
@@ -72,6 +74,12 @@ interface AnimConfig {
 	returnDelay: number;
 }
 
+export interface CardSwapHandle {
+	/** Cancel any pending scheduled swap and trigger the next swap now.
+	 * No-ops if a swap animation is already in flight. */
+	advance: () => void;
+}
+
 interface CardSwapProps {
 	width?: number | string;
 	height?: number | string;
@@ -79,24 +87,28 @@ interface CardSwapProps {
 	verticalDistance?: number;
 	delay?: number;
 	pauseOnHover?: boolean;
-	/** Externally-driven pause. When true the interval stops and the GSAP timeline pauses. */
+	/** Externally-driven pause. When true the scheduler stops; a running timeline is NOT paused. */
 	paused?: boolean;
 	onCardClick?: ( idx: number ) => void;
+	/** When true, clicking a card calls advance() in addition to firing onCardClick. */
+	advanceOnClick?: boolean;
 	skewAmount?: number;
 	easing?: 'linear' | 'elastic';
 	/** Z-axis distance between stacked cards. Defaults to cardDistance × 1.5. */
 	zDistance?: number;
 	/** Override the outer container's positioning/transform classes entirely. */
 	containerClassName?: string;
-	/** Fires with the index of the card that just became the front card. */
+	/** Fires with the index of the card that just became the front card (at the promote label, mid-animation). */
 	onSwap?: ( frontIndex: number ) => void;
+	/** Fires with the front card's index once the swap timeline has fully completed (card landed). */
+	onSettled?: ( frontIndex: number ) => void;
 	children: ReactNode;
 }
 
 const DEFAULT_CONTAINER_CLASS =
 	'absolute bottom-0 right-0 transform translate-x-[5%] translate-y-[20%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[25%] max-[768px]:translate-y-[25%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[25%] max-[480px]:scale-[0.55]';
 
-const CardSwap = ( {
+const CardSwap = forwardRef< CardSwapHandle, CardSwapProps >( ( {
 	width = 500,
 	height = 400,
 	cardDistance = 60,
@@ -105,13 +117,15 @@ const CardSwap = ( {
 	pauseOnHover = false,
 	paused = false,
 	onCardClick,
+	advanceOnClick = false,
 	skewAmount = 6,
 	easing = 'elastic',
 	zDistance,
 	containerClassName,
 	onSwap,
+	onSettled,
 	children,
-}: CardSwapProps ) => {
+}, ref ) => {
 	const config: AnimConfig =
 		easing === 'elastic'
 			? {
@@ -140,9 +154,34 @@ const CardSwap = ( {
 
 	const order = useRef< number[] >( Array.from( { length: childArr.length }, ( _, i ) => i ) );
 	const tlRef = useRef< gsap.core.Timeline | null >( null );
-	const intervalRef = useRef< ReturnType< typeof setInterval > | undefined >( undefined );
+	const delayedCallRef = useRef< gsap.core.Tween | null >( null );
 	const swapRef = useRef< ( () => void ) | null >( null );
 	const container = useRef< HTMLDivElement >( null );
+
+	const pausedRef = useRef( paused );
+	const delayRef = useRef( delay );
+	useEffect( () => { pausedRef.current = paused; }, [ paused ] );
+	useEffect( () => { delayRef.current = delay; }, [ delay ] );
+
+	const killScheduled = useCallback( () => {
+		delayedCallRef.current?.kill();
+		delayedCallRef.current = null;
+	}, [] );
+
+	const scheduleNext = useCallback( () => {
+		killScheduled();
+		if ( pausedRef.current ) return;
+		if ( ! swapRef.current ) return;
+		delayedCallRef.current = gsap.delayedCall( delayRef.current / 1000, swapRef.current );
+	}, [ killScheduled ] );
+
+	useImperativeHandle( ref, () => ( {
+		advance: () => {
+			killScheduled();
+			if ( tlRef.current?.isActive() ) return;
+			swapRef.current?.();
+		},
+	} ), [ killScheduled ] );
 
 	useEffect( () => {
 		const total = refs.length;
@@ -154,6 +193,7 @@ const CardSwap = ( {
 
 		const swap = () => {
 			if ( order.current.length < 2 ) return;
+			killScheduled();
 
 			const [ front, ...rest ] = order.current;
 			const elFront = refs[ front ].current;
@@ -215,48 +255,49 @@ const CardSwap = ( {
 				},
 				'return'
 			);
+
+			tl.eventCallback( 'onComplete', () => {
+				onSettled?.( order.current[ 0 ] );
+				scheduleNext();
+			} );
 		};
 
 		swapRef.current = swap;
 		swap();
-		intervalRef.current = window.setInterval( swap, delay );
 
 		if ( pauseOnHover ) {
 			const node = container.current;
 			if ( ! node ) return;
 
 			const pause = () => {
-				tlRef.current?.pause();
-				clearInterval( intervalRef.current );
+				killScheduled();
 			};
 			const resume = () => {
-				tlRef.current?.play();
-				intervalRef.current = window.setInterval( swap, delay );
+				if ( tlRef.current?.isActive() ) return;
+				scheduleNext();
 			};
 			node.addEventListener( 'mouseenter', pause );
 			node.addEventListener( 'mouseleave', resume );
 			return () => {
 				node.removeEventListener( 'mouseenter', pause );
 				node.removeEventListener( 'mouseleave', resume );
-				clearInterval( intervalRef.current );
+				killScheduled();
 			};
 		}
-		return () => clearInterval( intervalRef.current );
+		return () => {
+			killScheduled();
+		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, zDistance ] );
 
 	useEffect( () => {
 		if ( paused ) {
-			tlRef.current?.pause();
-			clearInterval( intervalRef.current );
-		} else {
-			tlRef.current?.play();
-			clearInterval( intervalRef.current );
-			if ( swapRef.current ) {
-				intervalRef.current = window.setInterval( swapRef.current, delay );
-			}
+			killScheduled();
+			return;
 		}
-	}, [ paused, delay ] );
+		if ( tlRef.current?.isActive() ) return;
+		scheduleNext();
+	}, [ paused, killScheduled, scheduleNext ] );
 
 	const rendered = childArr.map( ( child, i ) =>
 		isValidElement< CardProps >( child )
@@ -267,6 +308,12 @@ const CardSwap = ( {
 					onClick: ( e: MouseEvent< HTMLDivElement > ) => {
 						( child.props as CardProps ).onClick?.( e );
 						onCardClick?.( i );
+						if ( advanceOnClick ) {
+							killScheduled();
+							if ( ! tlRef.current?.isActive() ) {
+								swapRef.current?.();
+							}
+						}
 					},
 			  } )
 			: child
@@ -281,6 +328,7 @@ const CardSwap = ( {
 			{ rendered }
 		</div>
 	);
-};
+} );
+CardSwap.displayName = 'CardSwap';
 
 export default CardSwap;

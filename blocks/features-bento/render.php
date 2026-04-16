@@ -72,7 +72,7 @@ $avatar_urls = [
 	</div>
 </section>
 
-<section class="jetpack-features-bento w-full pt-20 md:pt-28 px-6 mb-32 bg-white">
+<section class="jetpack-features-bento w-full pt-20 md:pt-28 pb-20 md:pb-28 px-6 bg-white">
 	<div class="max-w-5xl mx-auto">
 		<div class="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-4">
 
