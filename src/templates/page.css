@@ -1,0 +1,16 @@
+/* ── Block wrapper backgrounds ───────────────────────────────────── */
+/* WordPress wraps each block in a transparent div that can show the
+   gray body through any block-gap margin the flow layout inserts.
+   These rules pin the wrapper background so no gap bleeds through. */
+
+.wp-block-jetpack-theme-features-bento {
+  background-color: #ffffff;
+}
+
+/* ── Generic page template clearance ────────────────────────────── */
+/* Applied via jetpack-page-body modifier class in templates/page.html.
+   Not applied to front-page.html — the hero block handles its own clearance. */
+
+.jetpack-page-body {
+  padding-top: calc(var(--header-clearance) + 1.5rem);
+}

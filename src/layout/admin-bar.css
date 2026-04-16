@@ -1,0 +1,35 @@
+/* ── WordPress admin bar compensation ───────────────────────────── */
+/* When logged in, WP admin bar is fixed at top (32px desktop, 46px ≤782px).
+   Shift the fixed header and top frame down so they don't hide behind it. */
+
+.admin-bar {
+  & .jetpack-header {
+    top: calc(10px + 32px);
+  }
+
+  & .site-frame--top {
+    top: 32px;
+  }
+
+  & .site-corner--top-left,
+  & .site-corner--top-right {
+    top: calc(10px + 32px);
+  }
+}
+
+@media screen and (max-width: 782px) {
+  .admin-bar {
+    & .jetpack-header {
+      top: 46px;
+    }
+
+    & .site-frame--top {
+      top: 46px;
+    }
+
+    & .site-corner--top-left,
+    & .site-corner--top-right {
+      top: calc(10px + 46px);
+    }
+  }
+}

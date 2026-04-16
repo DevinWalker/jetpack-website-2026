@@ -60,9 +60,6 @@ requestAnimationFrame( () => {
 	const dashboard = hero.querySelector< HTMLElement >( '.jetpack-hero__dashboard' );
 	const logos     = hero.querySelector< HTMLElement >( '.jetpack-hero__logos' );
 
-	// Mount ShinyText into the accent span — captures PHP-rendered text, replaces
-	// it with the animated gradient variant. The outer span still drives the
-	// entrance animation (opacity / translateY / blur) as usual.
 	if ( accent ) {
 		const accentText = accent.textContent?.trim() ?? '';
 		accent.textContent = '';
@@ -73,7 +70,7 @@ requestAnimationFrame( () => {
 				fontWeight:         700,
 				fontFamily:         'inherit',
 				color:              '#069E08',
-				baseIntensity:      0.03,
+				baseIntensity:      0.005,
 				hoverIntensity:     0.2,
 				enableHover:        true,
 				fuzzRange:          28,

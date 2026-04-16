@@ -1,0 +1,6 @@
+/* ── Logo marquee ────────────────────────────────────────────────── */
+/* Animation is driven by hero-view.js (rAF velocity loop) */
+
+.jetpack-logo-track {
+  cursor: default;
+}
