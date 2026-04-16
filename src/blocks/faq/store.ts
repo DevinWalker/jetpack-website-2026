@@ -1,3 +1,5 @@
+import './style.css';
+
 /**
  * FAQ view script — handles accordion open/close.
  * Reads per-item context from data-wp-context attributes.

@@ -11,12 +11,11 @@
 @import "./layout/frame.css";
 @import "./layout/admin-bar.css";
 
-/* ── Blocks ─────────────────────────────────────────────────────── */
-@import "./blocks/header.css";
-@import "./blocks/hero.css";
-@import "./blocks/faq.css";
+/* ── Blocks (global — on every page) ────────────────────────────── */
+/* hero.css, faq.css, testimonials.css are now loaded per-block via   */
+/* block.json viewStyle/style fields and are NOT imported here.       */
+@import "./blocks/site-header/style.css";
 @import "./blocks/marquee.css";
-@import "./blocks/testimonials.css";
 
 /* ── Shared components ──────────────────────────────────────────── */
 @import "./components/card.css";

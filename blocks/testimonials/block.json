@@ -10,6 +10,7 @@
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
 	"viewScript": "file:../../build/testimonials-view.js",
+	"viewStyle": "file:../../build/style-testimonials-view.css",
 	"attributes": {
 		"sectionTitle": { "type": "string", "default": "Trusted by 27 million WordPress sites" },
 		"items": {

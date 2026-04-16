@@ -33,34 +33,34 @@
   z-index: 9999;
   pointer-events: none;
   background-color: var(--frame);
+}
 
-  &--top {
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 10px;
-  }
+.site-frame--top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
 
-  &--bottom {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 10px;
-  }
+.site-frame--bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
 
-  &--left {
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 10px;
-  }
+.site-frame--left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 10px;
+}
 
-  &--right {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 10px;
-  }
+.site-frame--right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
 }
 
 /* ── Corner decorations ─────────────────────────────────────────── */
@@ -71,30 +71,30 @@
   z-index: 9998;
   pointer-events: none;
   color: var(--frame);
+}
 
-  &--top-left {
-    transform: rotate(90deg);
-    top: 10px;
-    left: 10px;
-  }
+.site-corner--top-left {
+  transform: rotate(90deg);
+  top: 10px;
+  left: 10px;
+}
 
-  &--top-right {
-    top: 10px;
-    right: 10px;
-    transform: rotate(180deg);
-  }
+.site-corner--top-right {
+  top: 10px;
+  right: 10px;
+  transform: rotate(180deg);
+}
 
-  &--bottom-left {
-    bottom: 10px;
-    left: 10px;
-    transform: rotate(0deg);
-  }
+.site-corner--bottom-left {
+  bottom: 10px;
+  left: 10px;
+  transform: rotate(0deg);
+}
 
-  &--bottom-right {
-    bottom: 10px;
-    right: 10px;
-    transform: rotate(270deg);
-  }
+.site-corner--bottom-right {
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(270deg);
 }
 
 /* Hide frame and corners on mobile */

@@ -1,3 +1,5 @@
+import './style.css';
+
 /**
  * Testimonials slider view script.
  * Nav is inside each slide's content column — use event delegation on the section.

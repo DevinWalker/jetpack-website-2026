@@ -1,3 +1,5 @@
+import './style.css';
+
 /**
  * Hero view script — entrance animations matching the original Next.js hero.
  *

@@ -16,20 +16,22 @@ module.exports = {
 		'frontend':          './src/frontend.js',
 
 		// Per-block view scripts — loaded only when the block is on the page.
-		'hero-view':         './src/blocks/hero-view.tsx',
-		'hero-card-swap':    './src/blocks/hero-card-swap.tsx',
-		'blur-view':         './src/blocks/blur-view.tsx',
-		'scroll-animations': './src/blocks/scroll-animations.ts',
-		'features-highlights-view': './src/blocks/features-highlights-view.tsx',
+		// CSS imported within each view script is extracted to style-{entry}.css
+		// and registered via block.json viewStyle/style fields.
+		'hero-view':                './src/blocks/hero/view.tsx',
+		'hero-card-swap':           './src/blocks/hero/card-swap.tsx',
+		'blur-view':                './src/blocks/blur-headline/view.tsx',
+		'scroll-animations':        './src/blocks/scroll-animations.ts',
+		'features-highlights-view': './src/blocks/features-highlights/view.tsx',
 
-		// FAQ view script — accordion behavior.
-		'faq-view':          './src/blocks/faq-store.ts',
+		// FAQ view script — accordion behavior + block styles.
+		'faq-view':          './src/blocks/faq/store.ts',
 
-		// Testimonials view script — slider with auto-advance and dot nav.
-		'testimonials-view': './src/blocks/testimonials-view.ts',
+		// Testimonials view script — slider with auto-advance and block styles.
+		'testimonials-view': './src/blocks/testimonials/view.ts',
 
 		// Global interactions (header) — no framework dependencies.
-		'interactions':      './src/blocks/interactions.ts',
+		'interactions':      './src/blocks/site-header/interactions.ts',
 	},
 
 	resolve: {

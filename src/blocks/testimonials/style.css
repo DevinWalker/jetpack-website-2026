@@ -17,19 +17,19 @@
 /* Grid-stack: slides share one cell, crossfade */
 .jetpack-slider__track {
   display: grid;
+}
 
-  & > .jetpack-slide {
-    grid-area: 1 / 1;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0s 0.4s;
+.jetpack-slider__track > .jetpack-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0s 0.4s;
+}
 
-    &--active {
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.4s ease, visibility 0s 0s;
-    }
-  }
+.jetpack-slider__track > .jetpack-slide--active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, visibility 0s 0s;
 }
 
 /* Each slide: flex-column on mobile, two-col grid on desktop */
@@ -55,7 +55,7 @@
     display: block;
     width: 31px;
     height: 27px;
-    background-image: url('../../assets/quotation.svg');
+    background-image: url('../../../assets/quotation.svg');
     background-repeat: no-repeat;
     background-size: contain;
     transform: rotate(180deg);
@@ -101,9 +101,9 @@
   font-size: 0.875rem;
   color: #6b7280;
   text-decoration: none;
-
-  &:hover { text-decoration: underline; }
 }
+
+.jetpack-slide__title a:hover { text-decoration: underline; }
 
 /* Nav arrows — inside the content column */
 .jetpack-slider__nav {
@@ -162,19 +162,14 @@
 
 .testimonial-section { overflow: hidden; }
 
-.testimonial-slider {
-  & .slider__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    & li {
-      display: none;
-
-      &:first-child { display: block; }
-    }
-  }
+.testimonial-slider .slider__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
+
+.testimonial-slider .slider__list li { display: none; }
+.testimonial-slider .slider__list li:first-child { display: block; }
 
 .testimonial-block {
   display: grid;
@@ -183,12 +178,12 @@
   align-items: center;
   padding: 3rem 0;
 
-  &__quote { font-size: 1.25rem; line-height: 1.6; }
-  &__author { font-weight: 600; }
-  &__author-position a { color: #6b7280; }
-  &__image { width: 100%; max-width: 400px; border-radius: 1rem; }
-
   @media (max-width: 767px) {
     grid-template-columns: 1fr;
   }
 }
+
+.testimonial-block__quote { font-size: 1.25rem; line-height: 1.6; }
+.testimonial-block__author { font-weight: 600; }
+.testimonial-block__author-position a { color: #6b7280; }
+.testimonial-block__image { width: 100%; max-width: 400px; border-radius: 1rem; }

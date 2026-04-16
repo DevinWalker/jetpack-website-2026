@@ -13,6 +13,7 @@
 		"file:../../build/hero-view.js",
 		"file:../../build/hero-card-swap.js"
 	],
+	"viewStyle": "file:../../build/style-hero-view.css",
 	"attributes": {
 		"badgeText":     { "type": "string", "default": "Now Available" },
 		"changelogText": { "type": "string", "default": "Jetpack Social in 15.7" },

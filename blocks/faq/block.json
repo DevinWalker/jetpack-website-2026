@@ -10,6 +10,7 @@
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
 	"viewScript": "file:../../build/faq-view.js",
+	"style": "file:../../build/style-faq-view.css",
 	"attributes": {
 		"sectionTitle":       { "type": "string", "default": "Everything you need to know about Jetpack" },
 		"sectionDescription": { "type": "string", "default": "From security to performance, here is how Jetpack protects and accelerates your WordPress site." },
