@@ -1,7 +1,16 @@
+/* ── Kill WordPress flow-layout block-gap on the front-page main group ── */
+/* The group has explicit 0 margin/padding but WordPress still injects
+   --wp--style--block-gap margins between every direct block child.
+   Resetting the variable here eliminates every seam in one shot;
+   each block section owns its own vertical rhythm via py-* utilities. */
+
+.jetpack-page-content.wp-block-group {
+  --wp--style--block-gap: 0;
+}
+
 /* ── Block wrapper backgrounds ───────────────────────────────────── */
-/* WordPress wraps each block in a transparent div that can show the
-   gray body through any block-gap margin the flow layout inserts.
-   These rules pin the wrapper background so no gap bleeds through. */
+/* WordPress wraps each block in a transparent div. When a block section
+   is white (#fff) the wrapper must match so any overflow stays white. */
 
 .wp-block-jetpack-theme-features-bento {
   background-color: #ffffff;
