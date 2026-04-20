@@ -1,0 +1,51 @@
+/* ── Global base / resets ──────────────────────────────────────── */
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  scroll-padding-top: var(--header-clearance);
+}
+
+html,
+body {
+  overscroll-behavior-x: none;
+}
+
+/* Reset WordPress body margin */
+body.wp-block-theme {
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom text selection */
+::selection {
+  background-color: var(--accent);
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hide the raw block data scripts — React reads them but they must be invisible */
+.jetpack-sections-data {
+  display: none !important;
+}
+
+/* Utility used by JS before elements are revealed */
+.opacity-0 { opacity: 0; }

@@ -1,0 +1,213 @@
+/* ── Support CPT archive page ────────────────────────────────────── */
+
+.jetpack-support-page {
+  padding-bottom: 5rem;
+}
+
+/* Hero: same padding rhythm as the blog hero */
+.jetpack-support-hero {
+  padding-top: calc(var(--header-clearance) + 1.5rem);
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.75rem;
+
+  @media (min-width: 640px) {
+    padding-top: calc(var(--header-clearance) + 2.5rem);
+    padding-bottom: 2rem;
+  }
+}
+
+.jetpack-support-hero__title.wp-block-heading {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--foreground);
+  text-align: center;
+  text-wrap: balance;
+  max-width: 40rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Search — make it look like the live site's full-width input */
+.jetpack-support-search.wp-block-search {
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  & .wp-block-search__inside-wrapper {
+    border: 1px solid var(--border);
+    border-radius: 0.625rem;
+    background: #ffffff;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.04);
+
+    &:focus-within {
+      border-color: #d4d4d4;
+      box-shadow: 0 1px 3px rgb(0 0 0 / 0.04), 0 0 0 3px rgb(168 217 70 / 0.25);
+    }
+  }
+
+  & .wp-block-search__input {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.9375rem;
+    color: var(--foreground);
+    background: transparent;
+    flex: 1;
+
+    &::placeholder { color: var(--muted-foreground); }
+  }
+
+  & .wp-block-search__button {
+    padding: 0.625rem 1.125rem;
+    background: var(--foreground);
+    color: #ffffff;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-radius: 0;
+
+    &:hover { background: #262626; }
+  }
+}
+
+/* Two-column layout */
+.jetpack-support-layout.wp-block-columns {
+  gap: 3rem !important;
+  align-items: flex-start;
+
+  @media (max-width: 767px) {
+    flex-direction: column !important;
+
+    & .wp-block-column {
+      flex-basis: 100% !important;
+    }
+  }
+}
+
+/* Topic cards — mirror the blog post cards (white, border, rounded, shadow) */
+.jetpack-support-card.wp-block-group {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.04), 0 4px 16px -4px rgb(0 0 0 / 0.08);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.06), 0 16px 40px -8px rgb(0 0 0 / 0.12);
+    border-color: #d4d4d4;
+  }
+
+  /* Card heading: linked topic title */
+  & h3.wp-block-heading {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+
+    & a {
+      color: var(--foreground);
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      /* Stretched link — covers the full card, making it entirely clickable */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
+    }
+  }
+
+  /* (0,1,1) specificity beats :root :where(.is-layout-flow) > * at (0,1,0) — no !important needed */
+  & > h3 {
+    margin-block-start: 0;
+  }
+
+  &:hover h3.wp-block-heading a {
+    color: var(--jetpack-green-50, #069e08);
+  }
+
+  /* Card description */
+  & p.wp-block-paragraph {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  & > p {
+    margin-block-start: 0.125rem;
+  }
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+
+.jetpack-support-sidebar-block.wp-block-group {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.125rem 1.25rem;
+
+  & h4.wp-block-heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--foreground);
+  }
+
+  /* (0,1,1) beats :root :where(.is-layout-flow) > * at (0,1,0) */
+  & > h4 {
+    margin-block-start: 0;
+  }
+
+  & p.wp-block-paragraph {
+    font-size: 0.8125rem;
+    color: var(--muted-foreground);
+    line-height: 1.65;
+    margin: 0;
+
+    & a {
+      color: var(--foreground);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--border);
+      transition: color 0.2s ease, text-decoration-color 0.2s ease;
+
+      &:hover {
+        color: var(--jetpack-green-50, #069e08);
+        text-decoration-color: currentColor;
+      }
+    }
+  }
+
+  & > p {
+    margin-block-start: 0.375rem;
+  }
+
+  /* Code block inside sidebar (wp plugin install jetpack) */
+  & .wp-block-code {
+    background: var(--foreground);
+    color: var(--accent);
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    border: none;
+  }
+
+  & > pre {
+    margin-block-start: 0.625rem;
+  }
+}

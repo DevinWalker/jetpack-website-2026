@@ -32,12 +32,13 @@ export function HeroEdit( { attributes, setAttributes }: Props ) {
 						value={ attributes.changelogText }
 						onChange={ ( v ) => setAttributes( { changelogText: v } ) }
 					/>
-					<TextControl
-						label="Changelog URL"
-						value={ attributes.changelogUrl }
-						onChange={ ( v ) => setAttributes( { changelogUrl: v } ) }
-						type="url"
-					/>
+				<TextControl
+					label="Changelog URL"
+					value={ attributes.changelogUrl ?? '' }
+					help={ `Default: ${ window.jetpackThemeData?.homeUrl ?? '' }/changelog` }
+					onChange={ ( v ) => setAttributes( { changelogUrl: v } ) }
+					type="url"
+				/>
 				</PanelBody>
 				<PanelBody title="Headline" initialOpen>
 					<TextControl
@@ -63,12 +64,13 @@ export function HeroEdit( { attributes, setAttributes }: Props ) {
 						value={ attributes.ctaText }
 						onChange={ ( v ) => setAttributes( { ctaText: v } ) }
 					/>
-					<TextControl
-						label="Button URL"
-						value={ attributes.ctaUrl }
-						onChange={ ( v ) => setAttributes( { ctaUrl: v } ) }
-						type="url"
-					/>
+				<TextControl
+					label="Button URL"
+					value={ attributes.ctaUrl ?? '' }
+					help={ `Default: ${ window.jetpackThemeData?.homeUrl ?? '' }/pricing/` }
+					onChange={ ( v ) => setAttributes( { ctaUrl: v } ) }
+					type="url"
+				/>
 				</PanelBody>
 			</InspectorControls>
 

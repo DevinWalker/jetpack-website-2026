@@ -29,6 +29,7 @@
     "@wordpress/scripts": "^30",
     "browser-sync": "^3.0.4",
     "browser-sync-webpack-plugin": "^2.4.0",
+    "postcss-nesting": "^14.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

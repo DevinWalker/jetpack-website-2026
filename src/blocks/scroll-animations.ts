@@ -12,7 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin( ScrollTrigger );
 
-const REVEAL_ALL = '.jetpack-reveal, .jetpack-bento-card, .jetpack-pricing-card, .jetpack-fh-section, .hero-with-icon .wp-block-media-text';
+const REVEAL_ALL = '.jetpack-reveal, .jetpack-bento-card, .jetpack-pricing-card, .jetpack-fh-section, .hero-with-icon .wp-block-media-text, .jetpack-post-grid__items > .wp-block-post';
 
 if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 	document.querySelectorAll< HTMLElement >( REVEAL_ALL ).forEach( ( el ) => {
@@ -101,6 +101,27 @@ if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 			},
 		} );
 	}
+
+	// Blog post grid cards — staggered entrance per card, cycling stagger within each row.
+	const postCards = gsap.utils.toArray< HTMLElement >( '.jetpack-post-grid__items > .wp-block-post' );
+	postCards.forEach( ( card, i ) => {
+		gsap.fromTo(
+			card,
+			{ opacity: 0, y: 24 },
+			{
+				opacity:  1,
+				y:        0,
+				duration: 0.6,
+				ease:     'power3.out',
+				delay:    ( i % 3 ) * 0.1,
+				scrollTrigger: {
+					trigger: card,
+					start:   'top 90%',
+					once:    true,
+				},
+			}
+		);
+	} );
 
 	// Production media-text sections inside feature page containers.
 	const mediaTexts = gsap.utils.toArray< HTMLElement >( '.hero-with-icon .wp-block-media-text' );

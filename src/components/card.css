@@ -1,0 +1,223 @@
+/* ── Shared card components ──────────────────────────────────────── */
+/* Used in both blog archive (blog-1) and related posts (blog-4). */
+
+/* List reset for query loop grids */
+ul.jetpack-post-grid__items,
+ul.jetpack-related-grid__items {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  & > li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* ── Featured image ──────────────────────────────────────────────── */
+/* Why absolute positioning?
+ * WordPress wraps the img in an <a> tag: figure > a > img.
+ * height:100% on img resolves against <a>'s height. But <a> has
+ * height:auto — browsers won't inherit a definite height from the
+ * figure's aspect-ratio across a block-level intermediary.
+ * Absolute positioning on <a> fills the figure directly, bypassing
+ * the percentage-height resolution issue entirely.
+ */
+
+.jetpack-card-image.wp-block-post-featured-image {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: var(--muted);
+  aspect-ratio: 3 / 2;
+  /* Prevent WordPress block inline aspect-ratio from changing container */
+  contain: layout;
+
+  /* The <a> wrapping the img must fill the figure absolutely */
+  & > a,
+  & > .wp-block-post-featured-image__anchor {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  & img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 0.75rem;
+    transition: transform 0.5s ease;
+    /* Undo any WordPress block-injected aspect-ratio inline style */
+    aspect-ratio: auto !important;
+  }
+}
+
+.wp-block-post:hover .jetpack-card-image img {
+  transform: scale(1.05);
+}
+
+/* ── Category pill ───────────────────────────────────────────────── */
+
+.jetpack-card-category {
+  & .wp-block-post-terms__link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1875rem 0.625rem;
+    background-color: #ffffff;
+    color: var(--foreground);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover { background-color: var(--muted); }
+  }
+
+  & .wp-block-post-terms__separator {
+    display: none;
+  }
+}
+
+/* ── Title ───────────────────────────────────────────────────────── */
+
+.jetpack-card-title.wp-block-post-title,
+.jetpack-card-title .wp-block-post-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--foreground);
+  /* Reset all browser and WordPress heading margins */
+  margin-block: 0 !important;
+  margin: 0 !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+}
+
+.wp-block-post:hover .jetpack-card-title a {
+  color: var(--accent);
+}
+
+/* ── Excerpt ─────────────────────────────────────────────────────── */
+
+/* Reset excerpt container margin so only the card-level spacing rule applies */
+.jetpack-card-excerpt.wp-block-post-excerpt {
+  margin-block: 0 !important;
+  margin: 0 !important;
+
+  & p,
+  & .wp-block-post-excerpt__excerpt {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+    margin: 0 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  & .wp-block-post-excerpt__more-link {
+    display: none;
+  }
+}
+
+/* ── Byline row: "Author · Date" ─────────────────────────────────── */
+
+.jetpack-card-byline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
+}
+
+/* post-author-name renders a single <div> with the name text */
+.jetpack-card-author.wp-block-post-author-name {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--foreground);
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* "·" separator — only shown when author is non-empty */
+.jetpack-card-author.wp-block-post-author-name:not(:empty) + .jetpack-card-date::before {
+  content: "·";
+  margin: 0 0.3125rem;
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.jetpack-card-date.wp-block-post-date,
+.jetpack-card-date time {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+/* ── Pagination ──────────────────────────────────────────────────── */
+
+.jetpack-pagination.wp-block-query-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+
+  & .wp-block-query-pagination-numbers .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    padding: 0 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+
+    &:hover { background: var(--muted); }
+
+    &.current {
+      background: var(--foreground);
+      color: var(--background);
+      font-weight: 500;
+    }
+  }
+
+  & .wp-block-query-pagination-previous-arrow,
+  & .wp-block-query-pagination-next-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    padding: 0 0.875rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: background-color 0.15s ease;
+
+    &:hover { background: var(--muted); }
+  }
+}

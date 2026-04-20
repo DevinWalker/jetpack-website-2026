@@ -15,15 +15,15 @@ import siteHeaderMeta     from '../blocks/site-header/block.json';
 import siteFooterMeta     from '../blocks/site-footer/block.json';
 import fhMeta             from '../blocks/features-highlights/block.json';
 
-import { HeroEdit }           from './block-editors/hero-edit';
-import { BlurHeadlineEdit }   from './block-editors/blur-headline-edit';
-import { FeaturesBentoEdit }  from './block-editors/features-bento-edit';
-import { TestimonialsEdit }   from './block-editors/testimonials-edit';
-import { PricingEdit }        from './block-editors/pricing-edit';
-import { FAQEdit }            from './block-editors/faq-edit';
-import { SiteHeaderEdit }     from './block-editors/site-header-edit';
-import { SiteFooterEdit }     from './block-editors/site-footer-edit';
-import { FeaturesHighlightsEdit } from './block-editors/features-highlights-edit';
+import { HeroEdit }           from './blocks/hero/edit';
+import { BlurHeadlineEdit }   from './blocks/blur-headline/edit';
+import { FeaturesBentoEdit }  from './blocks/features-bento/edit';
+import { TestimonialsEdit }   from './blocks/testimonials/edit';
+import { PricingEdit }        from './blocks/pricing/edit';
+import { FAQEdit }            from './blocks/faq/edit';
+import { SiteHeaderEdit }     from './blocks/site-header/edit';
+import { SiteFooterEdit }     from './blocks/site-footer/edit';
+import { FeaturesHighlightsEdit } from './blocks/features-highlights/edit';
 
 registerBlockType( heroMeta.name,           { ...heroMeta,           edit: HeroEdit,          save: () => null } );
 registerBlockType( blurMeta.name,           { ...blurMeta,           edit: BlurHeadlineEdit,  save: () => null } );

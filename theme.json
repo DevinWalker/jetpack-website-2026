@@ -3,7 +3,6 @@
 	"version": 3,
 	"settings": {
 		"appearanceTools": true,
-		"useRootPaddingAwareAlignments": true,
 		"color": {
 			"defaultPalette": false,
 			"palette": [
@@ -45,8 +44,8 @@
 			"units": [ "px", "em", "rem", "vh", "vw", "%" ]
 		},
 		"layout": {
-			"contentSize": "80rem",
-			"wideSize": "90rem"
+			"contentSize": "64rem",
+			"wideSize": "56rem"
 		}
 	},
 	"styles": {
@@ -68,6 +67,40 @@
 			"core/html": {
 				"spacing": {
 					"margin": { "top": "0", "bottom": "0" }
+				}
+			},
+			"core/post-title": {
+				"typography": {
+					"fontWeight": "500",
+					"letterSpacing": "-0.025em",
+					"lineHeight": "1.15"
+				}
+			},
+			"core/post-date": {
+				"color": {
+					"text": "#737373"
+				},
+				"typography": {
+					"fontSize": "0.8125rem"
+				}
+			},
+			"core/post-excerpt": {
+				"color": {
+					"text": "#737373"
+				},
+				"typography": {
+					"fontSize": "1rem",
+					"lineHeight": "1.7"
+				}
+			},
+			"core/post-featured-image": {
+				"border": {
+					"radius": "0.75rem"
+				}
+			},
+			"core/query-pagination": {
+				"typography": {
+					"fontSize": "0.875rem"
 				}
 			}
 		}

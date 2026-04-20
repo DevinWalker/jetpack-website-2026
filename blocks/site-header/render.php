@@ -8,7 +8,7 @@
  */
 
 $cta_text  = $attributes['ctaText'] ?? 'Get Started';
-$cta_url   = $attributes['ctaUrl']  ?? 'https://jetpack.com/pricing/';
+$cta_url   = $attributes['ctaUrl']  ?? home_url( '/pricing/' );
 $theme_uri = get_template_directory_uri();
 
 // Build primary nav tree from registered menu location.

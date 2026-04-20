@@ -1,0 +1,85 @@
+/* ── Category sections (resources page layout) ───────────────────── */
+
+.jetpack-category-section {
+  margin-bottom: 3.5rem;
+
+  &:last-child { margin-bottom: 0; }
+
+  /* Divider between consecutive sections */
+  & + .jetpack-category-section {
+    border-top: 1px solid var(--border);
+    padding-top: 3.5rem;
+  }
+}
+
+.jetpack-category-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.jetpack-category-section__title.wp-block-heading {
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.jetpack-category-section__viewall.wp-block-paragraph,
+.jetpack-category-section__viewall.wp-block-paragraph a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+
+  &:hover { color: var(--foreground); }
+}
+
+/* ── Category/tag archive page ───────────────────────────────────── */
+
+.jetpack-archive-page {
+  padding-bottom: 4rem;
+}
+
+.jetpack-archive-header {
+  padding-top: calc(var(--header-clearance) + 1.5rem);
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2.5rem;
+
+  @media (min-width: 640px) {
+    padding-top: calc(var(--header-clearance) + 2.5rem);
+  }
+}
+
+.jetpack-archive-header__eyebrow.wp-block-paragraph {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 0.5rem;
+}
+
+.jetpack-archive-header__title.wp-block-query-title,
+.jetpack-archive-header__title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.jetpack-archive-header__desc.wp-block-term-description,
+.jetpack-archive-header__desc {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+  max-width: 40rem;
+  margin: 0.75rem 0 0;
+}

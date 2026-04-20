@@ -1,0 +1,28 @@
+/* ── Hero block ──────────────────────────────────────────────────── */
+
+/* Background — gentle floating drift */
+.jetpack-hero__bg {
+  animation: heroFloat 10s ease-in-out infinite;
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(12px) scale(1.01); }
+  50%      { transform: translateY(-35px) scale(0.99); }
+}
+
+/* Badge link — remove browser/WP default underline */
+.jetpack-hero__badge {
+  text-decoration: none;
+}
+
+/* Scroll-reveal base (GSAP animates from this) */
+.jetpack-reveal,
+.jetpack-hero__badge,
+.jetpack-hero__headline,
+.jetpack-hero__body,
+.jetpack-hero__cta,
+.jetpack-hero__dashboard,
+.jetpack-hero__logos,
+.jetpack-bento-card {
+  will-change: opacity, transform;
+}

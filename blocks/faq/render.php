@@ -7,8 +7,8 @@
 
 $title        = $attributes['sectionTitle']       ?? 'Everything you need to know';
 $description  = $attributes['sectionDescription'] ?? "Can't find the answer you're looking for? Reach out!";
-$cta_primary  = [ 'text' => $attributes['ctaPrimaryText']   ?? 'Get Started',      'url' => $attributes['ctaPrimaryUrl']   ?? 'https://jetpack.com/pricing/' ];
-$cta_secondary= [ 'text' => $attributes['ctaSecondaryText'] ?? 'Contact Support',   'url' => $attributes['ctaSecondaryUrl'] ?? 'https://jetpack.com/support/' ];
+$cta_primary  = [ 'text' => $attributes['ctaPrimaryText']   ?? 'Get Started',      'url' => $attributes['ctaPrimaryUrl']   ?? home_url( '/pricing/' ) ];
+$cta_secondary= [ 'text' => $attributes['ctaSecondaryText'] ?? 'Contact Support',   'url' => $attributes['ctaSecondaryUrl'] ?? home_url( '/support/' ) ];
 $items        = $attributes['items'] ?? [];
 ?>
 <section

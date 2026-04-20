@@ -14,14 +14,29 @@ if ( empty( $sections ) ) {
 	return;
 }
 
+// On non-production environments rewrite any canonical production hrefs in the
+// sections data so that links work locally. Image URLs are intentionally left
+// pointing at production so that media still loads.
+if ( ! jetpack_is_production() ) {
+	foreach ( $sections as &$section ) {
+		$section['ctaUrl'] = jetpack_localize_url( $section['ctaUrl'] ?? '' );
+		foreach ( $section['benefits'] as &$benefit ) {
+			$benefit['linkUrl'] = jetpack_localize_url( $benefit['linkUrl'] ?? '' );
+		}
+		unset( $benefit );
+	}
+	unset( $section );
+}
+
 $lucide_icons = [
 	'trending-up' => '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
 	'zap'         => '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
 	'shield'      => '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
 ];
 ?>
-<section class="jetpack-features-highlights w-full py-16 md:py-24 px-6 bg-background">
-	<div class="max-w-6xl mx-auto flex flex-col gap-28 md:gap-36">
+<section class="jetpack-features-highlights w-full py-20 md:py-32 px-6 bg-background">
+	<div class="max-w-5xl mx-auto flex flex-col gap-28 md:gap-36">
+
 		<?php foreach ( $sections as $i => $section ) :
 		$section = wp_parse_args( $section, [
 			'eyebrow'          => '',
@@ -48,7 +63,7 @@ $lucide_icons = [
 				<img
 					src="<?php echo esc_url( $section['imageUrl'] ); ?>"
 					alt="<?php echo esc_attr( $section['imageAlt'] ); ?>"
-					class="w-full h-auto rounded-2xl shadow-lg"
+					class="w-full h-auto"
 					loading="lazy"
 					decoding="async"
 				/>

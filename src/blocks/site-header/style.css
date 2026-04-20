@@ -1,0 +1,59 @@
+/* ── Interactivity API state classes ────────────────────────────── */
+
+/* Dropdown open state */
+.jetpack-dropdown-open {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+/* Mobile nav open state */
+.jetpack-mobile-open {
+  max-height: 600px !important;
+}
+
+/* Submenu open state */
+.jetpack-submenu-open {
+  max-height: 300px !important;
+}
+
+/* ── Hamburger animation ─────────────────────────────────────────── */
+
+.jetpack-ham-top {
+  transform: rotate(45deg) translateY(4.5px);
+}
+.jetpack-ham-bottom {
+  transform: rotate(-45deg) translateY(-4.5px);
+}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+/* Header slide-in on load.
+   IMPORTANT: Tailwind v4 uses the CSS `translate` property (individual transforms)
+   for -translate-x-1/2. The `transform` property stacks on top of `translate`.
+   Animations must only animate Y-axis via `transform` — never include X translation
+   here or it will double up with Tailwind's `translate: -50%` and push the header left.
+   `both` fill-mode = `from` state is applied before animation begins (hides header). */
+
+.jetpack-header {
+  animation: jetpackHeaderSlideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+
+  /* Remove WP global styles underline from header nav links */
+  & a {
+    text-decoration: none;
+  }
+}
+
+@keyframes jetpackHeaderSlideIn {
+  from { transform: translateY(-100px); }
+  to   { transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .jetpack-header {
+    animation-name: jetpackHeaderSlideInMobile;
+  }
+  @keyframes jetpackHeaderSlideInMobile {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(0); }
+  }
+}

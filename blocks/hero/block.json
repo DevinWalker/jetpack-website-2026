@@ -13,15 +13,16 @@
 		"file:../../build/hero-view.js",
 		"file:../../build/hero-card-swap.js"
 	],
+	"viewStyle": "file:../../build/style-hero-view.css",
 	"attributes": {
 		"badgeText":     { "type": "string", "default": "Now Available" },
 		"changelogText": { "type": "string", "default": "Jetpack Social in 15.7" },
-		"changelogUrl":  { "type": "string", "default": "https://jetpack.com/changelog" },
+		"changelogUrl":  { "type": "string" },
 		"headlineLine1": { "type": "string", "default": "Give WordPress" },
 		"headlineAccent":{ "type": "string", "default": "Superpowers" },
 		"subheadline":   { "type": "string", "default": "Your site could be losing visitors right now—to slow load times, security gaps, or content no one can find. Jetpack handles the behind-the-scenes complexity so you can focus on creating great content and growing your audience." },
 		"ctaText":       { "type": "string", "default": "Get Started Free" },
-		"ctaUrl":        { "type": "string", "default": "https://jetpack.com/pricing/" }
+		"ctaUrl":        { "type": "string" }
 	},
 	"supports": { "html": false, "multiple": false },
 	"render": "file:./render.php"

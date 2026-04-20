@@ -1,0 +1,25 @@
+/* ── Kill WordPress flow-layout block-gap on the front-page main group ── */
+/* WordPress core injects:
+ *   :root :where(.is-layout-flow) > * { margin-block-start: 24px; }
+ * That hardcoded 24px creates gray stripes between every block wrapper.
+ * Override it directly: (0,2,1) specificity beats WP core's (0,1,1). */
+
+.jetpack-page-content.wp-block-group > * {
+  margin-block-start: 0;
+}
+
+/* ── Block wrapper backgrounds ───────────────────────────────────── */
+/* WordPress wraps each block in a transparent div. When a block section
+   is white (#fff) the wrapper must match so any overflow stays white. */
+
+.wp-block-jetpack-theme-features-bento {
+  background-color: #ffffff;
+}
+
+/* ── Generic page template clearance ────────────────────────────── */
+/* Applied via jetpack-page-body modifier class in templates/page.html.
+   Not applied to front-page.html — the hero block handles its own clearance. */
+
+.jetpack-page-body {
+  padding-top: calc(var(--header-clearance) + 1.5rem);
+}

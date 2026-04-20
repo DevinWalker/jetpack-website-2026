@@ -1,0 +1,132 @@
+/* ── FAQ accordion ───────────────────────────────────────────────── */
+
+.jetpack-faq-open {
+  max-height: 500px !important;
+}
+
+/* ── FAQ Block Editor Styles ─────────────────────────────────────── */
+
+.jetpack-faq-editor {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+.jetpack-faq-editor__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.jetpack-faq-editor__eyebrow {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground, #737373);
+  margin-bottom: 0.75rem;
+}
+
+.jetpack-faq-editor__title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--foreground, #0a0a0a);
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+.jetpack-faq-editor__description {
+  font-size: 1rem;
+  color: var(--muted-foreground, #737373);
+  max-width: 32rem;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+.jetpack-faq-editor__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.jetpack-faq-editor__cta-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  background: var(--foreground, #0a0a0a);
+  color: var(--background, #f5f5f5);
+}
+
+.jetpack-faq-editor__cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border, #e5e5e5);
+  background: var(--frame, #ffffff);
+  color: var(--foreground, #0a0a0a);
+}
+
+.jetpack-faq-editor__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.jetpack-faq-editor__item {
+  background: var(--frame, #ffffff);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  &:hover .jetpack-faq-editor__item-actions {
+    opacity: 1;
+  }
+}
+
+.jetpack-faq-editor__item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.jetpack-faq-editor__question {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--foreground, #0a0a0a);
+  flex: 1;
+  min-width: 0;
+}
+
+.jetpack-faq-editor__item-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 0.3;
+  transition: opacity 0.15s ease;
+}
+
+.jetpack-faq-editor__answer {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--muted-foreground, #737373);
+  margin: 0.75rem 0 0;
+}
+
+.jetpack-faq-editor__add-btn {
+  margin-top: 1rem;
+  align-self: flex-start;
+}

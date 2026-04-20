@@ -23,22 +23,26 @@ $footer_sections = array_filter( $footer_sections, fn( $s ) => ! empty( $s['item
 if ( empty( $footer_sections ) ) {
 	$footer_sections = [
 		[ 'title' => __( 'Company', 'jetpack-theme' ), 'items' => [
-			[ 'label' => 'About',    'url' => 'https://jetpack.com/about/' ],
-			[ 'label' => 'Blog',     'url' => 'https://jetpack.com/blog/' ],
+			[ 'label' => 'About',    'url' => home_url( '/about/' ) ],
+			[ 'label' => 'Blog',     'url' => home_url( '/blog/' ) ],
 			[ 'label' => 'Careers',  'url' => 'https://automattic.com/work-with-us/' ],
 		]],
 		[ 'title' => __( 'Support', 'jetpack-theme' ), 'items' => [
-			[ 'label' => 'Help',     'url' => 'https://jetpack.com/support/' ],
-			[ 'label' => 'Terms',    'url' => 'https://jetpack.com/tos/' ],
-			[ 'label' => 'Security', 'url' => 'https://jetpack.com/security/' ],
+			[ 'label' => 'Help',     'url' => home_url( '/support/' ) ],
+			[ 'label' => 'Terms',    'url' => home_url( '/tos/' ) ],
+			[ 'label' => 'Security', 'url' => home_url( '/security/' ) ],
 		]],
 	];
 }
 ?>
-<footer class="jetpack-footer relative pt-[9.5rem] mt-24 mx-2.5 max-[850px]:mx-0">
+<footer class="jetpack-footer relative pt-[14rem] mt-16 mx-2.5 max-[850px]:mx-0">
+
+	<?php /* ── White fade: transparent at top → solid white; sits behind CTA and sand body */ ?>
+	<div class="absolute inset-x-0 top-0 h-56 bg-gradient-to-b from-transparent to-white pointer-events-none z-0" aria-hidden="true"></div>
+	<div class="absolute inset-x-0 top-56 bottom-0 bg-white pointer-events-none z-0" aria-hidden="true"></div>
 
 	<?php /* ── CTA card ─────────────────────────────────────────── */ ?>
-	<div class="absolute left-1/2 -translate-x-1/2 top-0 w-full max-w-5xl">
+	<div class="absolute left-1/2 -translate-x-1/2 top-0 w-full max-w-5xl z-20">
 		<div class="relative w-full rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.10)]">
 			<div
 				class="absolute inset-0 bg-center bg-no-repeat scale-125 brightness-110"
@@ -75,7 +79,7 @@ if ( empty( $footer_sections ) ) {
 	</div>
 
 	<?php /* ── Footer body ──────────────────────────────────────── */ ?>
-	<div class="bg-sand rounded-tr-[3rem] rounded-tl-[3rem] pt-96 pb-16 max-[850px]:pt-72">
+	<div class="relative z-10 bg-sand rounded-tr-[3rem] rounded-tl-[3rem] pt-96 pb-16 max-[850px]:pt-72">
 		<div class="max-w-5xl mx-auto px-6">
 			<div class="flex items-start justify-between gap-12 max-[850px]:flex-col max-[850px]:gap-10">
 

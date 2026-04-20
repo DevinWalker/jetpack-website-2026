@@ -1,3 +1,5 @@
+import './style.css';
+
 /**
  * Hero view script — entrance animations matching the original Next.js hero.
  *
@@ -20,6 +22,10 @@
  * browser has a committed starting point; frame 2 applies transitions + "to"
  * state so the animation actually runs.
  */
+
+import { createElement } from 'react';
+import { createRoot } from 'react-dom/client';
+import FuzzyText from '@/components/react-bits/FuzzyText';
 
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 
@@ -55,6 +61,27 @@ requestAnimationFrame( () => {
 	const cta       = hero.querySelector< HTMLElement >( '.jetpack-hero__cta' );
 	const dashboard = hero.querySelector< HTMLElement >( '.jetpack-hero__dashboard' );
 	const logos     = hero.querySelector< HTMLElement >( '.jetpack-hero__logos' );
+
+	if ( accent ) {
+		const accentText = accent.textContent?.trim() ?? '';
+		accent.textContent = '';
+		createRoot( accent ).render(
+			createElement( FuzzyText, {
+				children:           accentText,
+				fontSize:           '6rem',
+				fontWeight:         700,
+				fontFamily:         'inherit',
+				color:              '#069E08',
+				baseIntensity:      0.005,
+				hoverIntensity:     0.2,
+				enableHover:        true,
+				fuzzRange:          28,
+				fps:                60,
+				direction:          'horizontal',
+				transitionDuration: 8,
+			} )
+		);
+	}
 
 	// ── Frame 1: commit "from" states as inline styles ────────────────────────
 	// fadeInUp elements

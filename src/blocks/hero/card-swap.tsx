@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { createRoot } from 'react-dom/client';
 import gsap from 'gsap';
 import { Shield, Zap, TrendingUp } from 'lucide-react';
-import CardSwap, { Card } from '@/components/react-bits/CardSwap';
+import CardSwap, { Card, type CardSwapHandle } from '@/components/react-bits/CardSwap';
 
 const mount = document.getElementById( 'jetpack-card-swap-mount' );
 const THEME_URI = ( mount as HTMLElement | null )?.dataset.themeUri ?? '';
@@ -54,6 +54,7 @@ function HeroCards() {
 	const barRefs    = useRef< ( HTMLDivElement | null )[] >( [ null, null, null ] );
 	const barTween   = useRef< gsap.core.Tween | null >( null );
 	const wrapperRef = useRef< HTMLDivElement >( null );
+	const swapRef    = useRef< CardSwapHandle >( null );
 
 	const [ paused, setPaused ] = useState( false );
 	const [ cardHeight, setCardHeight ] = useState( DEFAULT_CARD_HEIGHT );
@@ -87,6 +88,9 @@ function HeroCards() {
 				scaleX: 0,
 				duration: SWAP_DELAY / 1000,
 				ease: 'none',
+				onComplete: () => {
+					swapRef.current?.advance();
+				},
 			} );
 		}
 	}, [] );
@@ -118,8 +122,7 @@ function HeroCards() {
 		if ( el ) {
 			gsap.to( el, { opacity: 1, duration: 0.7, delay: 0, ease: 'power2.out' } );
 		}
-		startBar( 0 );
-	}, [ startBar ] );
+	}, [] );
 
 	useEffect( () => {
 		if ( paused ) {
@@ -129,8 +132,7 @@ function HeroCards() {
 		}
 	}, [ paused ] );
 
-	const handleSwap = useCallback( ( frontIndex: number ) => {
-		startBar( frontIndex );
+	const handleTextSwap = useCallback( ( frontIndex: number ) => {
 		textRefs.current.forEach( ( el, i ) => {
 			if ( ! el ) return;
 			if ( i === frontIndex ) {
@@ -139,11 +141,16 @@ function HeroCards() {
 				gsap.to( el, { opacity: 0, duration: 0.25, ease: 'power2.in' } );
 			}
 		} );
+	}, [] );
+
+	const handleSettled = useCallback( ( frontIndex: number ) => {
+		startBar( frontIndex );
 	}, [ startBar ] );
 
 	return (
 		<div ref={ wrapperRef } className="relative w-full h-full">
 			<CardSwap
+				ref={ swapRef }
 				width="100%"
 				height={ cardHeight }
 				cardDistance={ 0 }
@@ -153,11 +160,13 @@ function HeroCards() {
 				paused={ paused }
 				skewAmount={ 0 }
 				easing="elastic"
-				onSwap={ handleSwap }
+				advanceOnClick
+				onSwap={ handleTextSwap }
+				onSettled={ handleSettled }
 				containerClassName="absolute bottom-0 left-0 right-0 perspective-[900px] overflow-visible origin-bottom-left"
 			>
 				{ CARDS.map( ( card, i ) => (
-					<Card key={ i } className="bg-transparent overflow-hidden p-0">
+					<Card key={ i } className="bg-transparent overflow-hidden p-0 cursor-pointer">
 						<img
 							src={ `${ THEME_URI }/assets/jetpack-paid-traffic.png` }
 							alt=""

@@ -10,7 +10,7 @@ export function SiteHeaderEdit( { attributes, setAttributes }: Props ) {
 			<InspectorControls>
 				<PanelBody title="CTA Button" initialOpen>
 					<TextControl label="Button text" value={ attributes.ctaText } onChange={ ( v: string ) => setAttributes( { ctaText: v } ) } />
-					<TextControl label="Button URL"  value={ attributes.ctaUrl }  onChange={ ( v: string ) => setAttributes( { ctaUrl: v } ) } type="url" />
+					<TextControl label="Button URL"  value={ attributes.ctaUrl ?? '' }  help={ `Default: ${ window.jetpackThemeData?.homeUrl ?? '' }/pricing/` } onChange={ ( v: string ) => setAttributes( { ctaUrl: v } ) } type="url" />
 				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps( { style: { background: '#f5f5f5', padding: '1rem', borderRadius: '0.5rem', fontFamily: 'sans-serif' } } ) }>
