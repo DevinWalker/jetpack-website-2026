@@ -8,6 +8,11 @@
 
 declare( strict_types = 1 );
 
+// ─── Taxonomies ──────────────────────────────────────────────────────────────
+// Registers the 'topics' taxonomy used by blog posts and the resources-posts block.
+
+require_once get_template_directory() . '/inc/taxonomies.php';
+
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
 // These filters rewrite attachment image URLs to jetpack.com so every image
@@ -322,6 +327,11 @@ add_action( 'init', function (): void {
 	] );
 
 	register_block_style( 'core/paragraph', [
+		'name'  => 'jetpack-partners-intro',
+		'label' => 'Partners Intro',
+	] );
+
+	register_block_style( 'core/paragraph', [
 		'name'  => 'jetpack-quote',
 		'label' => 'Jetpack Quote',
 	] );
@@ -367,6 +377,21 @@ add_action( 'init', function (): void {
 
 add_action( 'wp_body_open', function (): void {
 	?>
+	<?php /* Decorative color-blob corner used on .hero-with-icon product pages. */ ?>
+	<div class="jetpack-corner-blobs" aria-hidden="true">
+		<div class="blob-green"></div>
+		<div class="blob-blue"></div>
+		<div class="blob-yellow"></div>
+	</div>
+
+	<?php /* Decorative line-art corner used on .partner-hero pages. */ ?>
+	<div class="jetpack-corner-lineart" aria-hidden="true">
+		<picture>
+			<source media="(min-width: 783px)" srcset="<?php echo esc_url( get_template_directory_uri() . '/assets/landing-pages/a8c-lineart-desktop.svg' ); ?>">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/landing-pages/a8c-lineart-mobile.svg' ); ?>" alt="">
+		</picture>
+	</div>
+
 	<div class="site-frame site-frame--top" aria-hidden="true"></div>
 	<div class="site-frame site-frame--bottom" aria-hidden="true"></div>
 	<div class="site-frame site-frame--left" aria-hidden="true"></div>
