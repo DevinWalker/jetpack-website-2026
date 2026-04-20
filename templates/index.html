@@ -28,12 +28,16 @@
 			<div class="wp-block-query jetpack-post-grid jetpack-post-grid--featured">
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":1},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
-					<!-- wp:post-title {"isLink":true,"level":2,"className":"jetpack-card-title jetpack-card-title--featured"} /-->
-					<!-- wp:post-excerpt {"numberOfWords":30,"className":"jetpack-card-excerpt"} /-->
-					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
-					<div class="wp-block-group jetpack-card-byline">
-						<!-- wp:post-author-name {"isLink":false,"className":"jetpack-card-author"} /-->
-						<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+					<!-- wp:group {"className":"jetpack-card-content","layout":{"type":"constrained"}} -->
+					<div class="wp-block-group jetpack-card-content">
+						<!-- wp:post-title {"isLink":true,"level":2,"className":"jetpack-card-title jetpack-card-title--featured"} /-->
+						<!-- wp:post-excerpt {"excerptLength":9999,"className":"jetpack-card-excerpt"} /-->
+						<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
+						<div class="wp-block-group jetpack-card-byline">
+							<!-- wp:post-author-name {"isLink":false,"className":"jetpack-card-author"} /-->
+							<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+						</div>
+						<!-- /wp:group -->
 					</div>
 					<!-- /wp:group -->
 				<!-- /wp:post-template -->
@@ -63,7 +67,7 @@
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
 					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
-					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:post-excerpt {"excerptLength":20,"className":"jetpack-card-excerpt"} /-->
 					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
 					<div class="wp-block-group jetpack-card-byline">
 						<!-- wp:post-author-name {"isLink":false,"className":"jetpack-card-author"} /-->
@@ -97,7 +101,7 @@
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
 					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
-					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:post-excerpt {"excerptLength":20,"className":"jetpack-card-excerpt"} /-->
 					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
 					<div class="wp-block-group jetpack-card-byline">
 						<!-- wp:post-author-name {"isLink":false,"className":"jetpack-card-author"} /-->
@@ -131,7 +135,7 @@
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
 					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
-					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:post-excerpt {"excerptLength":20,"className":"jetpack-card-excerpt"} /-->
 					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
 					<div class="wp-block-group jetpack-card-byline">
 						<!-- wp:post-author-name {"isLink":false,"className":"jetpack-card-author"} /-->
