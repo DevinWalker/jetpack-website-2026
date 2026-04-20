@@ -8,6 +8,11 @@
 
 declare( strict_types = 1 );
 
+// ─── Taxonomies ──────────────────────────────────────────────────────────────
+// Registers the 'topics' taxonomy used by blog posts and the resources-posts block.
+
+require_once get_template_directory() . '/inc/taxonomies.php';
+
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
 // These filters rewrite attachment image URLs to jetpack.com so every image

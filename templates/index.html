@@ -20,26 +20,48 @@
 	<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-blog-card-container"} -->
 	<div class="wp-block-group jetpack-blog-card-container">
 
-		<!-- ── Product News ── -->
+		<!-- ── Featured (latest sticky post) ── -->
+		<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-category-section jetpack-category-section--featured"} -->
+		<div class="wp-block-group jetpack-category-section jetpack-category-section--featured">
+
+			<!-- wp:query {"query":{"perPage":1,"offset":0,"postType":"post","order":"desc","orderBy":"date","sticky":"only","inherit":false},"className":"jetpack-post-grid jetpack-post-grid--featured"} -->
+			<div class="wp-block-query jetpack-post-grid jetpack-post-grid--featured">
+				<!-- wp:post-template {"layout":{"type":"grid","columnCount":1},"className":"jetpack-post-grid__items"} -->
+					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
+					<!-- wp:post-title {"isLink":true,"level":2,"className":"jetpack-card-title jetpack-card-title--featured"} /-->
+					<!-- wp:post-excerpt {"numberOfWords":30,"className":"jetpack-card-excerpt"} /-->
+					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
+					<div class="wp-block-group jetpack-card-byline">
+						<!-- wp:post-author-name {"isLink":false,"className":"jetpack-card-author"} /-->
+						<!-- wp:post-date {"format":"M j, Y","className":"jetpack-card-date"} /-->
+					</div>
+					<!-- /wp:group -->
+				<!-- /wp:post-template -->
+			</div>
+			<!-- /wp:query -->
+
+		</div>
+		<!-- /wp:group -->
+
+		<!-- ── Product news ── -->
 		<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-category-section"} -->
 		<div class="wp-block-group jetpack-category-section">
 
 			<!-- wp:group {"className":"jetpack-category-section__header","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 			<div class="wp-block-group jetpack-category-section__header">
 				<!-- wp:heading {"level":2,"className":"jetpack-category-section__title"} -->
-				<h2 class="wp-block-heading jetpack-category-section__title">Product News</h2>
+				<h2 class="wp-block-heading jetpack-category-section__title">Product news</h2>
 				<!-- /wp:heading -->
 				<!-- wp:paragraph {"className":"jetpack-category-section__viewall"} -->
-				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/category/releases/">View all →</a></p>
+				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/topic/product-news/">View all →</a></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
 
-			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","categories":[5878],"inherit":false},"className":"jetpack-post-grid"} -->
+			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","sticky":"exclude","inherit":false,"taxQuery":{"topics":[33742]}},"className":"jetpack-post-grid"} -->
 			<div class="wp-block-query jetpack-post-grid">
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
-					<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
 					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
 					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
 					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
@@ -55,26 +77,25 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- ── WordPress Tutorials ── -->
+		<!-- ── Jetpack 101 ── -->
 		<!-- wp:group {"layout":{"type":"constrained"},"className":"jetpack-category-section"} -->
 		<div class="wp-block-group jetpack-category-section">
 
 			<!-- wp:group {"className":"jetpack-category-section__header","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between","verticalAlignment":"center"}} -->
 			<div class="wp-block-group jetpack-category-section__header">
 				<!-- wp:heading {"level":2,"className":"jetpack-category-section__title"} -->
-				<h2 class="wp-block-heading jetpack-category-section__title">WordPress Tutorials</h2>
+				<h2 class="wp-block-heading jetpack-category-section__title">Jetpack 101</h2>
 				<!-- /wp:heading -->
 				<!-- wp:paragraph {"className":"jetpack-category-section__viewall"} -->
-				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/category/wordpress-tutorials/">View all →</a></p>
+				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/topic/jetpack-101/">View all →</a></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
 
-			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","categories":[108236],"inherit":false},"className":"jetpack-post-grid"} -->
+			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","sticky":"exclude","inherit":false,"taxQuery":{"topics":[776197696]}},"className":"jetpack-post-grid"} -->
 			<div class="wp-block-query jetpack-post-grid">
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
-					<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
 					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
 					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
 					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
@@ -100,16 +121,15 @@
 				<h2 class="wp-block-heading jetpack-category-section__title">Developers</h2>
 				<!-- /wp:heading -->
 				<!-- wp:paragraph {"className":"jetpack-category-section__viewall"} -->
-				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/category/developers/">View all →</a></p>
+				<p class="wp-block-paragraph jetpack-category-section__viewall"><a href="/topic/developers/">View all →</a></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
 
-			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","categories":[20054],"inherit":false},"className":"jetpack-post-grid"} -->
+			<!-- wp:query {"query":{"perPage":3,"offset":0,"postType":"post","order":"desc","orderBy":"date","sticky":"exclude","inherit":false,"taxQuery":{"topics":[20054]}},"className":"jetpack-post-grid"} -->
 			<div class="wp-block-query jetpack-post-grid">
 				<!-- wp:post-template {"layout":{"type":"grid","columnCount":3},"className":"jetpack-post-grid__items"} -->
 					<!-- wp:post-featured-image {"isLink":true,"className":"jetpack-card-image"} /-->
-					<!-- wp:post-terms {"term":"category","separator":" ","className":"jetpack-card-category"} /-->
 					<!-- wp:post-title {"isLink":true,"level":3,"className":"jetpack-card-title"} /-->
 					<!-- wp:post-excerpt {"numberOfWords":20,"className":"jetpack-card-excerpt"} /-->
 					<!-- wp:group {"className":"jetpack-card-byline","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"6px"}}} -->
