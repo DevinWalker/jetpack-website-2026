@@ -1,0 +1,77 @@
+---
+description: WordPress core block attribute names and formats — avoid trial-and-error on excerptLength, taxQuery, sticky, and is-layout-constrained gotchas
+globs: **/templates/**/*.html,**/parts/**/*.html,**/functions.php,**/*.block.json,**/blocks/**/block.json
+alwaysApply: false
+---
+
+# WordPress core block attribute gotchas
+
+Verified against `wp-includes/blocks/*.php` and `wp-includes/blocks.php` in WP 6.9+. **Always check core source before guessing attribute names.**
+
+## `core/post-excerpt`
+
+```html
+<!-- ✅ CORRECT -->
+<!-- wp:post-excerpt {"excerptLength":20} /-->
+
+<!-- ❌ WRONG — attribute is ignored silently, default 55 kicks in -->
+<!-- wp:post-excerpt {"numberOfWords":20} /-->
+```
+
+- Manual excerpts (`wp_posts.post_excerpt` field set) are **always rendered in full**; `excerptLength` only trims auto-generated excerpts. To force a long excerpt on a post with a short manual one, either update the post field or filter `get_the_excerpt`.
+- To show the full excerpt regardless of length: `"excerptLength":9999` (or filter out the trim entirely).
+
+## `core/query` — taxQuery
+
+```html
+<!-- ✅ CORRECT — flat {taxonomy: [term_ids]} -->
+<!-- wp:query {"query":{"taxQuery":{"topics":[33742,776197696]}}} -->
+
+<!-- ❌ WRONG — the {include:{},exclude:{}} shape is for custom query-loop variations, NOT the core query block's built-in filter -->
+<!-- wp:query {"query":{"taxQuery":{"include":{"topics":[33742]}}}} -->
+```
+
+Core iterates `foreach ($block->context['query']['taxQuery'] as $taxonomy => $terms)` — the flat shape is what reaches `WP_Query`.
+
+The taxonomy must be `publicly_queryable` (default when `public => true` in `register_taxonomy`).
+
+## `core/query` — sticky filter
+
+```html
+<!-- Featured/sticky posts only -->
+<!-- wp:query {"query":{"sticky":"only","perPage":1}} -->
+
+<!-- Exclude sticky posts from a list -->
+<!-- wp:query {"query":{"sticky":"exclude"}} -->
+
+<!-- Default: sticky treated normally (no hoisting) -->
+```
+
+## `is-layout-constrained` auto-centering
+
+Any `wp:group {"layout":{"type":"constrained"}}` applies `margin-left: auto !important; margin-right: auto !important;` to its block children. Short-width content (short headlines, narrow flex layouts) appears visually centered.
+
+To left-align children inside a constrained group:
+
+```css
+.your-group > * {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: none;
+}
+```
+
+## Core `!important` baselines
+
+These rules from `components/card.css` and WP core use `!important`:
+
+- `.jetpack-card-title.wp-block-post-title { margin: 0 !important }`
+- `.jetpack-card-excerpt.wp-block-post-excerpt { margin: 0 !important }`
+- `.jetpack-card-excerpt p { -webkit-line-clamp: 2 }`
+
+Overriding them requires `!important` on your margin/clamp rules. **Comment why**:
+
+```css
+/* !important overrides the `margin: 0 !important` in components/card.css */
+.jetpack-card-title { margin: 0 0 0.625rem !important; }
+```

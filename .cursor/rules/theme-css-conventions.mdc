@@ -1,0 +1,94 @@
+---
+description: jetpack-theme CSS conventions — PostCSS nesting, mobile-first media queries inside parent rules, shorthand margin/padding, theme tokens, and the !important rule
+globs: src/**/*.css
+alwaysApply: false
+---
+
+# jetpack-theme CSS conventions
+
+Match the patterns in `src/components/card.css` and `src/templates/single-post.css`.
+
+## Nesting with `&`
+
+```css
+/* ✅ GOOD — nest selectors and media queries inside their parent */
+.jetpack-card-image {
+  margin-bottom: 0.875rem;
+
+  &.wp-block-post-featured-image {
+    margin: 0 -1rem 0.875rem;
+    border-radius: 0;
+
+    & > a { border-radius: 0 !important; }
+    & img { border-radius: 0; }
+  }
+
+  @media (min-width: 640px) { margin-bottom: 1rem; }
+}
+
+/* ❌ BAD — flat repetition of the ancestor chain */
+.jetpack-card-image { margin-bottom: 0.875rem; }
+.jetpack-card-image.wp-block-post-featured-image { margin: 0 -1rem 0.875rem; }
+.jetpack-card-image.wp-block-post-featured-image > a { border-radius: 0 !important; }
+```
+
+## Mobile-first breakpoints
+
+Use `min-width` queries, ordered low to high. Breakpoints in this theme:
+
+- `@media (min-width: 640px)` — tablet
+- `@media (min-width: 768px)` — large tablet
+- `@media (min-width: 1024px)` — desktop
+- `@media (min-width: 1280px)` — wide
+
+For grid column overrides inside `is-layout-grid`, use paired ranges:
+`(max-width: 639px)`, `(min-width: 640px) and (max-width: 1023px)`, `(min-width: 1024px)`.
+
+## Shorthand margin / padding
+
+```css
+/* ✅ GOOD */
+padding: 3rem 0.75rem 0;
+margin: -4.5rem 0 0;
+
+/* ❌ BAD */
+padding-top: 3rem;
+padding-left: 0.75rem;
+padding-right: 0.75rem;
+padding-bottom: 0;
+```
+
+## Theme tokens
+
+Always prefer custom properties over literals:
+
+- `var(--foreground)`, `var(--muted-foreground)`, `var(--background)`, `var(--muted)`
+- `var(--border)`, `var(--accent)`, `var(--frame)`, `var(--sand)`
+- `var(--header-clearance)` for top padding that clears the fixed header
+
+## `!important` rule
+
+Only use `!important` to override an existing `!important` from WordPress core or `components/card.css`. **Always add a comment explaining why:**
+
+```css
+/* !important overrides the `margin: 0 !important` in components/card.css */
+.jetpack-card-title { margin: 0 0 0.625rem !important; }
+```
+
+## DRY shared properties
+
+When two selectors share >3 properties, extract:
+
+```css
+/* ✅ GOOD */
+.jetpack-blog-hero__title,
+.jetpack-blog-hero__desc {
+  color: var(--foreground);
+  text-align: center;
+  text-wrap: balance;
+  margin-inline: auto !important;
+}
+
+.jetpack-blog-hero__title { font-size: clamp(2rem, 5vw, 3.25rem); /* ... */ }
+.jetpack-blog-hero__desc  { font-size: 1.125rem; /* ... */ }
+```

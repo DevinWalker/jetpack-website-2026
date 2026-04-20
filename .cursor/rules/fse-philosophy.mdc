@@ -1,0 +1,35 @@
+---
+description: Full-Site-Editing (FSE) block-theme philosophy — prefer core blocks + HTML templates over PHP partials; reach for a custom block only when a template wrapper can't do the job
+alwaysApply: true
+---
+
+# FSE block-theme philosophy
+
+This is a block theme (`jetpack-theme`). **Work with WordPress, not against it.**
+
+## Prefer in this order
+
+1. **Core blocks** — `wp:query`, `wp:post-template`, `wp:post-featured-image`, `wp:post-title`, `wp:post-excerpt`, `wp:template-part`
+2. **HTML template parts** — `parts/*.html` included via `<!-- wp:template-part {"slug":"x"} /-->`
+3. **`wp:group` wrappers inside templates** — add structural divs for layout when the default flat DOM from `wp:post-template` doesn't have a "content column" to hang CSS on
+4. **Custom block** — only when attributes/logic can't be expressed via core blocks (sticky-first ordering, topic chip nav with Featured pill, etc.)
+
+## Anti-patterns
+
+- `get_template_part('parts/blog/...')` in templates → classic-theme pattern, don't use in FSE themes
+- Copying `parts/blog/*.php` from a classic theme into a block theme → port to core blocks instead
+- Creating a custom block just to add a wrapper div → add `<!-- wp:group {"className":"..."} -->` in the template
+
+## Template routing gotchas
+
+- `page_for_posts = N` makes that page render `templates/index.html` (blog index), **not** the page's block content. Edit `index.html` to change the blog-index layout.
+- After registering a new taxonomy in `functions.php`, flush rewrite rules once (visit `/wp-admin/options-permalink.php` or run `wp rewrite flush`) or topic archives 404.
+
+## When you do need a custom block
+
+Reach for it only if:
+- You need sticky-first ordering with backfill
+- You need server-side logic (e.g. `get_option('sticky_posts')`) beyond what `wp:query` attributes expose
+- You need attributes configurable from the block inspector
+
+Otherwise: template wrapper + CSS.
