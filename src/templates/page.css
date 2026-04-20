@@ -18,8 +18,11 @@
 
 /* ── Generic page template clearance ────────────────────────────── */
 /* Applied via jetpack-page-body modifier class in templates/page.html.
-   Not applied to front-page.html — the hero block handles its own clearance. */
+   Not applied to front-page.html — the hero block handles its own clearance.
+   Horizontal padding scales with viewport so tablet and mobile content
+   never touches the edge (desktop parent-layout already centers content). */
 
 .jetpack-page-body {
   padding-top: calc(var(--header-clearance) + 1.5rem);
+  padding-inline: clamp(1rem, 3vw, 2rem);
 }

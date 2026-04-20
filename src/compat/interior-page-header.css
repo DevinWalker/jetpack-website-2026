@@ -1,0 +1,318 @@
+/**
+ * Interior page header compat.
+ *
+ * Minimal styles for production hero markup (.hero-with-icon, .partner-hero)
+ * that otherwise has no visual treatment in the block theme. Width is
+ * governed by the parent's constrained layout (contentSize in theme.json);
+ * horizontal page padding lives in templates/page.css (.jetpack-page-body).
+ *
+ * Covers three gaps:
+ *   1. .product-category-hero-visual + .shadow-color-blobs — shield-SVG
+ *      visual with blurred blob backdrop (e.g. /manage/).
+ *   2. .is-style-jetpack-partners-intro — partners eyebrow SVG glyph.
+ *   3. .jetpack-corner-blobs / .jetpack-corner-lineart — opt-in top-right
+ *      decorations, toggled via :has() on the hero wrapper class.
+ */
+
+/* ─── Hero wrapper ────────────────────────────────────────────────── */
+/* !important on vertical padding is deliberate — some production pages
+   (e.g. /features/security/) carry inline style="padding-top:var(--wp--preset--spacing--70);
+   padding-bottom:var(--wp--preset--spacing--70)" on the .hero-with-icon
+   wrapper, which would otherwise add an extra ~80px top and bottom. Top
+   clearance is owned by .jetpack-page-body; bottom rhythm by the clamp. */
+
+.hero-with-icon,
+.partner-hero {
+	position: relative;
+	z-index: 1;
+	padding-top: 0 !important;
+	padding-bottom: clamp(3rem, 5vw, 6rem) !important;
+}
+
+/* Force vertical stacking below 782px (overrides WP Core's
+   wp-container-core-columns-* container queries). */
+@media (max-width: 781px) {
+	.hero-with-icon .wp-block-columns,
+	.partner-hero .wp-block-columns {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 2rem !important;
+	}
+
+	.hero-with-icon .wp-block-columns > .wp-block-column,
+	.partner-hero .wp-block-columns > .wp-block-column {
+		flex-basis: 100% !important;
+		width: 100% !important;
+		min-width: 0 !important;
+	}
+
+	/* Partner hero flips so the decorative image stacks above text,
+	   matching the old jetpackme-new theme behavior. */
+	.partner-hero .wp-block-columns {
+		flex-direction: column-reverse !important;
+	}
+}
+
+/* ─── Hero typography ─────────────────────────────────────────────── */
+/* Mirrors the fluid treatment used by the jetpack-theme/hero custom block. */
+
+.hero-with-icon .wp-block-heading,
+.partner-hero .wp-block-heading {
+	font-size: clamp(2rem, 2.5vw + 1.25rem, 4.5rem);
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	color: var(--foreground, #0a0a0a);
+	margin: 0.5rem 0 1.25rem;
+	text-wrap: balance;
+}
+
+.hero-with-icon .wp-block-column > p:not([class*="is-style-"]),
+.partner-hero .wp-block-column > p:not([class*="is-style-"]) {
+	font-size: clamp(1.0625rem, 0.4vw + 0.95rem, 1.375rem);
+	line-height: 1.55;
+	color: var(--muted-foreground, #737373);
+	margin-bottom: 2rem;
+	max-width: 36rem;
+}
+
+/* ─── Partners eyebrow ────────────────────────────────────────────── */
+
+.is-style-jetpack-partners-intro {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.625rem;
+	color: var(--accent, #069E08);
+	font-size: clamp(0.9375rem, 0.2vw + 0.875rem, 1.0625rem);
+	font-weight: 500;
+	line-height: 1.2;
+	margin-bottom: 1rem;
+}
+
+.is-style-jetpack-partners-intro::before {
+	content: '';
+	display: inline-block;
+	width: 1.25rem;
+	height: 0.9375rem;
+	flex-shrink: 0;
+	background: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M23.5 14V12C23.5 10.4812 22.2688 9.24998 20.75 9.24998H18.25V10.75H20.75C21.4404 10.75 22 11.3096 22 12V14H23.5Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M18.75 6.50001C19.3023 6.50001 19.75 6.0523 19.75 5.50001C19.75 4.94772 19.3023 4.50001 18.75 4.50001C18.1977 4.50001 17.75 4.94772 17.75 5.50001C17.75 6.0523 18.1977 6.50001 18.75 6.50001ZM18.75 8.00002C20.1307 8.00002 21.25 6.88073 21.25 5.50001C21.25 4.11929 20.1307 3 18.75 3C17.3693 3 16.25 4.11929 16.25 5.50001C16.25 6.88073 17.3693 8.00002 18.75 8.00002Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 14L0 12C0 10.4812 1.2312 9.24998 2.74999 9.24998H5.25V10.75H2.74999C2.05963 10.75 1.49999 11.3096 1.49999 12L1.49999 14H0Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M4.74999 6.50001C4.1977 6.50001 3.74999 6.0523 3.74999 5.50001C3.74999 4.94772 4.1977 4.50001 4.74999 4.50001C5.30228 4.50001 5.74999 4.94772 5.74999 5.50001C5.74999 6.0523 5.30228 6.50001 4.74999 6.50001ZM4.74999 8.00002C3.36927 8.00002 2.24998 6.88073 2.24998 5.50001C2.24998 4.11929 3.36927 3 4.74999 3C6.13071 3 7.25 4.11929 7.25 5.50001C7.25 6.88073 6.13071 8.00002 4.74999 8.00002Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M16.5 12V14H15V12C15 11.3096 14.4403 10.75 13.75 10.75L9.74998 10.75C9.05962 10.75 8.49997 11.3096 8.49997 12V14H6.99996V12C6.99996 10.4812 8.23119 9.24998 9.74998 9.24998L13.75 9.24998C15.2688 9.24998 16.5 10.4812 16.5 12Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.75 6.50001C12.3023 6.50001 12.75 6.0523 12.75 5.50001C12.75 4.94772 12.3023 4.50001 11.75 4.50001C11.1977 4.50001 10.75 4.94772 10.75 5.50001C10.75 6.0523 11.1977 6.50001 11.75 6.50001ZM11.75 8.00002C13.1307 8.00002 14.25 6.88073 14.25 5.50001C14.25 4.11929 13.1307 3 11.75 3C10.3693 3 9.25 4.11929 9.25 5.50001C9.25 6.88073 10.3693 8.00002 11.75 8.00002Z' fill='%23069E08'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* ─── Product hero visual (shield SVG + blurred blob backdrop) ────── */
+
+.product-category-hero-visual {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 240px;
+}
+
+.product-category-hero-visual__shadow {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.product-category-hero-visual__icon {
+	position: relative;
+	z-index: 1;
+	width: min(240px, 60vw);
+	height: auto;
+}
+
+.product-category-hero-visual .shadow-color-blobs {
+	position: relative;
+	width: min(500px, 90vw);
+	height: min(500px, 90vw);
+	filter: blur(min(45px, 8vw));
+}
+
+.product-category-hero-visual .shadow-color-blobs > div {
+	position: absolute;
+	border-radius: 50%;
+}
+
+.product-category-hero-visual .shadow-color-blobs .green {
+	inset: 22% auto auto 32%;
+	width: 56%;
+	height: 56%;
+	background: var(--accent, #069E08);
+	opacity: 0.55;
+}
+
+.product-category-hero-visual .shadow-color-blobs .blue {
+	inset: 57% auto auto 32%;
+	width: 26%;
+	height: 26%;
+	background: #c7d3f2;
+}
+
+.product-category-hero-visual .shadow-color-blobs .yellow {
+	inset: 25% auto auto 30%;
+	width: 30%;
+	height: 30%;
+	background: #f2e1a4;
+}
+
+/* ─── Corner decorations (shared base) ────────────────────────────── */
+/* Two variants — blobs for .hero-with-icon pages, line-art-on-gradient
+   for .partner-hero — share position/clip/opt-in gating. */
+
+.jetpack-corner-blobs,
+.jetpack-corner-lineart {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	clip-path: polygon(100% 0, 0 0, 100% 100%);
+	pointer-events: none;
+	z-index: 0;
+	overflow: hidden;
+}
+
+/* Anchor decorations to the document body (so they scroll with the
+   page, not the viewport) and toggle visibility by opt-in class. */
+body:has(.hero-with-icon, .partner-hero) {
+	position: relative;
+}
+
+body:has(.hero-with-icon) .jetpack-corner-blobs {
+	display: block;
+}
+
+body:has(.partner-hero) .jetpack-corner-lineart {
+	display: block;
+}
+
+/* ─── Blob variant (product pages) ────────────────────────────────── */
+
+.jetpack-corner-blobs {
+	width: 44%;
+	height: clamp(360px, 45vw, 620px);
+	filter: blur(60px);
+}
+
+@media (max-width: 1200px) {
+	.jetpack-corner-blobs {
+		width: 60%;
+	}
+}
+
+.jetpack-corner-blobs > div {
+	position: absolute;
+	border-radius: 50%;
+	will-change: transform;
+}
+
+.jetpack-corner-blobs .blob-green {
+	width: 500px;
+	height: 500px;
+	left: 180px;
+	top: 150px;
+	background: color-mix(in srgb, var(--accent, #069E08) 22%, transparent);
+	animation: jetpack-blob-drift-a 22s ease-in-out infinite;
+}
+
+.jetpack-corner-blobs .blob-blue {
+	width: 500px;
+	height: 500px;
+	left: 50px;
+	top: -180px;
+	background: #dbe3f5;
+	animation: jetpack-blob-drift-b 18s ease-in-out infinite;
+}
+
+.jetpack-corner-blobs .blob-yellow {
+	width: 300px;
+	height: 300px;
+	left: -30px;
+	top: 70px;
+	background: #f5ebc9;
+	animation: jetpack-blob-drift-c 26s ease-in-out infinite;
+}
+
+@keyframes jetpack-blob-drift-a {
+	0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+	25%      { transform: translate3d(-180px, 90px, 0) scale(1.06); }
+	50%      { transform: translate3d(-70px, 200px, 0) scale(0.95); }
+	75%      { transform: translate3d(120px, 60px, 0) scale(1.03); }
+}
+
+@keyframes jetpack-blob-drift-b {
+	0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+	33%      { transform: translate3d(160px, -110px, 0) scale(1.08); }
+	66%      { transform: translate3d(-90px, 140px, 0) scale(0.93); }
+}
+
+@keyframes jetpack-blob-drift-c {
+	0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+	20%      { transform: translate3d(-130px, 180px, 0) scale(1.1); }
+	45%      { transform: translate3d(80px, 220px, 0) scale(0.9); }
+	70%      { transform: translate3d(-160px, 40px, 0) scale(1.05); }
+}
+
+@media (max-width: 900px) {
+	.jetpack-corner-blobs {
+		display: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jetpack-corner-blobs > div {
+		animation: none;
+	}
+}
+
+/* ─── Line-art variant (partners page) ────────────────────────────── */
+/* Triangular green→navy gradient with a white lineart SVG overlay. */
+
+.jetpack-corner-lineart {
+	width: 44%;
+	height: clamp(420px, 50vw, 720px);
+	background-image: linear-gradient(180deg, #006600, #00184F);
+}
+
+.jetpack-corner-lineart picture {
+	display: block;
+}
+
+.jetpack-corner-lineart img {
+	position: absolute;
+	top: -80px;
+	right: -40px;
+	width: clamp(530px, 55vw, 1200px);
+	height: auto;
+	max-width: none;
+}
+
+@media (max-width: 1200px) {
+	.jetpack-corner-lineart {
+		width: 75%;
+	}
+
+	.jetpack-corner-lineart img {
+		top: -10px;
+		right: -180px;
+	}
+}
+
+@media (max-width: 782px) {
+	.jetpack-corner-lineart {
+		width: 115%;
+	}
+
+	.jetpack-corner-lineart img {
+		top: -60px;
+		right: -150px;
+	}
+}
+
+@media (max-width: 600px) {
+	.jetpack-corner-lineart {
+		width: 125%;
+		opacity: 0.6;
+	}
+}
