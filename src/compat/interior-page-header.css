@@ -29,6 +29,60 @@
 	padding-bottom: clamp(3rem, 5vw, 6rem) !important;
 }
 
+/* ─── Spacing preset overrides (scoped to post/page body) ──────────
+   WP core's default values for --wp--preset--spacing--70 (3.38rem / 54px)
+   and --80 (5.06rem / 81px) are too aggressive for production content
+   that stacks many sections on a single page. Production pages carry
+   inline styles like `padding-top:var(--wp--preset--spacing--70)` on
+   section groups and media-text wrappers, and the pattern of nested
+   groups (outer section + inner colored wrapper, both with spacing-70)
+   compounds the padding, creating 200–300px of dead space between
+   adjacent sections.
+
+   Shadow the preset values inside .jetpack-prose so every inline style
+   resolves to a tighter, fluid clamp. Because this is done through CSS
+   custom-property cascade, no !important is needed and the override
+   naturally falls back to WP defaults outside prose. */
+
+.jetpack-prose {
+	--wp--preset--spacing--70: clamp(1rem, 2.5vw, 2rem);
+	--wp--preset--spacing--80: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* Zero out vertical padding on groups that are nested directly inside
+   another spacing-padded group. Production content wraps colored inner
+   sections inside neutral outer sections, both carrying spacing-70/80.
+   That doubles the padding at every nesting boundary; collapsing the
+   inner avoids visible stacked whitespace while preserving the outer
+   section rhythm. */
+
+.jetpack-prose .wp-block-group[style*="--wp--preset--spacing--70"]
+	> .wp-block-group[style*="--wp--preset--spacing--70"],
+.jetpack-prose .wp-block-group[style*="--wp--preset--spacing--80"]
+	> .wp-block-group[style*="--wp--preset--spacing--80"],
+.jetpack-prose .wp-block-group[style*="--wp--preset--spacing--70"]
+	> .wp-block-group[style*="--wp--preset--spacing--80"],
+.jetpack-prose .wp-block-group[style*="--wp--preset--spacing--80"]
+	> .wp-block-group[style*="--wp--preset--spacing--70"] {
+	padding-block: 0 !important;
+}
+
+/* ─── Icon-eyebrow → heading gap ───────────────────────────────────
+   Production media-text sections pair an icon-styled paragraph
+   (`.is-style-jetpack-with-{slug}-icon`) as an eyebrow label with a
+   heading directly below. media-text uses grid layout, so vertical
+   margins on siblings don't collapse — our prose rules' default h2/h3
+   top margins stack with the eyebrow's bottom margin for a visible
+   ~54px gap. Tighten the gap to one tight rhythm unit. */
+
+[class*="is-style-jetpack-with-"][class*="-icon"] {
+	margin-bottom: 0.5rem !important;
+}
+
+[class*="is-style-jetpack-with-"][class*="-icon"] + :is(h1, h2, h3, h4, h5, h6).wp-block-heading {
+	margin-top: 0.25rem;
+}
+
 /* Force vertical stacking below 782px (overrides WP Core's
    wp-container-core-columns-* container queries). */
 @media (max-width: 781px) {
