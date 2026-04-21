@@ -15,6 +15,13 @@
   text-wrap: balance;
 }
 
+/* Add breathing room between the h2 and the description paragraph.
+   The paragraph already carries `mt-4` (1rem), so 1.5rem here gives the
+   larger collapsed margin and lands a visible 1.5rem gap. */
+.jetpack-faq__title {
+  margin-bottom: 1.5rem;
+}
+
 /* ── FAQ Block Editor Styles ─────────────────────────────────────── */
 
 .jetpack-faq-editor {

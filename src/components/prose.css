@@ -22,7 +22,9 @@
     font-size: var(--wp--preset--font-size--medium);
     line-height: 1.7;
     color: var(--foreground);
-    margin: 0 0 1.375rem;
+    /* margin-block only — never clobber horizontal margin so Tailwind
+       utilities like .mx-auto on author-controlled paragraphs still center. */
+    margin-block: 0 1.375rem;
 
     &:last-child { margin-bottom: 0; }
   }
@@ -76,7 +78,7 @@
     font-weight: 500;
     letter-spacing: -0.03em;
     line-height: 1.1;
-    margin: 0 0 1.25rem;
+    margin-block: 0 1.25rem;
   }
 
   & h2.wp-block-heading {
@@ -134,7 +136,7 @@
   & ul.wp-block-list {
     list-style: none;
     padding-left: 1.375rem;
-    margin: 0 0 1.375rem;
+    margin-block: 0 1.375rem;
     font-size: var(--wp--preset--font-size--medium);
     line-height: 1.75;
 
@@ -169,7 +171,7 @@
   & ol.wp-block-list {
     list-style: none;
     padding-left: 0.5rem;
-    margin: 0 0 1.375rem;
+    margin-block: 0 1.375rem;
     counter-reset: jetpack-ol;
     font-size: var(--wp--preset--font-size--medium);
     line-height: 1.75;
@@ -465,7 +467,7 @@
     border: 1px solid var(--border);
     border-radius: 0.5rem;
     padding: 0.875rem 1.125rem;
-    margin: 0 0 1rem;
+    margin-block: 0 1rem;
     background: var(--frame);
 
     & > summary {
