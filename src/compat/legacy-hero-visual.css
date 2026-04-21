@@ -1,0 +1,64 @@
+/**
+ * Legacy hero visual compat — styles the `.product-hero-visual` image-card
+ * variant emitted by blocks/legacy-hero-visual/parts/{ai,anti-spam,backup,…}.php.
+ *
+ * Temporary: remove alongside blocks/legacy-hero-visual/ when the hero redesign
+ * ships. Category A (.product-category-hero-visual) rules live in
+ * interior-page-header.css because they also serve production HTML that
+ * predates the block.
+ *
+ * Note: postcss-nesting does NOT support Sass-style `&__child` concatenation
+ * (the `&` must stand alone or be followed by a combinator / pseudo), so
+ * BEM children are written as separate, non-nested selectors.
+ */
+
+.product-hero-visual {
+	display: flex;
+	justify-content: center;
+}
+
+.product-hero-visual__content {
+	position: relative;
+	width: min(360px, 90vw);
+}
+
+.product-hero-visual__shadow {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.product-hero-visual__placeholder {
+	position: absolute;
+	inset: 0;
+	background: var(--background, #fff);
+	border-radius: 8px;
+	box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+}
+
+.product-hero-visual__content picture {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.product-hero-visual__img {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: none;
+}
+
+/* Standalone variant used by ai, blaze, creator, forms, gdpr, newsletter,
+   social — a bare <img> without the shadow card wrapper. Keep the image
+   responsive and opt out of prose-style rounding. */
+.product-hero-visual > img {
+	max-width: min(475px, 90vw);
+	height: auto;
+	border-radius: 0;
+	box-shadow: none;
+}

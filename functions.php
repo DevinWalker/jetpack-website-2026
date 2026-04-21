@@ -310,6 +310,7 @@ add_action( 'init', function (): void {
 		'faq',
 		'site-header',
 		'site-footer',
+		'legacy-hero-visual',
 	];
 
 	foreach ( $block_slugs as $slug ) {

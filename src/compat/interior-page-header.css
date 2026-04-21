@@ -18,15 +18,65 @@
 /* !important on vertical padding is deliberate — some production pages
    (e.g. /features/security/) carry inline style="padding-top:var(--wp--preset--spacing--70);
    padding-bottom:var(--wp--preset--spacing--70)" on the .hero-with-icon
-   wrapper, which would otherwise add an extra ~80px top and bottom. Top
-   clearance is owned by .jetpack-page-body; bottom rhythm by the clamp. */
+   wrapper. Those inline values compound with .jetpack-page-body's own
+   header-clearance padding, producing 200+px of dead space. Our clamps
+   keep the hero breathing comfortably without stacking. */
 
 .hero-with-icon,
 .partner-hero {
 	position: relative;
 	z-index: 1;
-	padding-top: 0 !important;
+	padding-top: clamp(2rem, 4vw, 4rem) !important;
 	padding-bottom: clamp(3rem, 5vw, 6rem) !important;
+}
+
+/* Vertically center the text column and the hero-visual column against
+   one another so the illustration sits level with the headline block
+   (matches jetpackme-new where .product-category-hero-visual had
+   `height: 100%; align-items: center`). Scoped to the hero wrapper so
+   other production columns elsewhere are unaffected. The mobile
+   stacking override further below overrides flex-direction.
+
+   !important is required to defeat WP core block-library's
+   `.wp-block-columns { align-items: normal !important }` baseline. */
+
+.hero-with-icon .wp-block-columns,
+.partner-hero .wp-block-columns {
+	align-items: center !important;
+}
+
+/* Desktop layout refinements:
+   1. Let the columns span the full width of the hero wrapper — no inline
+      padding/margin from WP core block-gap or constrained-layout defaults
+      would otherwise shrink the usable width.
+   2. Split the row 2/3 (text) / 1/3 (visual) to match production
+      jetpack.com's hero proportion. `flex-grow` values give the text
+      column twice the space of the visual column; explicit flex-basis
+      defeats WP core's `@media (min-width:782px) { .wp-block-column
+      { flex-basis:0 } }` which would otherwise distribute space 50/50.
+
+   !important is needed because WP core emits its column layout CSS
+   (including flex-basis and margin-inline on columns) with !important
+   in block-library/style.css. */
+
+@media (min-width: 782px) {
+	.hero-with-icon .wp-block-columns,
+	.partner-hero .wp-block-columns {
+		margin-inline: 0 !important;
+		padding-inline: 0 !important;
+	}
+
+	.hero-with-icon .wp-block-columns > .wp-block-column:first-child,
+	.partner-hero .wp-block-columns > .wp-block-column:first-child {
+		flex-grow: 2 !important;
+		flex-basis: 66.6667% !important;
+	}
+
+	.hero-with-icon .wp-block-columns > .wp-block-column:last-child,
+	.partner-hero .wp-block-columns > .wp-block-column:last-child {
+		flex-grow: 1 !important;
+		flex-basis: 33.3333% !important;
+	}
 }
 
 /* ─── Spacing preset overrides (scoped to post/page body) ──────────
@@ -168,7 +218,10 @@
 	box-shadow: none;
 }
 
-/* ─── Product hero visual (shield SVG + blurred blob backdrop) ────── */
+/* ─── Product hero visual (shield SVG + blurred blob backdrop) ──────
+   Colors, positions, and sizes mirror jetpackme-new's
+   scss/2021/_product-category-hero-visual.scss so the rendered look
+   matches production jetpack.com 1:1. */
 
 .product-category-hero-visual {
 	position: relative;
@@ -178,14 +231,6 @@
 	min-height: 240px;
 }
 
-.product-category-hero-visual__shadow {
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 .product-category-hero-visual__icon {
 	position: relative;
 	z-index: 1;
@@ -193,38 +238,192 @@
 	height: auto;
 }
 
+/* Blob cluster: absolutely centered within the hero, 500x500 blurred.
+   Both class variants (`__shadow` emitted by legacy-hero-visual block,
+   `.shadow-color-blobs` emitted by production HTML and legacy parts)
+   land on the same element, so the rules apply to either.
+   `inset: 0; margin: auto` centers an over-constrained absolute box. */
+.product-category-hero-visual__shadow,
 .product-category-hero-visual .shadow-color-blobs {
-	position: relative;
+	position: absolute;
+	inset: 0;
+	margin: auto;
 	width: min(500px, 90vw);
 	height: min(500px, 90vw);
 	filter: blur(min(45px, 8vw));
+	pointer-events: none;
 }
 
+.product-category-hero-visual__shadow > div,
 .product-category-hero-visual .shadow-color-blobs > div {
 	position: absolute;
 	border-radius: 50%;
 }
 
+/* Colors taken directly from legacy SCSS (not theme accent tokens)
+   so the blur blend matches production. Positions as percentages of
+   the 500x500 container: green @ 32% 22% 56x56%, blue @ 32% 57% 26x26%,
+   yellow @ 30% 25% 30x30% (derived from legacy 160/110/280 etc.). */
+.product-category-hero-visual__shadow .green,
 .product-category-hero-visual .shadow-color-blobs .green {
 	inset: 22% auto auto 32%;
 	width: 56%;
 	height: 56%;
-	background: var(--accent, #069E08);
-	opacity: 0.55;
+	background: #9dd977;
 }
 
+.product-category-hero-visual__shadow .blue,
 .product-category-hero-visual .shadow-color-blobs .blue {
 	inset: 57% auto auto 32%;
 	width: 26%;
 	height: 26%;
-	background: #c7d3f2;
+	background: #abc1f5;
 }
 
+.product-category-hero-visual__shadow .yellow,
 .product-category-hero-visual .shadow-color-blobs .yellow {
 	inset: 25% auto auto 30%;
 	width: 30%;
 	height: 30%;
-	background: #f2e1a4;
+	background: #f2d76b;
+}
+
+/* ─── Category A SVG reveal animations ──────────────────────────────
+   Ported from jetpackme-new scss/2021/_product-category-hero-visual.scss.
+   Animations are disabled below 900px and under prefers-reduced-motion;
+   in those cases the final (post-animation) state is applied directly
+   so users still see the intended visual. */
+
+.product-category-hero-visual .grow,
+.grow.product-category-hero-visual {
+	will-change: transform;
+	transform-origin: center;
+	transform: scale(0.6);
+	animation: jetpack-legacy-hv-grow 865ms cubic-bezier(0.77, 0.01, 0.26, 0.99) 250ms 1 forwards;
+}
+
+.product-category-hero-visual .oscillate {
+	will-change: transform;
+	transform-origin: center;
+	transform: rotate(-160deg);
+	animation: jetpack-legacy-hv-oscillate 1520ms ease-in-out 532ms 1 forwards;
+}
+
+.product-category-hero-visual .color-change {
+	fill: #007117;
+	will-change: fill;
+	animation: jetpack-legacy-hv-color-change 865ms cubic-bezier(0.77, 0.01, 0.26, 0.99) 250ms 1 forwards;
+}
+
+.product-category-hero-visual .reveal-security,
+.product-category-hero-visual .reveal-growth {
+	will-change: stroke-dashoffset;
+}
+
+.product-category-hero-visual .reveal-security {
+	stroke-dasharray: 150;
+	stroke-dashoffset: 150;
+	animation: jetpack-legacy-hv-draw 250ms linear 1015ms 1 forwards;
+}
+
+.product-category-hero-visual .reveal-growth {
+	stroke-dasharray: 350;
+	stroke-dashoffset: 350;
+	animation: jetpack-legacy-hv-draw 250ms linear 1015ms 1 forwards;
+}
+
+.product-category-hero-visual .reveal-jetpack-circle {
+	opacity: 0;
+	transform: scale(0.5);
+	transform-origin: center;
+	will-change: opacity, transform;
+	animation: jetpack-legacy-hv-grow-fade 865ms cubic-bezier(0.77, 0.01, 0.26, 0.99) 250ms 1 forwards;
+}
+
+.product-category-hero-visual .reveal-jetpack-triangle-up {
+	transform: translateY(125px);
+	will-change: opacity, transform;
+	animation: jetpack-legacy-hv-slide-in 450ms cubic-bezier(0.17, 0.72, 0.31, 1.03) 1100ms 1 forwards;
+}
+
+.product-category-hero-visual .reveal-jetpack-triangle-down {
+	transform: translateY(-125px);
+	will-change: opacity, transform;
+	animation: jetpack-legacy-hv-slide-in 450ms cubic-bezier(0.17, 0.72, 0.31, 1.03) 1100ms 1 forwards;
+}
+
+@keyframes jetpack-legacy-hv-grow {
+	to { transform: scale(1); }
+}
+
+@keyframes jetpack-legacy-hv-oscillate {
+	0%   { transform: rotate(-160deg); }
+	30%  { transform: rotate(90deg); }
+	55%  { transform: rotate(-30deg); }
+	80%  { transform: rotate(60deg); }
+	100% { transform: rotate(40deg); }
+}
+
+@keyframes jetpack-legacy-hv-draw {
+	to { stroke-dashoffset: 0; }
+}
+
+@keyframes jetpack-legacy-hv-grow-fade {
+	to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes jetpack-legacy-hv-slide-in {
+	to { transform: translateY(0); }
+}
+
+@keyframes jetpack-legacy-hv-color-change {
+	to { fill: #069e08; }
+}
+
+/* Disable animations on small viewports and for reduced-motion users.
+   Force the final rendered state so nothing stays in its initial
+   pre-animation pose (invisible / off-screen). */
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+	.product-category-hero-visual .grow,
+	.grow.product-category-hero-visual,
+	.product-category-hero-visual .oscillate,
+	.product-category-hero-visual .color-change,
+	.product-category-hero-visual .reveal-security,
+	.product-category-hero-visual .reveal-growth,
+	.product-category-hero-visual .reveal-jetpack-circle,
+	.product-category-hero-visual .reveal-jetpack-triangle-up,
+	.product-category-hero-visual .reveal-jetpack-triangle-down {
+		animation: none;
+	}
+
+	.product-category-hero-visual .grow,
+	.grow.product-category-hero-visual {
+		transform: scale(1);
+	}
+
+	.product-category-hero-visual .oscillate {
+		transform: rotate(0);
+	}
+
+	.product-category-hero-visual .color-change {
+		fill: #069e08;
+	}
+
+	.product-category-hero-visual .reveal-security,
+	.product-category-hero-visual .reveal-growth {
+		stroke-dasharray: 0;
+		stroke-dashoffset: 0;
+	}
+
+	.product-category-hero-visual .reveal-jetpack-circle {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.product-category-hero-visual .reveal-jetpack-triangle-up,
+	.product-category-hero-visual .reveal-jetpack-triangle-down {
+		transform: translateY(0);
+	}
 }
 
 /* ─── Corner decorations (shared base) ────────────────────────────── */

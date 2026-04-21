@@ -24,6 +24,7 @@
 /* ── Backward-compatibility (production jetpack.com content) ────── */
 @import "./compat/media-text-styles.css";
 @import "./compat/interior-page-header.css";
+@import "./compat/legacy-hero-visual.css";
 
 /* ── Template-specific styles ───────────────────────────────────── */
 @import "./templates/page.css";

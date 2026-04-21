@@ -14,6 +14,7 @@ import faqMeta            from '../blocks/faq/block.json';
 import siteHeaderMeta     from '../blocks/site-header/block.json';
 import siteFooterMeta     from '../blocks/site-footer/block.json';
 import fhMeta             from '../blocks/features-highlights/block.json';
+import legacyHeroVisualMeta from '../blocks/legacy-hero-visual/block.json';
 
 import { HeroEdit }           from './blocks/hero/edit';
 import { BlurHeadlineEdit }   from './blocks/blur-headline/edit';
@@ -24,6 +25,7 @@ import { FAQEdit }            from './blocks/faq/edit';
 import { SiteHeaderEdit }     from './blocks/site-header/edit';
 import { SiteFooterEdit }     from './blocks/site-footer/edit';
 import { FeaturesHighlightsEdit } from './blocks/features-highlights/edit';
+import { LegacyHeroVisualEdit }   from './blocks/legacy-hero-visual/edit';
 
 registerBlockType( heroMeta.name,           { ...heroMeta,           edit: HeroEdit,          save: () => null } );
 registerBlockType( blurMeta.name,           { ...blurMeta,           edit: BlurHeadlineEdit,  save: () => null } );
@@ -34,3 +36,4 @@ registerBlockType( faqMeta.name,            { ...faqMeta,            edit: FAQEd
 registerBlockType( siteHeaderMeta.name,     { ...siteHeaderMeta,     edit: SiteHeaderEdit,    save: () => null } );
 registerBlockType( siteFooterMeta.name,     { ...siteFooterMeta,     edit: SiteFooterEdit,    save: () => null } );
 registerBlockType( fhMeta.name,             { ...fhMeta,             edit: FeaturesHighlightsEdit, save: () => null } );
+registerBlockType( legacyHeroVisualMeta.name, { ...legacyHeroVisualMeta, edit: LegacyHeroVisualEdit, save: () => null } );

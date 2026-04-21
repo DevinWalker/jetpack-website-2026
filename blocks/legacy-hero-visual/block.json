@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/legacy-hero-visual",
+	"version": "1.0.0",
+	"title": "Hero Visual (legacy)",
+	"category": "jetpack-theme",
+	"description": "Temporary compat block for production [hero_visual] shortcode content. Will be removed after the hero redesign ships.",
+	"keywords": [ "hero", "visual", "legacy", "compat" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"attributes": {
+		"product": {
+			"type": "string",
+			"default": "security",
+			"enum": [
+				"agencies",
+				"ai",
+				"anti-spam",
+				"app",
+				"backup",
+				"blaze",
+				"boost",
+				"complete",
+				"creator",
+				"forms",
+				"gdpr",
+				"growth",
+				"newsletter",
+				"performance",
+				"scan",
+				"search",
+				"security",
+				"social",
+				"stats"
+			]
+		}
+	},
+	"supports": { "html": false },
+	"render": "file:./render.php"
+}
