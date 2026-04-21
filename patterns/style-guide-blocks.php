@@ -8,6 +8,11 @@
  * Block Types: core/post-content
  * Inserter: true
  */
+
+// Local theme assets used for image/gallery/media-text/cover demos. Shipped in
+// the repo so the style guide renders reliably in dev without depending on
+// production media that may 404.
+$jp_assets = esc_url( get_template_directory_uri() . '/assets' );
 ?>
 <!-- wp:heading {"level":1} -->
 <h1 class="wp-block-heading">Default Blocks</h1>
@@ -26,7 +31,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Default and outline variants. Pill border-radius and small-preset type come from <code>theme.json</code> <code>styles.elements.button</code>.</p>
+<p>Three variants of the core button block — all share the <code>rounded-xl</code> corner radius and type scale of the site's primary CTA pattern (see the nav's "Get Started" button). Styling is scoped to <code>.jetpack-prose .wp-block-button</code> in <code>src/components/prose.css</code>.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
@@ -159,7 +164,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="https://jetpack.com/wp-content/uploads/2024/06/backups-desktop-3.png?w=1200" alt="Jetpack backup interface screenshot"/><figcaption class="wp-element-caption">The Jetpack Backup dashboard — captions pick up a smaller, italic, muted-foreground treatment.</figcaption></figure>
+<figure class="wp-block-image size-large"><img src="<?php echo $jp_assets; ?>/jetpack-paid-traffic.png" alt="Jetpack paid traffic dashboard mock"/><figcaption class="wp-element-caption">The wp:image block — captions pick up a smaller, italic, muted-foreground treatment and images get the theme's rounded corners + subtle shadow.</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator {"className":"is-style-wide"} -->
@@ -173,15 +178,15 @@
 <!-- wp:gallery {"columns":3,"linkTo":"none"} -->
 <figure class="wp-block-gallery has-nested-images columns-3 is-cropped">
 <!-- wp:image {"sizeSlug":"medium"} -->
-<figure class="wp-block-image size-medium"><img src="https://jetpack.com/wp-content/uploads/2024/02/stats.png?w=600" alt=""/></figure>
+<figure class="wp-block-image size-medium"><img src="<?php echo $jp_assets; ?>/BG.jpg" alt=""/></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"sizeSlug":"medium"} -->
-<figure class="wp-block-image size-medium"><img src="https://jetpack.com/wp-content/uploads/2024/02/boost.png?w=600" alt=""/></figure>
+<figure class="wp-block-image size-medium"><img src="<?php echo $jp_assets; ?>/jetpack-paid-traffic.png" alt=""/></figure>
 <!-- /wp:image -->
 
 <!-- wp:image {"sizeSlug":"medium"} -->
-<figure class="wp-block-image size-medium"><img src="https://jetpack.com/wp-content/uploads/2024/02/social.png?w=600" alt=""/></figure>
+<figure class="wp-block-image size-medium"><img src="<?php echo $jp_assets; ?>/jetpack-futuristic.svg" alt=""/></figure>
 <!-- /wp:image -->
 </figure>
 <!-- /wp:gallery -->
@@ -196,7 +201,7 @@
 
 <!-- wp:media-text {"mediaPosition":"left","mediaType":"image"} -->
 <div class="wp-block-media-text alignwide is-stacked-on-mobile">
-<figure class="wp-block-media-text__media"><img src="https://jetpack.com/wp-content/uploads/2024/06/backups-desktop-3.png?w=800" alt=""/></figure>
+<figure class="wp-block-media-text__media"><img src="<?php echo $jp_assets; ?>/jetpack-paid-traffic.png" alt=""/></figure>
 <div class="wp-block-media-text__content">
 <!-- wp:heading {"level":3,"placeholder":"Content…"} -->
 <h3 class="wp-block-heading">Media on the left</h3>

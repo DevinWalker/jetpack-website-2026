@@ -393,7 +393,11 @@
   }
 
   /* ── Buttons inside prose ───────────────────────────────────────── */
-  /* Style only the core button block — leave Tailwind buttons alone. */
+  /* Matches the site's primary CTA pattern from blocks/site-header/
+     (Tailwind: `rounded-xl bg-foreground text-background text-sm font-medium`)
+     so core buttons authored in post/page content look identical to the
+     nav's "Get Started" button and the features-highlights CTAs. Shape is
+     rounded-corner (0.75rem), NOT a full pill, matching rounded-xl. */
 
   & .wp-block-buttons {
     margin: 1.5rem 0 1.75rem;
@@ -404,18 +408,21 @@
     & .wp-block-button__link.wp-element-button {
       font-size: var(--wp--preset--font-size--small);
       font-weight: 500;
-      border-radius: 9999px;
-      padding: 0.625rem 1.25rem;
+      line-height: 1.2;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1.25rem;
       text-decoration: none;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
-    &:not(.is-style-outline) .wp-block-button__link.wp-element-button {
+    &:not(.is-style-outline) .wp-block-button__link.wp-element-button,
+    &.is-style-jetpack-button .wp-block-button__link.wp-element-button {
       background-color: var(--foreground);
       color: var(--background);
 
       &:hover {
-        background-color: var(--wp--preset--color--jetpack-green-60, #007117);
-        color: #fff;
+        background-color: color-mix(in srgb, var(--foreground) 85%, transparent);
+        color: var(--background);
       }
     }
 
@@ -428,6 +435,16 @@
         background: var(--muted);
       }
     }
+  }
+
+  /* ── Cover block inner container ────────────────────────────────── */
+  /* Cover relies on flex align-items:center for vertical centering. Strip
+     top/bottom margins from the first/last child so our prose heading and
+     paragraph margins don't push the content off-center. */
+
+  & .wp-block-cover__inner-container {
+    & > :first-child { margin-top: 0; }
+    & > :last-child  { margin-bottom: 0; }
   }
 
   /* ── Details / summary ──────────────────────────────────────────── */

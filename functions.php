@@ -38,6 +38,11 @@ if ( ! jetpack_is_production() ) {
 /**
  * Rewrite a single URL from the local domain to the production domain.
  * Only rewrites URLs that already start with the local origin; external hosts are left alone.
+ *
+ * Theme-asset URLs (wp-content/themes/**) are intentionally NOT proxied —
+ * they live inside the theme directory and may not exist at the same path on
+ * production. Leaving them local keeps pattern/template images working during
+ * dev without depending on a matching production deployment.
  */
 function jetpack_proxy_to_production( string $url ): string {
 	static $local, $prod;
@@ -45,6 +50,9 @@ function jetpack_proxy_to_production( string $url ): string {
 	$prod  ??= untrailingslashit( JETPACK_PRODUCTION_URL );
 
 	if ( str_starts_with( $url, $local ) ) {
+		if ( str_contains( $url, '/wp-content/themes/' ) ) {
+			return $url;
+		}
 		$url = $prod . substr( $url, strlen( $local ) );
 	}
 
