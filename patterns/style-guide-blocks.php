@@ -164,7 +164,15 @@ $jp_assets = esc_url( get_template_directory_uri() . '/assets' );
 <!-- /wp:heading -->
 
 <!-- wp:image {"sizeSlug":"large"} -->
-<figure class="wp-block-image size-large"><img src="<?php echo $jp_assets; ?>/jetpack-paid-traffic.png" alt="Jetpack paid traffic dashboard mock"/><figcaption class="wp-element-caption">The wp:image block — captions pick up a smaller, italic, muted-foreground treatment and images get the theme's rounded corners + subtle shadow.</figcaption></figure>
+<figure class="wp-block-image size-large"><img src="<?php echo $jp_assets; ?>/jetpack-paid-traffic.png" alt="Jetpack paid traffic dashboard mock"/><figcaption class="wp-element-caption">Default treatment — rounded corners and a subtle shadow suit photographic content like UI screenshots.</figcaption></figure>
+<!-- /wp:image -->
+
+<!-- wp:paragraph -->
+<p>For transparent PNG logos, SVG icons, and flat illustrations, apply the <strong>"Plain (no shadow)"</strong> block style from the Image block's Styles panel. Both shadow and border-radius are removed so artwork sits cleanly on the page background:</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"sizeSlug":"large","className":"is-style-plain"} -->
+<figure class="wp-block-image size-large is-style-plain"><img src="<?php echo $jp_assets; ?>/jetpack-futuristic.svg" alt="Jetpack logo mark"/><figcaption class="wp-element-caption">Same image block with the <code>is-style-plain</code> variant — no rounded corners, no shadow.</figcaption></figure>
 <!-- /wp:image -->
 
 <!-- wp:separator {"className":"is-style-wide"} -->

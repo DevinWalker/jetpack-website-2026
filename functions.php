@@ -361,6 +361,15 @@ add_action( 'init', function (): void {
 		'label' => 'Jetpack Button',
 	] );
 
+	// Opt image blocks out of the prose default treatment (rounded corners
+	// + soft drop shadow). Use this for transparent PNG logos, hero
+	// illustrations, icons — anything that shouldn't look like a photo.
+	// CSS lives in src/components/prose.css under `.wp-block-image.is-style-plain`.
+	register_block_style( 'core/image', [
+		'name'  => 'plain',
+		'label' => 'Plain (no shadow)',
+	] );
+
 	// ── Blog layout styles ───────────────────────────────────────────────────
 	// Opt-in styles for the modernized blog-4 single-post and blog-1 archive
 	// layouts. Applied automatically by the single.html / index.html templates

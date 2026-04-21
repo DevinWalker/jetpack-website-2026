@@ -320,6 +320,14 @@
       font-style: italic;
       margin-top: 0.5rem;
     }
+
+    /* "Plain (no shadow)" block style — registered via register_block_style
+       in functions.php. Opts out of the photographic treatment for logos,
+       transparent PNG illustrations, SVG icons, and other flat artwork. */
+    &.is-style-plain img {
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
 
   /* ── Table ──────────────────────────────────────────────────────── */

@@ -98,6 +98,22 @@
 	background: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 18' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M23.5 14V12C23.5 10.4812 22.2688 9.24998 20.75 9.24998H18.25V10.75H20.75C21.4404 10.75 22 11.3096 22 12V14H23.5Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M18.75 6.50001C19.3023 6.50001 19.75 6.0523 19.75 5.50001C19.75 4.94772 19.3023 4.50001 18.75 4.50001C18.1977 4.50001 17.75 4.94772 17.75 5.50001C17.75 6.0523 18.1977 6.50001 18.75 6.50001ZM18.75 8.00002C20.1307 8.00002 21.25 6.88073 21.25 5.50001C21.25 4.11929 20.1307 3 18.75 3C17.3693 3 16.25 4.11929 16.25 5.50001C16.25 6.88073 17.3693 8.00002 18.75 8.00002Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 14L0 12C0 10.4812 1.2312 9.24998 2.74999 9.24998H5.25V10.75H2.74999C2.05963 10.75 1.49999 11.3096 1.49999 12L1.49999 14H0Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M4.74999 6.50001C4.1977 6.50001 3.74999 6.0523 3.74999 5.50001C3.74999 4.94772 4.1977 4.50001 4.74999 4.50001C5.30228 4.50001 5.74999 4.94772 5.74999 5.50001C5.74999 6.0523 5.30228 6.50001 4.74999 6.50001ZM4.74999 8.00002C3.36927 8.00002 2.24998 6.88073 2.24998 5.50001C2.24998 4.11929 3.36927 3 4.74999 3C6.13071 3 7.25 4.11929 7.25 5.50001C7.25 6.88073 6.13071 8.00002 4.74999 8.00002Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M16.5 12V14H15V12C15 11.3096 14.4403 10.75 13.75 10.75L9.74998 10.75C9.05962 10.75 8.49997 11.3096 8.49997 12V14H6.99996V12C6.99996 10.4812 8.23119 9.24998 9.74998 9.24998L13.75 9.24998C15.2688 9.24998 16.5 10.4812 16.5 12Z' fill='%23069E08'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.75 6.50001C12.3023 6.50001 12.75 6.0523 12.75 5.50001C12.75 4.94772 12.3023 4.50001 11.75 4.50001C11.1977 4.50001 10.75 4.94772 10.75 5.50001C10.75 6.0523 11.1977 6.50001 11.75 6.50001ZM11.75 8.00002C13.1307 8.00002 14.25 6.88073 14.25 5.50001C14.25 4.11929 13.1307 3 11.75 3C10.3693 3 9.25 4.11929 9.25 5.50001C9.25 6.88073 10.3693 8.00002 11.75 8.00002Z' fill='%23069E08'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 
+/* ─── Flat imagery inside hero containers ──────────────────────────
+   The .jetpack-prose .wp-block-image rule (in components/prose.css)
+   applies a rounded-corner + soft-shadow treatment suitable for
+   photographic content. Production hero sections use transparent PNG
+   illustrations and logos that shouldn't look like photos, so opt those
+   container contexts out here. Authors of new images can also select the
+   "Plain (no shadow)" block style from the Image block's Styles panel. */
+
+.hero-with-icon .wp-block-image img,
+.partner-hero .wp-block-image img,
+.product-category-hero-visual .wp-block-image img,
+.product-category-hero-visual img {
+	border-radius: 0;
+	box-shadow: none;
+}
+
 /* ─── Product hero visual (shield SVG + blurred blob backdrop) ────── */
 
 .product-category-hero-visual {
