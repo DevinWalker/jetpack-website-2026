@@ -152,6 +152,13 @@ add_action( 'after_setup_theme', function (): void {
 	// Opt into WP's default block CSS. Not auto-enabled — all others below are.
 	add_theme_support( 'wp-block-styles' );
 
+	// Load the compiled frontend stylesheet in the block editor canvas so
+	// headings, prose, lists, code, quotes etc. render identically to the
+	// frontend when editing content.
+	if ( file_exists( get_template_directory() . '/build/style-frontend.css' ) ) {
+		add_editor_style( 'build/style-frontend.css' );
+	}
+
 	// Navigation menu locations.
 	register_nav_menus( [
 		'primary'          => __( 'Primary Navigation', 'jetpack-theme' ),
@@ -448,4 +455,196 @@ add_filter( 'block_categories_all', function ( array $categories ): array {
 		'icon'  => null,
 	] );
 	return $categories;
+} );
+
+// ─── Style Guide — virtual routes (non-production only) ──────────────────────
+// Renders /style-guide/, /style-guide/typography/, /style-guide/blocks/ without
+// ever creating rows in wp_posts. The entire mechanism lives behind
+// jetpack_is_production(), so production PHP never even registers the rewrite
+// rule, query var, or render hooks. Zero DB footprint, zero prod surface area.
+//
+// How it works:
+//   1. An `init` rewrite rule maps /style-guide/{,typography,blocks} to an
+//      internal query var.
+//   2. On the matching main query, pre_get_posts builds a fake WP_Post whose
+//      content is a single <!-- wp:pattern … /--> reference to one of the
+//      patterns in patterns/style-guide-*.php.
+//   3. posts_pre_query returns that fake post as the sole result so WordPress
+//      treats the request as a normal page and renders it via templates/
+//      page.html, which outputs wp:post-content → expands our pattern.
+
+if ( ! jetpack_is_production() ) {
+
+	/**
+	 * The rewrite-rule slug we register below. Also used by the self-healing
+	 * flush hook so the cached wp_options['rewrite_rules'] is regenerated the
+	 * first time an HTTP request comes in after the rule is introduced.
+	 */
+	$jetpack_style_guide_rule = '^style-guide(?:/(typography|blocks))?/?$';
+
+	add_action( 'init', static function () use ( $jetpack_style_guide_rule ): void {
+		add_rewrite_rule(
+			$jetpack_style_guide_rule,
+			'index.php?jetpack_style_guide=$matches[1]',
+			'top'
+		);
+	}, 11 );
+
+	// Self-healing flush — if the cached rewrite rules don't contain our rule
+	// yet (e.g. the theme was activated before this code existed), force one
+	// flush. Idempotent and bounded: once flushed, the check costs a single
+	// array_key_exists on subsequent requests.
+	add_action( 'init', static function () use ( $jetpack_style_guide_rule ): void {
+		$rules = get_option( 'rewrite_rules' );
+		if ( is_array( $rules ) && ! array_key_exists( $jetpack_style_guide_rule, $rules ) ) {
+			flush_rewrite_rules( false );
+		}
+	}, 12 );
+
+	add_filter( 'query_vars', static function ( array $vars ): array {
+		$vars[] = 'jetpack_style_guide';
+		return $vars;
+	} );
+
+	/**
+	 * Return a virtual WP_Post for the requested style-guide route,
+	 * or null if this isn't a style-guide request.
+	 */
+	$build_virtual_post = static function ( string $slug ): ?WP_Post {
+		$titles = [
+			'index'      => 'Style Guide',
+			'typography' => 'Style Guide — Typography',
+			'blocks'     => 'Style Guide — Default Blocks',
+		];
+
+		$index_content = <<<'HTML'
+<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">Style Guide</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"fontSize":"large"} -->
+<p class="has-large-font-size">A live reference for the Jetpack theme's design system. These pages are rendered virtually in development and staging only — they never exist in the database and never ship to production.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:list -->
+<ul class="wp-block-list">
+<!-- wp:list-item --><li><a href="/style-guide/typography/">Typography</a> — headings, paragraphs, lists, quotes, code, inline text.</li><!-- /wp:list-item -->
+<!-- wp:list-item --><li><a href="/style-guide/blocks/">Default Blocks</a> — buttons, columns, group, image, gallery, table, cover, details.</li><!-- /wp:list-item -->
+</ul>
+<!-- /wp:list -->
+HTML;
+
+		$contents = [
+			'index'      => $index_content,
+			'typography' => '<!-- wp:pattern {"slug":"jetpack-theme/style-guide-typography"} /-->',
+			'blocks'     => '<!-- wp:pattern {"slug":"jetpack-theme/style-guide-blocks"} /-->',
+		];
+
+		if ( ! isset( $titles[ $slug ] ) ) {
+			return null;
+		}
+
+		$post = new WP_Post( (object) [
+			'ID'             => -1,
+			'post_author'    => 0,
+			'post_date'      => current_time( 'mysql' ),
+			'post_date_gmt'  => current_time( 'mysql', 1 ),
+			'post_title'     => $titles[ $slug ],
+			'post_content'   => $contents[ $slug ],
+			'post_excerpt'   => '',
+			'post_status'    => 'publish',
+			'post_type'      => 'page',
+			'post_name'      => $slug === 'index' ? 'style-guide' : $slug,
+			'post_parent'    => 0,
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+			'filter'         => 'raw',
+		] );
+
+		wp_cache_add( -1, $post, 'posts' );
+
+		return $post;
+	};
+
+	// Detect the style-guide request and set up the main query to return our
+	// virtual page. Using array_key_exists distinguishes "our query var is set
+	// (index route, empty string value)" from "this isn't our route".
+	add_action( 'pre_get_posts', static function ( WP_Query $q ) use ( $build_virtual_post ): void {
+		if ( ! $q->is_main_query() || is_admin() ) {
+			return;
+		}
+		if ( ! array_key_exists( 'jetpack_style_guide', $q->query_vars ) ) {
+			return;
+		}
+
+		$captured = (string) $q->get( 'jetpack_style_guide' );
+		$slug     = $captured === '' ? 'index' : $captured;
+
+		$post = $build_virtual_post( $slug );
+		if ( null === $post ) {
+			return;
+		}
+
+		$q->is_page           = true;
+		$q->is_singular       = true;
+		$q->is_single         = false;
+		$q->is_home           = false;
+		$q->is_archive        = false;
+		$q->is_404            = false;
+		$q->queried_object    = $post;
+		$q->queried_object_id = $post->ID;
+		$q->post              = $post;
+		$q->posts             = [ $post ];
+		$q->post_count        = 1;
+		$q->found_posts       = 1;
+
+		// Ensure code that runs before the template loop (feed_links_extra,
+		// wp_head, comment/link helpers) finds a valid global $post instead
+		// of null — otherwise WP emits `Attempt to read property "post_type"
+		// on null` notices from wp-includes/link-template.php.
+		$GLOBALS['post'] = $post;
+	} );
+
+	// Short-circuit the SQL query — WP never touches the DB for these URLs.
+	add_filter( 'posts_pre_query', static function ( $posts, WP_Query $q ) {
+		if ( ! $q->is_main_query() || is_admin() ) {
+			return $posts;
+		}
+		if ( ! array_key_exists( 'jetpack_style_guide', $q->query_vars ) ) {
+			return $posts;
+		}
+		return $q->queried_object ? [ $q->queried_object ] : $posts;
+	}, 10, 2 );
+
+	// Skip shortlink generation on virtual routes. wp_get_shortlink()
+	// dereferences $post->post_type before checking ID, so a fake post ID
+	// that's truthy (e.g. -1) triggers PHP warnings from link-template.php.
+	// There's no meaningful shortlink for a non-DB page anyway.
+	add_filter( 'pre_get_shortlink', static function ( $shortlink, $id, $context ) {
+		global $wp_query;
+		if ( $wp_query instanceof WP_Query
+			&& array_key_exists( 'jetpack_style_guide', (array) $wp_query->query_vars ) ) {
+			return '';
+		}
+		return $shortlink;
+	}, 10, 3 );
+
+}
+
+// ─── Theme activation: flush rewrite rules + clean up legacy seeded pages ────
+// Runs in both prod and non-prod so any style-guide/* rows left over from the
+// earlier DB seeder get removed during a migration or reactivation. Only
+// deletes rows whose content contains our pattern marker, so author-created
+// pages with the same slug are never touched.
+
+add_action( 'after_switch_theme', static function (): void {
+	foreach ( [ 'style-guide/typography', 'style-guide/blocks', 'style-guide' ] as $path ) {
+		$page = get_page_by_path( $path );
+		if ( $page instanceof WP_Post
+			&& ( str_contains( (string) $page->post_content, 'jetpack-theme/style-guide' )
+			  || str_contains( (string) $page->post_content, '/style-guide/typography/' ) ) ) {
+			wp_delete_post( (int) $page->ID, true );
+		}
+	}
+	flush_rewrite_rules();
 } );

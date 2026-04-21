@@ -1,0 +1,483 @@
+/**
+ * jetpack-prose — shared article/page prose styling.
+ *
+ * Applied via className on wp:post-content in both templates/single.html
+ * and templates/page.html. This file is the single source of truth for
+ * in-content typography so rules never leak onto Tailwind-driven custom
+ * blocks (site-header, hero, features-*, etc.).
+ *
+ * theme.json stays minimal — it exposes the fontSize preset scale, font
+ * families, and layout widths. Everything typographic (headings, links,
+ * lists, quotes, code, tables, images) lives here, scoped to .jetpack-prose.
+ */
+
+.jetpack-prose {
+  color: var(--foreground);
+  line-height: 1.7;
+
+  /* ── Paragraphs ─────────────────────────────────────────────────── */
+
+  & p,
+  & .wp-block-paragraph {
+    font-size: var(--wp--preset--font-size--medium);
+    line-height: 1.7;
+    color: var(--foreground);
+    margin: 0 0 1.375rem;
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  /* Lead paragraph — any paragraph explicitly sized "large". */
+  & p.has-large-font-size,
+  & .wp-block-paragraph.has-large-font-size {
+    color: var(--muted-foreground);
+    line-height: 1.55;
+    margin-bottom: 1.75rem;
+  }
+
+  /* ── Links ──────────────────────────────────────────────────────── */
+  /* Scoped to prose only — Tailwind-styled links in nav/cards/CTAs
+     keep their utility-class styling untouched. Exclude core button
+     classes so wp:button blocks still look like buttons. */
+
+  & a:where(:not(.wp-element-button):not(.wp-block-button__link)) {
+    color: var(--wp--preset--color--jetpack-green-60, #007117);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    text-decoration-thickness: 1px;
+    transition: color 0.15s ease, text-decoration-thickness 0.15s ease;
+
+    &:hover {
+      color: var(--wp--preset--color--jetpack-green-50, #069E08);
+      text-decoration-thickness: 2px;
+    }
+  }
+
+  /* ── Headings ───────────────────────────────────────────────────── */
+  /* h1 is reserved for the title element; in-content top-level is h2. */
+
+  & h1.wp-block-heading,
+  & h2.wp-block-heading,
+  & h3.wp-block-heading,
+  & h4.wp-block-heading,
+  & h5.wp-block-heading,
+  & h6.wp-block-heading {
+    font-family: var(--wp--preset--font-family--sans);
+    color: var(--foreground);
+    text-wrap: balance;
+  }
+
+  & h1.wp-block-heading {
+    font-size: var(--wp--preset--font-size--xxx-large);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0 0 1.25rem;
+  }
+
+  & h2.wp-block-heading {
+    font-size: var(--wp--preset--font-size--xx-large);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin: 2.5rem 0 0.875rem;
+  }
+
+  & h3.wp-block-heading {
+    font-size: var(--wp--preset--font-size--x-large);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin: 2rem 0 0.625rem;
+  }
+
+  & h4.wp-block-heading {
+    font-size: var(--wp--preset--font-size--large);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  & h5.wp-block-heading {
+    font-size: var(--wp--preset--font-size--medium);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    margin: 1.25rem 0 0.375rem;
+  }
+
+  & h6.wp-block-heading {
+    font-size: var(--wp--preset--font-size--small);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: var(--muted-foreground);
+    margin: 1.25rem 0 0.375rem;
+  }
+
+  /* First heading in the flow shouldn't collide with its parent's padding. */
+  & > h1.wp-block-heading:first-child,
+  & > h2.wp-block-heading:first-child,
+  & > h3.wp-block-heading:first-child,
+  & > h4.wp-block-heading:first-child {
+    margin-top: 0;
+  }
+
+  /* ── Unordered list — outline circle marker ─────────────────────── */
+
+  & ul.wp-block-list {
+    list-style: none;
+    padding-left: 1.375rem;
+    margin: 0 0 1.375rem;
+    font-size: var(--wp--preset--font-size--medium);
+    line-height: 1.75;
+
+    & > li {
+      position: relative;
+      padding-left: 1rem;
+      margin-bottom: 0.375rem;
+      color: var(--foreground);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.625em;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        border: 1.5px solid var(--accent);
+        background: transparent;
+      }
+
+      & > ul.wp-block-list,
+      & > ol.wp-block-list {
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  /* ── Ordered list — accent number badge ─────────────────────────── */
+
+  & ol.wp-block-list {
+    list-style: none;
+    padding-left: 0.5rem;
+    margin: 0 0 1.375rem;
+    counter-reset: jetpack-ol;
+    font-size: var(--wp--preset--font-size--medium);
+    line-height: 1.75;
+
+    & > li {
+      position: relative;
+      padding-left: 2rem;
+      counter-increment: jetpack-ol;
+      margin-bottom: 0.5rem;
+      color: var(--foreground);
+
+      &::before {
+        content: counter(jetpack-ol);
+        position: absolute;
+        left: 0;
+        top: 0.2em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.375rem;
+        height: 1.375rem;
+        padding: 0 0.25rem;
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        color: var(--accent);
+        font-size: 0.75rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        border-radius: 0.25rem;
+        line-height: 1;
+      }
+
+      & > ul.wp-block-list,
+      & > ol.wp-block-list {
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  /* ── Quote ──────────────────────────────────────────────────────── */
+
+  & .wp-block-quote {
+    border-left: 3px solid var(--accent);
+    padding: 0.375rem 0 0.375rem 1.375rem;
+    margin: 1.75rem 0;
+
+    & p {
+      font-size: var(--wp--preset--font-size--large);
+      line-height: 1.55;
+      font-style: italic;
+      color: var(--foreground);
+      margin-bottom: 0.375rem;
+    }
+
+    & cite {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      font-style: normal;
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* ── Pullquote ──────────────────────────────────────────────────── */
+
+  & .wp-block-pullquote {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+    margin: 2.5rem 0;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--foreground);
+
+    & p,
+    & blockquote p {
+      font-size: var(--wp--preset--font-size--x-large);
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    & cite {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      font-style: normal;
+      font-weight: 400;
+      letter-spacing: 0;
+      margin-top: 0.875rem;
+    }
+  }
+
+  /* ── Inline & block code ────────────────────────────────────────── */
+
+  & code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--muted);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
+  & .wp-block-code {
+    background: #1a1a1a;
+    color: #e8e8e8;
+    font-family: var(--font-mono);
+    font-size: var(--wp--preset--font-size--small);
+    line-height: 1.65;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 1.75rem 0;
+
+    /* Reset inline-code chrome inside the block. */
+    & code {
+      background: transparent;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+      border-radius: 0;
+    }
+  }
+
+  & .wp-block-preformatted {
+    background: var(--muted);
+    color: var(--foreground);
+    font-family: var(--font-mono);
+    font-size: var(--wp--preset--font-size--small);
+    line-height: 1.65;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+    overflow-x: auto;
+    margin: 1.75rem 0;
+  }
+
+  /* ── Images & figures ───────────────────────────────────────────── */
+
+  & .wp-block-image {
+    margin: 2rem 0;
+
+    & img {
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    }
+
+    & figcaption {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      text-align: center;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* ── Table ──────────────────────────────────────────────────────── */
+
+  & .wp-block-table {
+    margin: 1.75rem 0;
+    font-size: var(--wp--preset--font-size--small);
+
+    & table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    & th,
+    & td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    & th {
+      background: var(--muted);
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    & tr:last-child td {
+      border-bottom: 0;
+    }
+
+    & tfoot td {
+      background: var(--muted);
+      font-weight: 500;
+    }
+
+    & figcaption {
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+  }
+
+  /* ── Separator ──────────────────────────────────────────────────── */
+
+  & .wp-block-separator {
+    border: none;
+    border-top: 1px solid var(--border);
+    color: var(--border);
+    margin: 2.5rem 0;
+
+    &.is-style-wide {
+      max-width: none;
+    }
+
+    &.is-style-dots {
+      border: none;
+      text-align: center;
+      line-height: 1;
+
+      &::before {
+        content: '···';
+        color: var(--muted-foreground);
+        font-size: 1.5rem;
+        letter-spacing: 0.5rem;
+      }
+    }
+  }
+
+  /* ── Buttons inside prose ───────────────────────────────────────── */
+  /* Style only the core button block — leave Tailwind buttons alone. */
+
+  & .wp-block-buttons {
+    margin: 1.5rem 0 1.75rem;
+    gap: 0.625rem;
+  }
+
+  & .wp-block-button {
+    & .wp-block-button__link.wp-element-button {
+      font-size: var(--wp--preset--font-size--small);
+      font-weight: 500;
+      border-radius: 9999px;
+      padding: 0.625rem 1.25rem;
+      text-decoration: none;
+    }
+
+    &:not(.is-style-outline) .wp-block-button__link.wp-element-button {
+      background-color: var(--foreground);
+      color: var(--background);
+
+      &:hover {
+        background-color: var(--wp--preset--color--jetpack-green-60, #007117);
+        color: #fff;
+      }
+    }
+
+    &.is-style-outline .wp-block-button__link.wp-element-button {
+      background: transparent;
+      color: var(--foreground);
+      box-shadow: inset 0 0 0 1px var(--border);
+
+      &:hover {
+        background: var(--muted);
+      }
+    }
+  }
+
+  /* ── Details / summary ──────────────────────────────────────────── */
+
+  & .wp-block-details {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.875rem 1.125rem;
+    margin: 0 0 1rem;
+    background: var(--frame);
+
+    & > summary {
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--foreground);
+      list-style: none;
+
+      &::-webkit-details-marker { display: none; }
+    }
+
+    &[open] > summary {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  /* ── Mobile breakpoint adjustments ──────────────────────────────── */
+
+  @media (max-width: 639px) {
+    & p,
+    & .wp-block-paragraph,
+    & ul.wp-block-list,
+    & ol.wp-block-list {
+      margin-bottom: 1.125rem;
+    }
+
+    & h2.wp-block-heading { margin: 2rem 0 0.625rem; }
+    & h3.wp-block-heading { margin: 1.5rem 0 0.5rem; }
+    & h4.wp-block-heading { margin: 1.25rem 0 0.375rem; }
+
+    & .wp-block-quote      { margin: 1.25rem 0; padding-left: 1rem; }
+    & .wp-block-code,
+    & .wp-block-preformatted {
+      padding: 1rem 1.125rem;
+    }
+
+    & .wp-block-separator { margin: 1.75rem 0; }
+  }
+
+  @media (min-width: 1024px) {
+    & h2.wp-block-heading { margin-top: 3rem; }
+    & h3.wp-block-heading { margin-top: 2.25rem; }
+  }
+}

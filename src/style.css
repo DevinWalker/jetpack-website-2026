@@ -19,6 +19,7 @@
 
 /* ── Shared components ──────────────────────────────────────────── */
 @import "./components/card.css";
+@import "./components/prose.css";
 
 /* ── Backward-compatibility (production jetpack.com content) ────── */
 @import "./compat/media-text-styles.css";
