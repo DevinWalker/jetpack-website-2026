@@ -4,6 +4,17 @@
   max-height: 500px !important;
 }
 
+/* ── FAQ section header ──────────────────────────────────────────── */
+/* Balance wrapping on the intro title + description so we never land on
+   a widow (single trailing word) and the two lines end up similar in
+   length. text-wrap: balance is supported in all modern browsers and
+   degrades to normal wrapping where it isn't. */
+
+.jetpack-faq__title,
+.jetpack-faq__description {
+  text-wrap: balance;
+}
+
 /* ── FAQ Block Editor Styles ─────────────────────────────────────── */
 
 .jetpack-faq-editor {
