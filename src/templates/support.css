@@ -134,6 +134,7 @@
   /* (0,1,1) specificity beats :root :where(.is-layout-flow) > * at (0,1,0) — no !important needed */
   & > h3 {
     margin-block-start: 0;
+    margin-block-end: 0.5rem;
   }
 
   &:hover h3.wp-block-heading a {

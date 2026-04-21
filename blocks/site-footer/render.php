@@ -34,6 +34,22 @@ if ( empty( $footer_sections ) ) {
 		]],
 	];
 }
+
+// ── Dev / staging only ───────────────────────────────────────────────────
+// Surface the theme's live style-guide pages in the footer so designers and
+// engineers can jump to them easily from any page. Gated by the same check
+// used for the virtual routes in functions.php, so the column never renders
+// on production (jetpack.com).
+if ( function_exists( 'jetpack_is_production' ) && ! jetpack_is_production() ) {
+	$footer_sections[] = [
+		'title' => __( 'Dev', 'jetpack-theme' ),
+		'items' => [
+			[ 'label' => __( 'Style Guide',    'jetpack-theme' ), 'url' => home_url( '/style-guide/' ) ],
+			[ 'label' => __( 'Typography',     'jetpack-theme' ), 'url' => home_url( '/style-guide/typography/' ) ],
+			[ 'label' => __( 'Default Blocks', 'jetpack-theme' ), 'url' => home_url( '/style-guide/blocks/' ) ],
+		],
+	];
+}
 ?>
 <footer class="jetpack-footer relative pt-[14rem] mt-16 mx-2.5 max-[850px]:mx-0">
 

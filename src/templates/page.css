@@ -1,3 +1,9 @@
+/* Typography and prose (h1-h6, lists, quote, code, image, table, etc.)
+   for pages using templates/page.html live in components/prose.css and are
+   opted in via the jetpack-prose className on wp:post-content. This file
+   owns only page-level chrome: block-gap reset, wrapper backgrounds,
+   template clearance. */
+
 /* ── Kill WordPress flow-layout block-gap on the front-page main group ── */
 /* WordPress core injects:
  *   :root :where(.is-layout-flow) > * { margin-block-start: 24px; }

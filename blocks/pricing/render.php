@@ -13,7 +13,7 @@ $plans       = $attributes['plans'] ?? [];
 	<div class="mx-auto max-w-5xl">
 
 		<div class="mb-12 text-center sm:mb-16 jetpack-reveal opacity-0 translate-y-5">
-			<span class="text-sm font-medium text-muted-foreground"><?php esc_html_e( 'Pricing', 'jetpack-theme' ); ?></span>
+			<span class="inline-block rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent"><?php esc_html_e( 'Pricing', 'jetpack-theme' ); ?></span>
 			<h2 class="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
 				<?php echo esc_html( $title ); ?>
 			</h2>
