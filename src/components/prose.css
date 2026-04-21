@@ -36,11 +36,15 @@
   }
 
   /* ── Links ──────────────────────────────────────────────────────── */
-  /* Scoped to prose only — Tailwind-styled links in nav/cards/CTAs
-     keep their utility-class styling untouched. Exclude core button
-     classes so wp:button blocks still look like buttons. */
+  /* Only style inline links — links that live inside running text
+     (paragraphs, list items, headings, quotes, table cells, captions).
+     Standalone <a> elements inside custom blocks (jetpack-faq, hero,
+     features-bento, etc.), columns, groups, or wp:buttons keep their
+     own Tailwind / block-style treatment so our prose rules never
+     override a button-style hyperlink. */
 
-  & a:where(:not(.wp-element-button):not(.wp-block-button__link)) {
+  & :where(p, li, blockquote, cite, h1, h2, h3, h4, h5, h6, figcaption, th, td, dd, dt)
+    a:where(:not(.wp-element-button):not(.wp-block-button__link)) {
     color: var(--wp--preset--color--jetpack-green-60, #007117);
     text-decoration: underline;
     text-underline-offset: 0.15em;
