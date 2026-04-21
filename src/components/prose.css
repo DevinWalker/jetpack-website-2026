@@ -39,13 +39,13 @@
 
   /* ── Links ──────────────────────────────────────────────────────── */
   /* Only style inline links — links that live inside running text
-     (paragraphs, list items, headings, quotes, table cells, captions).
+     (paragraphs, list items, quotes, table cells, captions).
      Standalone <a> elements inside custom blocks (jetpack-faq, hero,
      features-bento, etc.), columns, groups, or wp:buttons keep their
      own Tailwind / block-style treatment so our prose rules never
      override a button-style hyperlink. */
 
-  & :where(p, li, blockquote, cite, h1, h2, h3, h4, h5, h6, figcaption, th, td, dd, dt)
+  & :where(p, li, blockquote, cite, figcaption, th, td, dd, dt)
     a:where(:not(.wp-element-button):not(.wp-block-button__link)) {
     color: var(--wp--preset--color--jetpack-green-60, #007117);
     text-decoration: underline;
@@ -56,6 +56,21 @@
     &:hover {
       color: var(--wp--preset--color--jetpack-green-50, #069E08);
       text-decoration-thickness: 2px;
+    }
+  }
+
+  /* Links inside headings — inherit the heading's color and skip the
+     underline so navigation-style titles (e.g. product-benefits "Brute
+     force attack protection" h2) don't get an inline-link treatment.
+     Accent color appears on hover to signal interactivity. */
+
+  & :where(h1, h2, h3, h4, h5, h6) a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover {
+      color: var(--wp--preset--color--jetpack-green-60, #007117);
     }
   }
 
