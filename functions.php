@@ -326,31 +326,11 @@ add_action( 'init', function (): void {
 // Registering them ensures content authored on production renders correctly.
 
 add_action( 'init', function (): void {
-	$paragraph_icon_styles = [
-		'growth', 'performance', 'key', 'stats', 'social', 'newsletter',
-		'blaze', 'cloud', 'shield', 'videopress', 'search', 'antispam',
-	];
-	foreach ( $paragraph_icon_styles as $variant ) {
-		register_block_style( 'core/paragraph', [
-			'name'  => 'jetpack-with-' . $variant . '-icon',
-			'label' => ucfirst( $variant ) . ' Icon',
-		] );
-	}
-
-	register_block_style( 'core/paragraph', [
-		'name'  => 'jetpack-paid-feature-label',
-		'label' => 'Paid Feature Label',
-	] );
-
-	register_block_style( 'core/paragraph', [
-		'name'  => 'jetpack-partners-intro',
-		'label' => 'Partners Intro',
-	] );
-
-	register_block_style( 'core/paragraph', [
-		'name'  => 'jetpack-quote',
-		'label' => 'Jetpack Quote',
-	] );
+	// Note: paragraph block styles (jetpack-with-*-icon, jetpack-paid-feature-label,
+	// jetpack-partners-intro, jetpack-quote) are intentionally NOT registered here.
+	// Content imported from production that already uses these `is-style-*` classes
+	// continues to render via the compat CSS in src/compat/*.css; we just don't
+	// expose them as pickers in the block editor sidebar.
 
 	register_block_style( 'core/list', [
 		'name'  => 'jetpack-checklist',
