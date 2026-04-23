@@ -56,9 +56,13 @@ $section_pad   = 'compact' === $variant ? 'py-12 sm:py-16' : 'py-16 sm:py-20';
 		<div class="grid items-stretch <?php echo esc_attr( $col_class ); ?> <?php echo esc_attr( $grid_gap ); ?>">
 			<?php foreach ( $plans as $i => $plan ) :
 				$is_popular = $plan['slug'] === $highlighted_slug;
-				$card_wrap  = 'jetpack-pricing-card relative ' . ( $is_popular ? 'lg:-my-4 z-10' : '' );
+				// `.jetpack-pricing-card` (not `.jetpack-reveal`) is the scroll-animations target
+				// for these cards \u2014 scroll-animations.ts animates the class with a staggered
+				// `delay: i * 0.1`. Having both classes would cause the generic reveal and the
+				// staggered reveal to race on the same element.
+				$card_wrap  = 'jetpack-pricing-card relative opacity-0 translate-y-5 ' . ( $is_popular ? 'lg:-my-4 z-10' : '' );
 			?>
-			<div class="<?php echo esc_attr( $card_wrap ); ?> jetpack-reveal opacity-0 translate-y-5" style="transition-delay:<?php echo esc_attr( ( $i * 0.1 ) . 's' ); ?>">
+			<div class="<?php echo esc_attr( $card_wrap ); ?>">
 				<?php if ( $is_popular ) : ?>
 				<div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-jetpack-green-50/25 to-transparent -z-10" aria-hidden="true"></div>
 				<?php endif; ?>

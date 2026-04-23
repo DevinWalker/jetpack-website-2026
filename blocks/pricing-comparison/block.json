@@ -5,7 +5,7 @@
 	"version": "1.1.0",
 	"title": "Pricing Comparison",
 	"category": "jetpack-theme",
-	"description": "Free vs Pro feature comparison \u2014 all categories visible at once (no tabs). Semantic table on desktop, stacked cards on mobile.",
+	"description": "Free vs Pro feature comparison — all categories visible at once (no tabs). Semantic table on desktop, stacked cards on mobile.",
 	"keywords": [ "pricing", "comparison", "features", "free", "pro" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
@@ -16,7 +16,7 @@
 		},
 		"sectionDescription": {
 			"type": "string",
-			"default": "You're already running Jetpack Free. Here's exactly what Pro adds \u2014 every feature, in one scan-friendly view."
+			"default": "You're already running Jetpack Free. Here's exactly what Pro adds — every feature, in one scan-friendly view."
 		}
 	},
 	"supports": { "html": false, "align": [ "wide", "full" ] },

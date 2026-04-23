@@ -24,7 +24,7 @@ $secondary_cta_url  = (string) ( $attributes['secondaryCtaUrl']  ?? '' );
 ?>
 <section class="jetpack-pricing-hero relative isolate overflow-hidden bg-background">
 
-	<?php /* Aurora mount \u2014 transparent canvas, greens only, faded in on first intersection */ ?>
+	<?php /* Aurora mount — transparent canvas, greens only, faded in on first intersection */ ?>
 	<div
 		data-aurora-mount
 		class="jetpack-pricing-hero__aurora pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-700"

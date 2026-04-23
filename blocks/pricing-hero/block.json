@@ -5,7 +5,7 @@
 	"version": "1.1.0",
 	"title": "Pricing Hero",
 	"category": "jetpack-theme",
-	"description": "The unified hero for the /pricing/ page \u2014 eyebrow + H1 + subhead + two CTAs with an Aurora Blur WebGL effect behind.",
+	"description": "The unified hero for the /pricing/ page — eyebrow + H1 + subhead + two CTAs with an Aurora Blur WebGL effect behind.",
 	"keywords": [ "hero", "pricing", "aurora", "jetpack" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
