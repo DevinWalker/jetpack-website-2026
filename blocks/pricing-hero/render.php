@@ -22,7 +22,7 @@ $primary_cta_url    = (string) ( $attributes['primaryCtaUrl']    ?? '' );
 $secondary_cta_text = (string) ( $attributes['secondaryCtaText'] ?? '' );
 $secondary_cta_url  = (string) ( $attributes['secondaryCtaUrl']  ?? '' );
 ?>
-<section class="jetpack-pricing-hero relative isolate overflow-hidden bg-background">
+<section class="jetpack-pricing-hero relative isolate overflow-hidden bg-frame">
 
 	<?php /* Aurora mount — transparent canvas, greens only, faded in on first intersection */ ?>
 	<div

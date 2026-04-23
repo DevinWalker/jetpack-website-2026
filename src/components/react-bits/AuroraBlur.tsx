@@ -100,10 +100,12 @@ vec3 aurora(vec2 uv,float spd,float intensity,vec3 col,float aspect){
   vec2 scaled=vec2(uv.x*aspect,uv.y)*u_noiseScale;
   vec2 p=scaled+t*vec2(u_movementX,u_movementY);
   float n=n2d(p+n2d(col.xy+p+t));
-  // Clamp a to 0 so negative contributions cant subtract channels from the
-  // sky (which would produce complementary-color halos: greens read as
-  // magenta wherever a drops below zero).
-  float a=max(n-uv.y*u_verticalFade,0.0);
+  // Aurora intensity is strongest at the TOP of the canvas and fades toward
+  // the bottom \u2014 uv.y is 0 at the bottom, 1 at the top in the orthographic
+  // Canvas, so we invert with (1 - uv.y) and clamp to 0 to keep negative
+  // contributions from subtracting channels (which would turn greens into
+  // complementary magenta halos).
+  float a=max(n-(1.0-uv.y)*u_verticalFade,0.0);
   return col*a*intensity*u_bloomIntensity;
 }
 
