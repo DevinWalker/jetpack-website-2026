@@ -9,7 +9,7 @@
 	"keywords": [ "hero", "pricing", "aurora", "jetpack" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
-	"viewScript": "file:../../build/pricing-hero-view.js",
+	"style": "file:../../build/style-pricing-hero-style.css",
 	"attributes": {
 		"eyebrow": {
 			"type": "string",

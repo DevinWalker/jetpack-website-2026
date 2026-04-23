@@ -3,13 +3,12 @@
  * Pricing Hero block — server render.
  *
  * The unified hero for the /pricing/ page: eyebrow + H1 + subhead + two CTAs
- * with a WebGL Aurora Blur mount point behind the text. The view script
- * (pricing-hero-view) instantiates AuroraBlur into [data-aurora-mount] on
- * first intersection, gated by prefers-reduced-motion.
+ * with a soft radial-faded brand background image behind the text.
  *
- * The shader outputs transparent pixels wherever the aurora isn't glowing,
- * so the hero's own `bg-background` shows through without any dark sky
- * gradient fighting the light theme.
+ * No JS, no WebGL — the background is the same `assets/BG.jpg` the homepage
+ * hero uses, layered under a radial mask so the image blends out to white at
+ * the edges. The mask is pure CSS (`mask-image: radial-gradient(...)`) plus a
+ * gentle blur / brightness adjustment to keep the hero text readable over it.
  *
  * @var array $attributes Block attributes (see block.json for defaults).
  */
@@ -21,15 +20,27 @@ $primary_cta_text   = (string) ( $attributes['primaryCtaText']   ?? '' );
 $primary_cta_url    = (string) ( $attributes['primaryCtaUrl']    ?? '' );
 $secondary_cta_text = (string) ( $attributes['secondaryCtaText'] ?? '' );
 $secondary_cta_url  = (string) ( $attributes['secondaryCtaUrl']  ?? '' );
+
+$bg_url = get_template_directory_uri() . '/assets/BG.jpg';
 ?>
 <section class="jetpack-pricing-hero relative isolate overflow-hidden bg-frame">
 
-	<?php /* Aurora mount — transparent canvas, greens only, faded in on first intersection */ ?>
+	<?php /* Brand background image, radially faded to white at the edges (pure CSS, no JS) */ ?>
 	<div
-		data-aurora-mount
-		class="jetpack-pricing-hero__aurora pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-700"
+		class="jetpack-pricing-hero__bg pointer-events-none absolute inset-0 -z-10"
 		aria-hidden="true"
-	></div>
+	>
+		<img
+			src="<?php echo esc_url( $bg_url ); ?>"
+			alt=""
+			class="jetpack-pricing-hero__bg-img h-full w-full object-cover opacity-55"
+			loading="eager"
+			decoding="async"
+			aria-hidden="true"
+		/>
+		<?php /* Top-down white fade so the header pill and pricing section below blend into it */ ?>
+		<div class="absolute inset-0 bg-gradient-to-b from-white/30 via-white/5 to-white" aria-hidden="true"></div>
+	</div>
 
 	<div class="relative mx-auto max-w-4xl px-6 pt-24 pb-20 text-center sm:pt-28 sm:pb-24">
 		<?php if ( ! empty( $eyebrow ) ) : ?>

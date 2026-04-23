@@ -12,14 +12,12 @@
     "packages-update": "wp-scripts packages-update"
   },
   "dependencies": {
-    "@react-three/fiber": "^8.18.0",
     "clsx": "^2.1.1",
     "gsap": "^3.15.0",
     "lenis": "^1.3.17",
     "lucide-react": "^0.511.0",
     "motion": "^12.38.0",
-    "tailwind-merge": "^3.3.1",
-    "three": "^0.170.0"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
