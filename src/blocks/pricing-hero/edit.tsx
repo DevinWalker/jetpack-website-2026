@@ -1,5 +1,5 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, TextControl, TextareaControl, ToggleControl } from '@wordpress/components';
+import { PanelBody, TextControl, TextareaControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 interface Attrs {
@@ -10,7 +10,6 @@ interface Attrs {
 	primaryCtaUrl:    string;
 	secondaryCtaText: string;
 	secondaryCtaUrl:  string;
-	showAurora:       boolean;
 }
 
 interface Props {
@@ -20,14 +19,14 @@ interface Props {
 
 /**
  * Pricing Hero edit UI — static preview + inspector controls.
- * Matches the theme's existing block pattern (static preview, no ServerSideRender).
+ * The block is pinned to the /pricing/ page (block.json supports.multiple: false);
+ * Aurora is always-on and respects prefers-reduced-motion at runtime.
  */
 export function PricingHeroEdit( { attributes, setAttributes }: Props ) {
 	const {
 		eyebrow, title, subtitle,
 		primaryCtaText, primaryCtaUrl,
 		secondaryCtaText, secondaryCtaUrl,
-		showAurora,
 	} = attributes;
 
 	return (
@@ -47,15 +46,6 @@ export function PricingHeroEdit( { attributes, setAttributes }: Props ) {
 				<PanelBody title={ __( 'Secondary CTA', 'jetpack-theme' ) } initialOpen={ false }>
 					<TextControl label={ __( 'Text', 'jetpack-theme' ) } value={ secondaryCtaText } onChange={ ( v ) => setAttributes( { secondaryCtaText: v } ) } />
 					<TextControl label={ __( 'URL',  'jetpack-theme' ) } value={ secondaryCtaUrl }  onChange={ ( v ) => setAttributes( { secondaryCtaUrl: v } ) } />
-				</PanelBody>
-
-				<PanelBody title={ __( 'Visual effects', 'jetpack-theme' ) } initialOpen={ false }>
-					<ToggleControl
-						label={ __( 'Show Aurora background', 'jetpack-theme' ) }
-						help={ __( 'WebGL effect (skipped automatically for prefers-reduced-motion).', 'jetpack-theme' ) }
-						checked={ showAurora }
-						onChange={ ( v ) => setAttributes( { showAurora: v } ) }
-					/>
 				</PanelBody>
 			</InspectorControls>
 

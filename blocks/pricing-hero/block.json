@@ -2,10 +2,10 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "jetpack-theme/pricing-hero",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"title": "Pricing Hero",
 	"category": "jetpack-theme",
-	"description": "Hero section with a WebGL aurora effect. Reusable on any landing page \u2014 set title, subtitle, and CTAs via block attributes.",
+	"description": "The unified hero for the /pricing/ page \u2014 eyebrow + H1 + subhead + two CTAs with an Aurora Blur WebGL effect behind.",
 	"keywords": [ "hero", "pricing", "aurora", "jetpack" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
@@ -38,19 +38,8 @@
 		"secondaryCtaUrl": {
 			"type": "string",
 			"default": "#compare-free-pro"
-		},
-		"showAurora": {
-			"type": "boolean",
-			"default": true
 		}
 	},
-	"supports": { "html": false, "align": [ "wide", "full" ] },
-	"example": {
-		"attributes": {
-			"eyebrow": "27 million WordPress sites run Jetpack",
-			"title": "Everything Pro adds to the free Jetpack plugin.",
-			"subtitle": "One plugin, one price, one place to manage security, performance, and growth."
-		}
-	},
+	"supports": { "html": false, "multiple": false, "reusable": false },
 	"render": "file:./render.php"
 }

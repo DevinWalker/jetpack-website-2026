@@ -116,18 +116,21 @@ void main(){
   vec2 uv=vUv;
   float aspect=u_resolution.x/u_resolution.y;
 
+  // Only sum the aurora layers \u2014 we intentionally skip the stock
+  // sky-gradient backdrop (which darkens toward the top and clashes with
+  // light-themed pages). Alpha is derived from luminance, so pixels with
+  // no aurora contribution are fully transparent and the host page
+  // background shows through cleanly.
   vec3 c=vec3(0.);
   c+=aurora(uv,u_layer1Speed,u_layer1Intensity,u_layer1Color,aspect);
   c+=aurora(uv,u_layer2Speed,u_layer2Intensity,u_layer2Color,aspect);
   c+=aurora(uv,u_layer3Speed,u_layer3Intensity,u_layer3Color,aspect);
   c+=aurora(uv,u_layer4Speed,u_layer4Intensity,u_layer4Color,aspect);
 
-  c+=u_skyColor2*(1.-smoothstep(u_skyBlend1,1.,uv.y));
-  c+=u_skyColor1*(1.-smoothstep(0.,u_skyBlend2,uv.y));
-
   c=sat(c,u_saturation)*u_brightness;
 
-  gl_FragColor=vec4(c,u_opacity);
+  float luminance=clamp(dot(c,vec3(0.299,0.587,0.114)),0.0,1.0);
+  gl_FragColor=vec4(c, luminance*u_opacity);
 }
 `;
 

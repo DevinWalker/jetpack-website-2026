@@ -2,44 +2,36 @@
 /**
  * Pricing Hero block — server render.
  *
- * Renders a unified hero (eyebrow + H1 + subhead + two CTAs) with a WebGL
- * Aurora Blur mount point behind the text. The view script (pricing-hero-view)
- * instantiates AuroraBlur into [data-aurora-mount] on first intersection,
- * gated by prefers-reduced-motion.
+ * The unified hero for the /pricing/ page: eyebrow + H1 + subhead + two CTAs
+ * with a WebGL Aurora Blur mount point behind the text. The view script
+ * (pricing-hero-view) instantiates AuroraBlur into [data-aurora-mount] on
+ * first intersection, gated by prefers-reduced-motion.
+ *
+ * The shader outputs transparent pixels wherever the aurora isn't glowing,
+ * so the hero's own `bg-background` shows through without any dark sky
+ * gradient fighting the light theme.
  *
  * @var array $attributes Block attributes (see block.json for defaults).
  */
 
-$eyebrow           = (string) ( $attributes['eyebrow']          ?? '' );
-$title             = (string) ( $attributes['title']            ?? '' );
-$subtitle          = (string) ( $attributes['subtitle']         ?? '' );
-$primary_cta_text  = (string) ( $attributes['primaryCtaText']   ?? '' );
-$primary_cta_url   = (string) ( $attributes['primaryCtaUrl']    ?? '' );
-$secondary_cta_text= (string) ( $attributes['secondaryCtaText'] ?? '' );
-$secondary_cta_url = (string) ( $attributes['secondaryCtaUrl']  ?? '' );
-$show_aurora       = ! empty( $attributes['showAurora'] );
+$eyebrow            = (string) ( $attributes['eyebrow']          ?? '' );
+$title              = (string) ( $attributes['title']            ?? '' );
+$subtitle           = (string) ( $attributes['subtitle']         ?? '' );
+$primary_cta_text   = (string) ( $attributes['primaryCtaText']   ?? '' );
+$primary_cta_url    = (string) ( $attributes['primaryCtaUrl']    ?? '' );
+$secondary_cta_text = (string) ( $attributes['secondaryCtaText'] ?? '' );
+$secondary_cta_url  = (string) ( $attributes['secondaryCtaUrl']  ?? '' );
 ?>
 <section class="jetpack-pricing-hero relative isolate overflow-hidden bg-background">
 
-	<?php if ( $show_aurora ) : ?>
-		<?php /* Aurora mount + static gradient fallback for reduced-motion and pre-mount frames. */ ?>
-		<div
-			class="jetpack-pricing-hero__aurora absolute inset-0 -z-10"
-			aria-hidden="true"
-		>
-			<div
-				class="absolute inset-0 bg-gradient-to-br from-green-0 via-background to-green-0 opacity-80"
-				aria-hidden="true"
-			></div>
-			<div
-				data-aurora-mount
-				class="absolute inset-0 opacity-0 transition-opacity duration-700"
-				aria-hidden="true"
-			></div>
-		</div>
-	<?php endif; ?>
+	<?php /* Aurora mount \u2014 transparent canvas, greens only, faded in on first intersection */ ?>
+	<div
+		data-aurora-mount
+		class="jetpack-pricing-hero__aurora pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-700"
+		aria-hidden="true"
+	></div>
 
-	<div class="relative mx-auto max-w-4xl px-6 pt-32 pb-20 text-center sm:pt-40 sm:pb-24">
+	<div class="relative mx-auto max-w-4xl px-6 pt-24 pb-20 text-center sm:pt-28 sm:pb-24">
 		<?php if ( ! empty( $eyebrow ) ) : ?>
 		<p class="jetpack-reveal opacity-0 translate-y-5 inline-flex items-center gap-2 rounded-full bg-jetpack-green-50/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-jetpack-green-60">
 			<span class="inline-block h-2 w-2 rounded-full bg-jetpack-green-50" aria-hidden="true"></span>
