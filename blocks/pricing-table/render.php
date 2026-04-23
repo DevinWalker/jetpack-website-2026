@@ -2,135 +2,104 @@
 /**
  * Pricing Table block — server render.
  *
- * Ports the visual structure of ReactBits Pro "pricing-6" (purple → Jetpack
- * greens). Three paid cards (Basic / Pro / Agency); Pro is lifted/highlighted.
- * Billing-cycle toggle (Monthly / Yearly / 2-Year) updates each card's price
- * block via pricing-interactions.js.
+ * Renders paid plan cards (Basic / Pro / Agency) with a single flat yearly
+ * price per card. No billing-cycle toggle. Reusable on any page via
+ * `visiblePlans` and `variant` attributes.
  *
- * Content comes from inc/pricing-data.php — this template is presentation only.
+ * Plan content comes from inc/pricing-data.php (loaded at boot in functions.php).
+ * Icons come from inc/icons.php.
  *
- * @var array $attributes Block attributes.
+ * @var array $attributes Block attributes (see block.json for defaults + schema).
  */
 
-require_once get_template_directory() . '/inc/pricing-data.php';
+$visible_plans    = isset( $attributes['visiblePlans'] ) && is_array( $attributes['visiblePlans'] ) ? $attributes['visiblePlans'] : [ 'basic', 'pro', 'agency' ];
+$variant          = ( $attributes['variant'] ?? 'full' ) === 'compact' ? 'compact' : 'full';
+$highlighted_slug = (string) ( $attributes['highlightedPlan'] ?? 'pro' );
+$show_eyebrow     = ! empty( $attributes['showEyebrow'] );
 
-$title           = $attributes['sectionTitle']       ?? '';
-$description     = $attributes['sectionDescription'] ?? '';
-$default_cycle   = in_array( $attributes['defaultCycle'] ?? 'yearly', [ 'monthly', 'yearly', 'biyearly' ], true ) ? $attributes['defaultCycle'] : 'yearly';
-$highlighted     = $attributes['highlightedPlan'] ?? 'pro';
+$data  = jetpack_theme_pricing_data();
+$plans = array_values( array_filter(
+	$data['plans'],
+	static fn ( array $p ): bool => in_array( $p['slug'], $visible_plans, true )
+) );
 
-$data   = jetpack_theme_pricing_data();
-$plans  = $data['plans'];
+if ( empty( $plans ) ) {
+	return;
+}
 
-$cycles = [
-	'monthly'  => __( 'Monthly',  'jetpack-theme' ),
-	'yearly'   => __( 'Yearly',   'jetpack-theme' ),
-	'biyearly' => __( '2-Year',   'jetpack-theme' ),
-];
+// Layout knobs per variant. Compact drops padding and type size so the cards
+// can live inside narrower columns (e.g. a mid-article CTA or a sidebar).
+$padding       = 'compact' === $variant ? 'p-5 sm:p-6' : 'p-6 sm:p-8';
+$price_size    = 'compact' === $variant ? 'text-3xl sm:text-4xl' : 'text-4xl sm:text-5xl';
+$tagline_size  = 'compact' === $variant ? 'text-xs' : 'text-sm';
+$grid_gap      = 'compact' === $variant ? 'gap-4' : 'gap-6 lg:gap-8';
+$col_class     = count( $plans ) === 1
+	? 'grid-cols-1'
+	: ( count( $plans ) === 2 ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 lg:grid-cols-3' );
+$section_pad   = 'compact' === $variant ? 'py-12 sm:py-16' : 'py-16 sm:py-20';
 ?>
 <section
-	class="jetpack-pricing-table w-full bg-background px-6 py-20 sm:py-28 scroll-mt-24"
 	id="pricing"
-	data-wp-interactive="jetpack-theme/pricing-table"
-	data-default-cycle="<?php echo esc_attr( $default_cycle ); ?>"
-	<?php echo wp_kses_data( wp_interactivity_data_wp_context( [ 'cycle' => $default_cycle ] ) ); ?>
+	class="jetpack-pricing-table w-full bg-background px-6 scroll-mt-24 <?php echo esc_attr( $section_pad ); ?>"
+	data-variant="<?php echo esc_attr( $variant ); ?>"
 >
 	<div class="mx-auto max-w-6xl">
 
-		<?php /* ── Header ──────────────────────────────────────────────── */ ?>
-		<div class="mb-12 text-center sm:mb-16 jetpack-reveal opacity-0 translate-y-5">
-			<span class="inline-block rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
-				<?php esc_html_e( 'Pricing', 'jetpack-theme' ); ?>
+		<?php if ( $show_eyebrow ) : ?>
+		<div class="mb-10 text-center jetpack-reveal opacity-0 translate-y-5">
+			<span class="inline-block rounded-full bg-jetpack-green-50/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-jetpack-green-60">
+				<?php esc_html_e( 'Plans', 'jetpack-theme' ); ?>
 			</span>
-			<h2 class="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-				<?php echo esc_html( $title ); ?>
-			</h2>
-			<p class="mx-auto mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
-				<?php echo esc_html( $description ); ?>
-			</p>
 		</div>
+		<?php endif; ?>
 
-		<?php /* ── Billing cycle toggle ────────────────────────────────── */ ?>
-		<div class="flex items-center justify-center mb-12 jetpack-reveal opacity-0 translate-y-5">
-			<div class="jetpack-cycle-toggle inline-flex items-center gap-1 rounded-full border border-border bg-frame p-1 shadow-sm" role="tablist" aria-label="<?php esc_attr_e( 'Billing cycle', 'jetpack-theme' ); ?>">
-				<?php foreach ( $cycles as $cycle_slug => $cycle_label ) :
-					$is_active = $cycle_slug === $default_cycle;
-				?>
-				<button
-					type="button"
-					role="tab"
-					data-cycle="<?php echo esc_attr( $cycle_slug ); ?>"
-					aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
-					class="jetpack-cycle-toggle__btn cursor-pointer relative z-10 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-200 <?php echo $is_active ? 'bg-jetpack-green-50 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'; ?>"
-				>
-					<?php echo esc_html( $cycle_label ); ?>
-					<?php if ( 'biyearly' === $cycle_slug ) : ?>
-					<span class="inline-flex items-center rounded-full bg-accent/80 px-1.5 py-0.5 text-[0.625rem] font-bold uppercase tracking-wide text-black/70">
-						<?php esc_html_e( 'Best value', 'jetpack-theme' ); ?>
-					</span>
-					<?php endif; ?>
-				</button>
-				<?php endforeach; ?>
-			</div>
-		</div>
-
-		<?php /* ── Plan cards ──────────────────────────────────────────── */ ?>
-		<div class="grid grid-cols-1 gap-6 items-stretch lg:grid-cols-3 lg:gap-8">
+		<div class="grid items-stretch <?php echo esc_attr( $col_class ); ?> <?php echo esc_attr( $grid_gap ); ?>">
 			<?php foreach ( $plans as $i => $plan ) :
-				$is_popular = ! empty( $plan['popular'] ) && ( $plan['slug'] === $highlighted );
+				$is_popular = $plan['slug'] === $highlighted_slug;
+				$card_wrap  = 'jetpack-pricing-card relative ' . ( $is_popular ? 'lg:-my-4 z-10' : '' );
 			?>
-			<div class="jetpack-pricing-card relative <?php echo $is_popular ? 'lg:-my-4 z-10' : ''; ?> jetpack-reveal opacity-0 translate-y-5" style="transition-delay:<?php echo esc_attr( ( $i * 0.1 ) . 's' ); ?>">
+			<div class="<?php echo esc_attr( $card_wrap ); ?> jetpack-reveal opacity-0 translate-y-5" style="transition-delay:<?php echo esc_attr( ( $i * 0.1 ) . 's' ); ?>">
 				<?php if ( $is_popular ) : ?>
-					<?php /* Soft radial gradient behind popular card — Jetpack green */ ?>
-					<div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-jetpack-green-50/25 to-transparent -z-10" aria-hidden="true"></div>
+				<div class="absolute inset-0 rounded-3xl bg-gradient-to-t from-jetpack-green-50/25 to-transparent -z-10" aria-hidden="true"></div>
 				<?php endif; ?>
 
-				<div class="relative flex h-full flex-col overflow-hidden rounded-2xl bg-frame p-6 sm:p-8 <?php echo $is_popular ? 'shadow-xl ring-1 ring-jetpack-green-50/20' : 'border border-border shadow-sm'; ?>">
+				<div class="relative flex h-full flex-col overflow-hidden rounded-2xl bg-frame <?php echo esc_attr( $padding ); ?> <?php echo $is_popular ? 'shadow-xl ring-1 ring-jetpack-green-50/20' : 'border border-border shadow-sm'; ?>">
 
-					<?php /* Plan name + popular badge */ ?>
+					<?php /* Plan name + SR-only "most popular" announcement */ ?>
 					<div class="flex justify-between items-center mb-4">
 						<h3 class="text-xl font-medium <?php echo $is_popular ? 'text-jetpack-green-50' : 'text-muted-foreground'; ?>">
 							<?php echo esc_html( $plan['name'] ); ?>
+							<?php if ( $is_popular ) : ?>
+							<span class="sr-only"><?php esc_html_e( '(most popular plan)', 'jetpack-theme' ); ?></span>
+							<?php endif; ?>
 						</h3>
 						<?php if ( $is_popular ) : ?>
-						<span class="inline-block rounded-full bg-jetpack-green-50/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-jetpack-green-50">
+						<span class="inline-block rounded-full bg-jetpack-green-50/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-jetpack-green-50" aria-hidden="true">
 							<?php esc_html_e( 'Most popular', 'jetpack-theme' ); ?>
 						</span>
 						<?php endif; ?>
 					</div>
 
-					<?php /* Price block — one per cycle, cycle toggle shows/hides via JS */ ?>
-					<div class="jetpack-pricing-card__prices">
-						<?php foreach ( $plan['prices'] as $cycle_slug => $price ) :
-							$is_active_cycle = $cycle_slug === $default_cycle;
-						?>
-						<div
-							class="jetpack-price-cell <?php echo $is_active_cycle ? '' : 'hidden'; ?>"
-							data-cycle="<?php echo esc_attr( $cycle_slug ); ?>"
-							<?php if ( ! $is_active_cycle ) : ?>hidden<?php endif; ?>
-						>
-							<div class="flex items-baseline gap-2">
-								<span class="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-									<?php echo esc_html( $price['per_month'] ); ?>
-								</span>
-								<span class="text-sm text-muted-foreground">/<?php esc_html_e( 'mo', 'jetpack-theme' ); ?></span>
-							</div>
-							<p class="mt-2 text-sm text-muted-foreground">
-								<?php echo esc_html( $price['total'] ); ?>
-							</p>
-							<?php if ( ! empty( $price['savings_label'] ) ) : ?>
-							<p class="mt-1 text-xs font-semibold text-jetpack-green-50">
-								<?php echo esc_html( $price['savings_label'] ); ?>
-							</p>
-							<?php else : ?>
-							<p class="mt-1 text-xs text-transparent select-none" aria-hidden="true">&nbsp;</p>
-							<?php endif; ?>
-						</div>
-						<?php endforeach; ?>
+					<?php /* Single price block */ ?>
+					<div class="flex items-baseline gap-2">
+						<span class="<?php echo esc_attr( $price_size ); ?> font-semibold tracking-tight text-foreground">
+							<?php echo esc_html( $plan['price']['per_month'] ); ?>
+						</span>
+						<?php if ( 'agency' !== $plan['slug'] ) : ?>
+						<span class="text-sm text-muted-foreground">/<?php esc_html_e( 'mo', 'jetpack-theme' ); ?></span>
+						<?php endif; ?>
 					</div>
+					<p class="mt-2 text-sm text-muted-foreground">
+						<?php echo esc_html( $plan['price']['per_year_label'] ); ?>
+					</p>
+					<?php if ( ! empty( $plan['price']['savings_label'] ) ) : ?>
+					<p class="mt-1 text-xs font-semibold text-jetpack-green-50">
+						<?php echo esc_html( $plan['price']['savings_label'] ); ?>
+					</p>
+					<?php endif; ?>
 
 					<?php /* Tagline */ ?>
-					<p class="mt-4 text-sm leading-relaxed text-muted-foreground">
+					<p class="mt-4 <?php echo esc_attr( $tagline_size ); ?> leading-relaxed text-muted-foreground">
 						<?php echo esc_html( $plan['tagline'] ); ?>
 					</p>
 
@@ -147,11 +116,11 @@ $cycles = [
 						<p class="text-sm font-semibold text-foreground">
 							<?php esc_html_e( "What's included:", 'jetpack-theme' ); ?>
 						</p>
-						<ul class="mt-4 space-y-3">
+						<ul class="mt-4 space-y-3" role="list">
 							<?php foreach ( $plan['features'] as $feature ) : ?>
 							<li class="flex items-start gap-3">
 								<span class="mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full <?php echo $is_popular ? 'bg-jetpack-green-50 text-white' : 'bg-foreground text-background'; ?>">
-									<?php $classes = 'h-3 w-3'; include __DIR__ . '/parts/_check-icon.php'; ?>
+									<?php jetpack_theme_icon( 'check', 'h-3 w-3' ); ?>
 								</span>
 								<span class="text-sm leading-relaxed text-foreground">
 									<?php echo esc_html( $feature ); ?>

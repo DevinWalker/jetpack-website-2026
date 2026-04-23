@@ -2,34 +2,37 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "jetpack-theme/pricing-table",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"title": "Pricing Table",
 	"category": "jetpack-theme",
-	"description": "Three-tier paid pricing table (Basic / Pro / Agency) with Monthly / Yearly / 2-Year billing toggle. Flat recurring pricing, no first-year discount.",
-	"keywords": [ "pricing", "plans", "billing" ],
+	"description": "Flat-recurring pricing cards (Basic / Pro / Agency). Reusable on any page \u2014 pick which plans to show and the layout variant.",
+	"keywords": [ "pricing", "plans", "cards" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
-	"viewScript": "file:../../build/pricing-interactions.js",
 	"attributes": {
-		"sectionTitle": {
-			"type": "string",
-			"default": "Simple, stable pricing"
+		"visiblePlans": {
+			"type": "array",
+			"default": [ "basic", "pro", "agency" ],
+			"items": { "type": "string", "enum": [ "basic", "pro", "agency" ] }
 		},
-		"sectionDescription": {
+		"variant": {
 			"type": "string",
-			"default": "One price every year. No intro tricks, no renewal shock. Pay monthly, save every year with annual billing, or save even more with a 2-year plan."
-		},
-		"defaultCycle": {
-			"type": "string",
-			"default": "yearly",
-			"enum": [ "monthly", "yearly", "biyearly" ]
+			"default": "full",
+			"enum": [ "full", "compact" ]
 		},
 		"highlightedPlan": {
 			"type": "string",
 			"default": "pro",
 			"enum": [ "basic", "pro", "agency" ]
+		},
+		"showEyebrow": {
+			"type": "boolean",
+			"default": false
 		}
 	},
-	"supports": { "html": false, "multiple": false },
+	"supports": { "html": false, "align": [ "wide", "full" ] },
+	"example": {
+		"attributes": { "visiblePlans": [ "basic", "pro", "agency" ], "variant": "full" }
+	},
 	"render": "file:./render.php"
 }

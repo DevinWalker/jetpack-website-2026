@@ -2,29 +2,28 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "jetpack-theme/pricing-comparison",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"title": "Pricing Comparison",
 	"category": "jetpack-theme",
-	"description": "Free vs Pro feature comparison table with category tabs (Security / Performance / Growth / Management).",
+	"description": "Free vs Pro feature comparison \u2014 all categories visible at once (no tabs). Semantic table on desktop, stacked cards on mobile.",
 	"keywords": [ "pricing", "comparison", "features", "free", "pro" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
-	"viewScript": "file:../../build/pricing-interactions.js",
 	"attributes": {
 		"sectionTitle": {
 			"type": "string",
-			"default": "Jetpack Free vs. Jetpack Pro"
+			"default": "What Pro adds on top of Free"
 		},
 		"sectionDescription": {
 			"type": "string",
-			"default": "You're already on Free — here's exactly what Pro adds. Browse by what matters most to you."
-		},
-		"defaultCategory": {
-			"type": "string",
-			"default": "security",
-			"enum": [ "security", "performance", "growth", "management" ]
+			"default": "You're already running Jetpack Free. Here's exactly what Pro adds \u2014 every feature, in one scan-friendly view."
 		}
 	},
-	"supports": { "html": false, "multiple": false },
+	"supports": { "html": false, "align": [ "wide", "full" ] },
+	"example": {
+		"attributes": {
+			"sectionTitle": "What Pro adds on top of Free"
+		}
+	},
 	"render": "file:./render.php"
 }

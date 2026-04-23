@@ -16,9 +16,6 @@
   --card-foreground-muted: #525252;
   --phone-screen: #f5f5f5;
   --sand: #f0f2eb;
-  --jetpack-green-50: #069e08;
-  --jetpack-green-60: #007117;
-  --green-0: #f0f6e8;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, monospace;
 }
@@ -38,9 +35,18 @@
   --color-card-foreground-muted: var(--card-foreground-muted);
   --color-phone-screen: var(--phone-screen);
   --color-sand: var(--sand);
-  --color-jetpack-green-50: var(--jetpack-green-50);
-  --color-jetpack-green-60: var(--jetpack-green-60);
-  --color-green-0: var(--green-0);
+
+  /*
+   * Palette tokens that live exclusively in theme.json (Jetpack greens + tints).
+   * Pointing at the WP-emitted `--wp--preset--color--*` variables keeps
+   * theme.json as the single source of truth — editors updating palette values
+   * through the Site Editor will flow through to Tailwind utilities without
+   * touching CSS.
+   */
+  --color-jetpack-green-50: var(--wp--preset--color--jetpack-green-50);
+  --color-jetpack-green-60: var(--wp--preset--color--jetpack-green-60);
+  --color-green-0:          var(--wp--preset--color--green-0);
+
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 }

@@ -13,6 +13,7 @@ declare( strict_types = 1 );
 
 require_once get_template_directory() . '/inc/taxonomies.php';
 require_once get_template_directory() . '/inc/pricing-data.php';
+require_once get_template_directory() . '/inc/icons.php';
 
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
@@ -308,6 +309,7 @@ add_action( 'init', function (): void {
 		'features-bento',
 		'testimonials',
 		'pricing',
+		'pricing-hero',
 		'pricing-table',
 		'pricing-comparison',
 		'faq',

@@ -2,179 +2,179 @@
 /**
  * Pricing Comparison block — server render.
  *
- * Ports the visual structure of ReactBits Pro "comparison-2" with Free vs Pro
- * columns. Category tabs (Security / Performance / Growth / Management) swap
- * the feature rows via pricing-interactions.js.
+ * Full Free-vs-Pro feature comparison. Every category is rendered in sequence
+ * (no tabs, no JS). Desktop uses a semantic <table> for screen-reader parity;
+ * mobile falls back to stacked cards with <dl> semantics.
  *
- * Data (features per category, boolean/string per column) comes from
- * inc/pricing-data.php.
+ * Data comes from inc/pricing-data.php; icons from inc/icons.php.
  *
- * @var array $attributes Block attributes.
+ * @var array $attributes Block attributes (see block.json).
  */
 
-require_once get_template_directory() . '/inc/pricing-data.php';
-
-$title            = $attributes['sectionTitle']       ?? '';
-$description      = $attributes['sectionDescription'] ?? '';
-$default_category = in_array( $attributes['defaultCategory'] ?? 'security', [ 'security', 'performance', 'growth', 'management' ], true ) ? $attributes['defaultCategory'] : 'security';
+$title       = (string) ( $attributes['sectionTitle']       ?? '' );
+$description = (string) ( $attributes['sectionDescription'] ?? '' );
 
 $data       = jetpack_theme_pricing_data();
 $comparison = $data['comparison'];
 
-$categories = [
-	'security'    => [ 'label' => __( 'Security',    'jetpack-theme' ), 'icon' => 'shield' ],
-	'performance' => [ 'label' => __( 'Performance', 'jetpack-theme' ), 'icon' => 'zap' ],
-	'growth'      => [ 'label' => __( 'Growth',      'jetpack-theme' ), 'icon' => 'trending-up' ],
-	'management'  => [ 'label' => __( 'Management',  'jetpack-theme' ), 'icon' => 'settings' ],
-];
-
 /**
- * Render a single cell value (boolean → check/x, string → literal).
+ * Render a single value cell (bool → check/x, string → literal).
  *
  * @param bool|string $value      The feature value.
- * @param bool        $is_popular Whether this column is the highlighted (Pro) column.
+ * @param bool        $is_pro_col Whether this is the highlighted (Pro) column.
  */
-function jetpack_theme_comparison_cell( $value, bool $is_popular = false ): void {
+$render_value = static function ( $value, bool $is_pro_col = false ): void {
 	if ( is_bool( $value ) ) {
 		if ( $value ) {
-			?>
-			<div class="inline-flex h-8 w-8 items-center justify-center rounded-full <?php echo $is_popular ? 'bg-jetpack-green-50 text-white' : 'bg-foreground text-background'; ?>">
-				<?php $icon = 'check'; $classes = 'h-5 w-5'; include __DIR__ . '/parts/_icons.php'; ?>
-			</div>
-			<?php
+			echo '<span class="inline-flex h-8 w-8 items-center justify-center rounded-full ' . ( $is_pro_col ? 'bg-jetpack-green-50 text-white' : 'bg-foreground text-background' ) . '">';
+			jetpack_theme_icon( 'check', 'h-5 w-5' );
+			echo '</span>';
+			echo '<span class="sr-only">' . esc_html__( 'Included', 'jetpack-theme' ) . '</span>';
 		} else {
-			?>
-			<div class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">
-				<?php $icon = 'x'; $classes = 'h-5 w-5'; include __DIR__ . '/parts/_icons.php'; ?>
-			</div>
-			<?php
+			echo '<span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground">';
+			jetpack_theme_icon( 'x', 'h-5 w-5' );
+			echo '</span>';
+			echo '<span class="sr-only">' . esc_html__( 'Not included', 'jetpack-theme' ) . '</span>';
 		}
 	} else {
-		$text_class = $is_popular ? 'text-jetpack-green-60' : 'text-foreground';
-		echo '<span class="text-center text-sm font-semibold ' . esc_attr( $text_class ) . '">' . esc_html( (string) $value ) . '</span>';
+		$color = $is_pro_col ? 'text-jetpack-green-60' : 'text-foreground';
+		echo '<span class="text-center text-sm font-semibold ' . esc_attr( $color ) . '">' . esc_html( (string) $value ) . '</span>';
 	}
-}
+};
 ?>
-<section
-	class="jetpack-pricing-comparison w-full bg-background px-6 py-20 sm:py-28"
-	data-wp-interactive="jetpack-theme/pricing-comparison"
-	data-default-category="<?php echo esc_attr( $default_category ); ?>"
-	<?php echo wp_kses_data( wp_interactivity_data_wp_context( [ 'category' => $default_category ] ) ); ?>
->
+<section id="compare-free-pro" class="jetpack-pricing-comparison w-full bg-background px-6 py-20 sm:py-28 scroll-mt-24">
 	<div class="mx-auto w-full max-w-5xl">
 
-		<?php /* ── Header ──────────────────────────────────────────────── */ ?>
-		<div class="mb-12 text-center sm:mb-16 jetpack-reveal opacity-0 translate-y-5">
+		<?php /* Header */ ?>
+		<div class="mb-10 text-center sm:mb-14 jetpack-reveal opacity-0 translate-y-5">
 			<span class="inline-block rounded-full bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
 				<?php esc_html_e( 'Compare plans', 'jetpack-theme' ); ?>
 			</span>
 			<h2 class="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
 				<?php echo esc_html( $title ); ?>
 			</h2>
+			<?php if ( ! empty( $description ) ) : ?>
 			<p class="mx-auto mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
 				<?php echo esc_html( $description ); ?>
 			</p>
+			<?php endif; ?>
 		</div>
 
-		<?php /* ── Category tabs (shared by mobile + desktop) ─────────── */ ?>
-		<div class="jetpack-category-tabs mb-8 flex flex-wrap items-center justify-center gap-2 jetpack-reveal opacity-0 translate-y-5" role="tablist" aria-label="<?php esc_attr_e( 'Feature category', 'jetpack-theme' ); ?>">
-			<?php foreach ( $categories as $cat_slug => $cat ) :
-				$is_active = $cat_slug === $default_category;
-			?>
-			<button
-				type="button"
-				role="tab"
-				data-category="<?php echo esc_attr( $cat_slug ); ?>"
-				aria-selected="<?php echo $is_active ? 'true' : 'false'; ?>"
-				class="jetpack-category-tabs__btn cursor-pointer inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 <?php echo $is_active ? 'border-jetpack-green-50 bg-jetpack-green-50 text-white' : 'border-border bg-frame text-foreground hover:bg-muted'; ?>"
-			>
-				<?php $icon = $cat['icon']; $classes = 'h-4 w-4'; include __DIR__ . '/parts/_icons.php'; ?>
-				<?php echo esc_html( $cat['label'] ); ?>
-			</button>
-			<?php endforeach; ?>
+		<?php /* TL;DR callout — the three things most Pro customers upgrade for. */ ?>
+		<div class="mx-auto mb-10 max-w-3xl rounded-2xl border border-border bg-frame p-5 sm:p-6 jetpack-reveal opacity-0 translate-y-5">
+			<p class="text-xs font-semibold uppercase tracking-wide text-jetpack-green-60">
+				<?php esc_html_e( 'The three things most Pro customers upgrade for', 'jetpack-theme' ); ?>
+			</p>
+			<ul class="mt-3 flex flex-col gap-2 text-sm text-foreground sm:flex-row sm:flex-wrap sm:gap-x-6">
+				<li class="flex items-center gap-2">
+					<span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-jetpack-green-50 text-white">
+						<?php jetpack_theme_icon( 'check', 'h-3 w-3' ); ?>
+					</span>
+					<?php esc_html_e( 'Real-time backups', 'jetpack-theme' ); ?>
+				</li>
+				<li class="flex items-center gap-2">
+					<span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-jetpack-green-50 text-white">
+						<?php jetpack_theme_icon( 'check', 'h-3 w-3' ); ?>
+					</span>
+					<?php esc_html_e( 'Malware removal', 'jetpack-theme' ); ?>
+				</li>
+				<li class="flex items-center gap-2">
+					<span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-jetpack-green-50 text-white">
+						<?php jetpack_theme_icon( 'check', 'h-3 w-3' ); ?>
+					</span>
+					<?php esc_html_e( 'Boost performance', 'jetpack-theme' ); ?>
+				</li>
+			</ul>
 		</div>
 
-		<div class="relative overflow-hidden rounded-3xl bg-muted p-1">
-
-			<?php foreach ( $categories as $cat_slug => $cat ) :
-				$rows      = $comparison[ $cat_slug ] ?? [];
-				$is_active = $cat_slug === $default_category;
-			?>
-			<div
-				class="jetpack-category-panel <?php echo $is_active ? '' : 'hidden'; ?>"
-				data-category="<?php echo esc_attr( $cat_slug ); ?>"
-				role="tabpanel"
-				<?php if ( ! $is_active ) : ?>hidden<?php endif; ?>
-			>
-
-				<?php /* ── Desktop table ─────────────────────────────── */ ?>
-				<div class="hidden lg:block">
-
-					<?php /* Column headers */ ?>
-					<div class="grid grid-cols-[2fr_1fr_1fr] gap-1 border-b-4 border-muted">
-						<div class="rounded-tl-3xl bg-frame px-8 py-6">
-							<h3 class="text-base font-semibold text-foreground">
-								<?php echo esc_html( $cat['label'] ); ?>
-							</h3>
-							<p class="mt-1 text-sm text-muted-foreground">
-								<?php esc_html_e( 'Compare what you get on each plan', 'jetpack-theme' ); ?>
-							</p>
-						</div>
-
-						<?php /* Free column header */ ?>
-						<div class="bg-frame px-8 py-6 text-center">
+		<?php /* ── Desktop: semantic <table>, categories as <tbody> groups with <th scope="rowgroup"> ── */ ?>
+		<div class="hidden lg:block jetpack-reveal opacity-0 translate-y-5">
+			<table class="w-full border-separate border-spacing-0 rounded-3xl bg-muted p-1 text-left">
+				<caption class="sr-only">
+					<?php esc_html_e( 'Jetpack Free versus Jetpack Pro feature comparison', 'jetpack-theme' ); ?>
+				</caption>
+				<thead>
+					<tr>
+						<th scope="col" class="rounded-tl-3xl bg-frame px-8 py-6 align-bottom">
+							<span class="text-sm font-semibold text-foreground"><?php esc_html_e( 'Feature', 'jetpack-theme' ); ?></span>
+						</th>
+						<th scope="col" class="bg-frame px-8 py-6 text-center align-bottom">
 							<div class="text-lg font-semibold text-foreground">
 								<?php esc_html_e( 'Free', 'jetpack-theme' ); ?>
 							</div>
 							<div class="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
 								<?php esc_html_e( 'Current plan', 'jetpack-theme' ); ?>
 							</div>
-						</div>
-
-						<?php /* Pro column header — radial gradient highlight using Jetpack green token */ ?>
-						<div class="relative overflow-hidden rounded-tr-3xl px-8 py-6">
-							<div
+						</th>
+						<th scope="col" class="relative overflow-hidden rounded-tr-3xl px-8 py-6 text-center align-bottom">
+							<span
 								class="absolute inset-0 -z-0"
 								style="background: radial-gradient(165% 165% at 50% 90%, var(--wp--preset--color--frame, #fff) 40%, var(--wp--preset--color--jetpack-green-50, #069e08) 100%);"
 								aria-hidden="true"
-							></div>
-							<div class="relative z-10 text-center">
-								<div class="text-lg font-semibold text-foreground">
+							></span>
+							<span class="relative z-10 block">
+								<span class="block text-lg font-semibold text-foreground">
 									<?php esc_html_e( 'Pro', 'jetpack-theme' ); ?>
-								</div>
-								<div class="mt-1 inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-jetpack-green-60">
+								</span>
+								<span class="mt-1 inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wide text-jetpack-green-60">
 									<?php esc_html_e( 'Most popular', 'jetpack-theme' ); ?>
 									<span aria-hidden="true">↗</span>
-								</div>
-							</div>
-						</div>
-					</div>
+								</span>
+							</span>
+						</th>
+					</tr>
+				</thead>
 
-					<?php /* Feature rows */ ?>
+				<?php foreach ( $comparison as $cat_slug => $cat ) :
+					$rows = $cat['rows'] ?? [];
+					if ( empty( $rows ) ) continue;
+				?>
+				<tbody class="border-t-4 border-muted">
+					<tr>
+						<th scope="colgroup" colspan="3" class="bg-frame px-8 pt-6 pb-3 text-left">
+							<span class="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-jetpack-green-60">
+								<?php jetpack_theme_icon( $cat['icon'], 'h-4 w-4' ); ?>
+								<?php echo esc_html( $cat['label'] ); ?>
+							</span>
+						</th>
+					</tr>
 					<?php foreach ( $rows as $row_i => $row ) :
-						$is_last = $row_i === count( $rows ) - 1;
+						$is_last_in_last = ( $row_i === count( $rows ) - 1 ) && ( $cat_slug === array_key_last( $comparison ) );
 					?>
-					<div class="grid grid-cols-[2fr_1fr_1fr] gap-1">
-						<div class="bg-frame px-8 py-6 <?php echo $is_last ? 'rounded-bl-3xl' : ''; ?>">
-							<div class="text-sm font-semibold text-foreground">
+					<tr>
+						<th scope="row" class="bg-frame px-8 py-5 align-top <?php echo $is_last_in_last ? 'rounded-bl-3xl' : ''; ?>">
+							<span class="block text-sm font-semibold text-foreground">
 								<?php echo esc_html( $row['title'] ); ?>
-							</div>
-							<div class="mt-1 max-w-md text-sm text-muted-foreground">
+							</span>
+							<span class="mt-1 block max-w-md text-sm font-normal text-muted-foreground">
 								<?php echo esc_html( $row['description'] ); ?>
-							</div>
-						</div>
-						<div class="flex items-center justify-center bg-frame px-6 py-6">
-							<?php jetpack_theme_comparison_cell( $row['free'], false ); ?>
-						</div>
-						<div class="flex items-center justify-center bg-frame px-6 py-6 <?php echo $is_last ? 'rounded-br-3xl' : ''; ?>">
-							<?php jetpack_theme_comparison_cell( $row['pro'], true ); ?>
-						</div>
-					</div>
+							</span>
+						</th>
+						<td class="bg-frame px-6 py-5 text-center align-middle">
+							<?php $render_value( $row['free'], false ); ?>
+						</td>
+						<td class="bg-frame px-6 py-5 text-center align-middle <?php echo $is_last_in_last ? 'rounded-br-3xl' : ''; ?>">
+							<?php $render_value( $row['pro'], true ); ?>
+						</td>
+					</tr>
 					<?php endforeach; ?>
-				</div>
+				</tbody>
+				<?php endforeach; ?>
+			</table>
+		</div>
 
-				<?php /* ── Mobile stacked cards ──────────────────────── */ ?>
-				<div class="flex flex-col gap-3 lg:hidden">
+		<?php /* ── Mobile: stacked cards per category ───────────────────────── */ ?>
+		<div class="flex flex-col gap-8 lg:hidden jetpack-reveal opacity-0 translate-y-5">
+			<?php foreach ( $comparison as $cat ) :
+				$rows = $cat['rows'] ?? [];
+				if ( empty( $rows ) ) continue;
+			?>
+			<div>
+				<h3 class="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-jetpack-green-60">
+					<?php jetpack_theme_icon( $cat['icon'], 'h-4 w-4' ); ?>
+					<?php echo esc_html( $cat['label'] ); ?>
+				</h3>
+				<div class="flex flex-col gap-3">
 					<?php foreach ( $rows as $row ) : ?>
 					<div class="overflow-hidden rounded-2xl bg-frame">
 						<div class="border-b border-border px-5 py-4">
@@ -191,7 +191,7 @@ function jetpack_theme_comparison_cell( $value, bool $is_popular = false ): void
 									<?php esc_html_e( 'Free', 'jetpack-theme' ); ?>
 								</div>
 								<div class="flex items-center">
-									<?php jetpack_theme_comparison_cell( $row['free'], false ); ?>
+									<?php $render_value( $row['free'], false ); ?>
 								</div>
 							</div>
 							<div class="bg-frame p-5">
@@ -199,17 +199,15 @@ function jetpack_theme_comparison_cell( $value, bool $is_popular = false ): void
 									<?php esc_html_e( 'Pro', 'jetpack-theme' ); ?>
 								</div>
 								<div class="flex items-center">
-									<?php jetpack_theme_comparison_cell( $row['pro'], true ); ?>
+									<?php $render_value( $row['pro'], true ); ?>
 								</div>
 							</div>
 						</div>
 					</div>
 					<?php endforeach; ?>
 				</div>
-
 			</div>
 			<?php endforeach; ?>
-
 		</div>
 
 	</div>
