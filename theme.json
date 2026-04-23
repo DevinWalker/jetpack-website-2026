@@ -163,6 +163,11 @@
 			"name": "page",
 			"title": "Page",
 			"postTypes": [ "page" ]
+		},
+		{
+			"name": "page-pricing",
+			"title": "Pricing Page",
+			"postTypes": [ "page" ]
 		}
 	],
 	"templateParts": []

@@ -12,6 +12,8 @@ declare( strict_types = 1 );
 // Registers the 'topics' taxonomy used by blog posts and the resources-posts block.
 
 require_once get_template_directory() . '/inc/taxonomies.php';
+require_once get_template_directory() . '/inc/pricing-data.php';
+require_once get_template_directory() . '/inc/icons.php';
 
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
@@ -307,6 +309,9 @@ add_action( 'init', function (): void {
 		'features-bento',
 		'testimonials',
 		'pricing',
+		'pricing-hero',
+		'pricing-table',
+		'pricing-comparison',
 		'faq',
 		'site-header',
 		'site-footer',
@@ -326,31 +331,11 @@ add_action( 'init', function (): void {
 // Registering them ensures content authored on production renders correctly.
 
 add_action( 'init', function (): void {
-	$paragraph_icon_styles = [
-		'growth', 'performance', 'key', 'stats', 'social', 'newsletter',
-		'blaze', 'cloud', 'shield', 'videopress', 'search', 'antispam',
-	];
-	foreach ( $paragraph_icon_styles as $variant ) {
-		register_block_style( 'core/paragraph', [
-			'name'  => 'jetpack-with-' . $variant . '-icon',
-			'label' => ucfirst( $variant ) . ' Icon',
-		] );
-	}
-
-	register_block_style( 'core/paragraph', [
-		'name'  => 'jetpack-paid-feature-label',
-		'label' => 'Paid Feature Label',
-	] );
-
-	register_block_style( 'core/paragraph', [
-		'name'  => 'jetpack-partners-intro',
-		'label' => 'Partners Intro',
-	] );
-
-	register_block_style( 'core/paragraph', [
-		'name'  => 'jetpack-quote',
-		'label' => 'Jetpack Quote',
-	] );
+	// Note: paragraph block styles (jetpack-with-*-icon, jetpack-paid-feature-label,
+	// jetpack-partners-intro, jetpack-quote) are intentionally NOT registered here.
+	// Content imported from production that already uses these `is-style-*` classes
+	// continues to render via the compat CSS in src/compat/*.css; we just don't
+	// expose them as pickers in the block editor sidebar.
 
 	register_block_style( 'core/list', [
 		'name'  => 'jetpack-checklist',

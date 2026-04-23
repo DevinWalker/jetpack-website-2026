@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/pricing-comparison",
+	"version": "1.1.0",
+	"title": "Pricing Comparison",
+	"category": "jetpack-theme",
+	"description": "Free vs Pro feature comparison — all categories visible at once (no tabs). Semantic table on desktop, stacked cards on mobile.",
+	"keywords": [ "pricing", "comparison", "features", "free", "pro" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"attributes": {
+		"sectionTitle": {
+			"type": "string",
+			"default": "What Pro adds on top of Free"
+		},
+		"sectionDescription": {
+			"type": "string",
+			"default": "You're already running Jetpack Free. Here's exactly what Pro adds — every feature, in one scan-friendly view."
+		}
+	},
+	"supports": { "html": false, "align": [ "wide", "full" ] },
+	"example": {
+		"attributes": {
+			"sectionTitle": "What Pro adds on top of Free"
+		}
+	},
+	"render": "file:./render.php"
+}

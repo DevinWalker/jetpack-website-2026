@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/pricing-hero",
+	"version": "1.1.0",
+	"title": "Pricing Hero",
+	"category": "jetpack-theme",
+	"description": "The unified hero for the /pricing/ page — eyebrow + H1 + subhead + two CTAs with an Aurora Blur WebGL effect behind.",
+	"keywords": [ "hero", "pricing", "aurora", "jetpack" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/pricing-hero-view.js",
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "27 million WordPress sites run Jetpack"
+		},
+		"title": {
+			"type": "string",
+			"default": "Everything Pro adds to the free Jetpack plugin."
+		},
+		"subtitle": {
+			"type": "string",
+			"default": "Real-time backups. Malware scanning. Boost performance. Jetpack Social. One plugin, one price, one place to manage it all."
+		},
+		"primaryCtaText": {
+			"type": "string",
+			"default": "Upgrade to Pro"
+		},
+		"primaryCtaUrl": {
+			"type": "string",
+			"default": "#pricing"
+		},
+		"secondaryCtaText": {
+			"type": "string",
+			"default": "Compare Free vs Pro"
+		},
+		"secondaryCtaUrl": {
+			"type": "string",
+			"default": "#compare-free-pro"
+		}
+	},
+	"supports": { "html": false, "multiple": false, "reusable": false },
+	"render": "file:./render.php"
+}

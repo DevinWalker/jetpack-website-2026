@@ -261,12 +261,20 @@
 }
 
 /* Colors taken directly from legacy SCSS (not theme accent tokens)
-   so the blur blend matches production. Positions as percentages of
-   the 500x500 container: green @ 32% 22% 56x56%, blue @ 32% 57% 26x26%,
-   yellow @ 30% 25% 30x30% (derived from legacy 160/110/280 etc.). */
+   so the blur blend matches production. Sizes as percentages of the
+   500x500 container; horizontal positions are centered using `inset`
+   shorthand with `auto` on left+right so the blob's own center aligns
+   with the container center (which also centers on the SVG icon,
+   since both are centered in the flex parent). Legacy jetpackme-new
+   used a hard-left bias (green at left:32% → center ~60%) which left
+   the green cluster visibly offset to the right of the shield/icon;
+   this compat version hangs the cluster directly behind the icon. */
 .product-category-hero-visual__shadow .green,
 .product-category-hero-visual .shadow-color-blobs .green {
-	inset: 22% auto auto 32%;
+	top: 22%;
+	left: 0;
+	right: 0;
+	margin-inline: auto;
 	width: 56%;
 	height: 56%;
 	background: #9dd977;
@@ -274,7 +282,10 @@
 
 .product-category-hero-visual__shadow .blue,
 .product-category-hero-visual .shadow-color-blobs .blue {
-	inset: 57% auto auto 32%;
+	top: 57%;
+	left: 0;
+	right: 0;
+	margin-inline: auto;
 	width: 26%;
 	height: 26%;
 	background: #abc1f5;
@@ -282,7 +293,10 @@
 
 .product-category-hero-visual__shadow .yellow,
 .product-category-hero-visual .shadow-color-blobs .yellow {
-	inset: 25% auto auto 30%;
+	top: 25%;
+	left: 0;
+	right: 0;
+	margin-inline: auto;
 	width: 30%;
 	height: 30%;
 	background: #f2d76b;
