@@ -12,6 +12,7 @@ declare( strict_types = 1 );
 // Registers the 'topics' taxonomy used by blog posts and the resources-posts block.
 
 require_once get_template_directory() . '/inc/taxonomies.php';
+require_once get_template_directory() . '/inc/pricing-data.php';
 
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
@@ -307,6 +308,8 @@ add_action( 'init', function (): void {
 		'features-bento',
 		'testimonials',
 		'pricing',
+		'pricing-table',
+		'pricing-comparison',
 		'faq',
 		'site-header',
 		'site-footer',

@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/pricing-comparison",
+	"version": "1.0.0",
+	"title": "Pricing Comparison",
+	"category": "jetpack-theme",
+	"description": "Free vs Pro feature comparison table with category tabs (Security / Performance / Growth / Management).",
+	"keywords": [ "pricing", "comparison", "features", "free", "pro" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"viewScript": "file:../../build/pricing-interactions.js",
+	"attributes": {
+		"sectionTitle": {
+			"type": "string",
+			"default": "Jetpack Free vs. Jetpack Pro"
+		},
+		"sectionDescription": {
+			"type": "string",
+			"default": "You're already on Free — here's exactly what Pro adds. Browse by what matters most to you."
+		},
+		"defaultCategory": {
+			"type": "string",
+			"default": "security",
+			"enum": [ "security", "performance", "growth", "management" ]
+		}
+	},
+	"supports": { "html": false, "multiple": false },
+	"render": "file:./render.php"
+}
