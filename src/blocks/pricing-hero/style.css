@@ -1,0 +1,37 @@
+/**
+ * Pricing Hero — brand background with a pure-CSS radial fade.
+ *
+ * The hero's background image (`assets/BG.jpg`) is already layered behind
+ * the hero content with `object-cover` + a top-down white gradient overlay.
+ * This stylesheet adds a second layer of shaping via `mask-image` so the
+ * image feathers out to transparent at the edges, keeping the hero's text
+ * clearly readable while still showing the brand visual in the centre.
+ *
+ * No JS, no WebGL — purely declarative CSS.
+ */
+
+.jetpack-pricing-hero__bg-img {
+	/*
+	 * Radial fade:
+	 *   - fully opaque in the middle,
+	 *   - fades out to transparent beyond ~70% of the hero's diagonal.
+	 * The dual mask syntax (`-webkit-mask-image` + `mask-image`) keeps
+	 * Safari happy.
+	 */
+	-webkit-mask-image: radial-gradient(
+		ellipse 85% 90% at 50% 40%,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(0, 0, 0, 0.85) 45%,
+		rgba(0, 0, 0, 0) 100%
+	);
+	mask-image: radial-gradient(
+		ellipse 85% 90% at 50% 40%,
+		rgba(0, 0, 0, 1) 0%,
+		rgba(0, 0, 0, 0.85) 45%,
+		rgba(0, 0, 0, 0) 100%
+	);
+	/* Soft blur keeps the image from competing with the hero headline */
+	filter: blur(12px) saturate(0.9) brightness(1.05);
+	transform: scale(1.1);
+	transform-origin: center center;
+}

@@ -1,0 +1,38 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/pricing-table",
+	"version": "1.1.0",
+	"title": "Pricing Table",
+	"category": "jetpack-theme",
+	"description": "Flat-recurring pricing cards (Basic / Pro / Agency). Reusable on any page — pick which plans to show and the layout variant.",
+	"keywords": [ "pricing", "plans", "cards" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"attributes": {
+		"visiblePlans": {
+			"type": "array",
+			"default": [ "basic", "pro", "agency" ],
+			"items": { "type": "string", "enum": [ "basic", "pro", "agency" ] }
+		},
+		"variant": {
+			"type": "string",
+			"default": "full",
+			"enum": [ "full", "compact" ]
+		},
+		"highlightedPlan": {
+			"type": "string",
+			"default": "pro",
+			"enum": [ "basic", "pro", "agency" ]
+		},
+		"showEyebrow": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": { "html": false, "align": [ "wide", "full" ] },
+	"example": {
+		"attributes": { "visiblePlans": [ "basic", "pro", "agency" ], "variant": "full" }
+	},
+	"render": "file:./render.php"
+}

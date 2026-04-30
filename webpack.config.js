@@ -30,6 +30,9 @@ module.exports = {
 		// Testimonials view script — slider with auto-advance and block styles.
 		'testimonials-view': './src/blocks/testimonials/view.ts',
 
+		// Pricing hero view style — CSS-only radial-fade background (no JS).
+		'pricing-hero-style': './src/blocks/pricing-hero/style.css',
+
 		// Global interactions (header) — no framework dependencies.
 		'interactions':      './src/blocks/site-header/interactions.ts',
 	},
