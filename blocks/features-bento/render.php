@@ -11,7 +11,7 @@ $stats_d = wp_parse_args( $attributes['siteStats']   ?? [], [ 'title' => 'Unders
 $trust   = wp_parse_args( $attributes['trustedBy']   ?? [], [ 'count' => '27 million', 'rating' => '4.9', 'reviewCount' => '48k+' ] );
 $perf    = wp_parse_args( $attributes['performance'] ?? [], [ 'title' => 'Speed & SEO', 'subtitle' => 'One-click performance boost for faster pages and better search rankings.' ] );
 $perf_stats = $attributes['perfStats'] ?? [
-	[ 'icon' => '⚡', 'label' => 'Page Speed Score', 'change' => '+43pts' ],
+	[ 'icon' => '⚡', 'label' => 'Speed Score', 'change' => '+43pts' ],
 	[ 'icon' => '🛡️', 'label' => 'Malware Scans',   'change' => 'Daily' ],
 ];
 

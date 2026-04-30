@@ -43,7 +43,7 @@
 		"perfStats": {
 			"type": "array",
 			"default": [
-				{ "icon": "⚡", "label": "Page Speed Score", "change": "+43pts" },
+				{ "icon": "⚡", "label": "Speed Score", "change": "+43pts" },
 				{ "icon": "🛡️", "label": "Malware Scans",    "change": "Daily" }
 			]
 		}

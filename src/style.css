@@ -10,6 +10,7 @@
 /* ── Layout chrome ──────────────────────────────────────────────── */
 @import "./layout/frame.css";
 @import "./layout/admin-bar.css";
+@import "./layout/footer.css";
 
 /* ── Blocks (global — on every page) ────────────────────────────── */
 /* hero.css, faq.css, testimonials.css are now loaded per-block via   */
