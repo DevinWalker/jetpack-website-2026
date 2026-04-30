@@ -314,6 +314,7 @@ add_action( 'init', function (): void {
 		'faq',
 		'site-header',
 		'footer-cta',
+		'footer-dev-column',
 		'legacy-hero-visual',
 	];
 

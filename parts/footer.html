@@ -11,12 +11,47 @@
 	<!-- wp:group {"className":"jetpack-footer__body relative z-10 bg-sand rounded-tr-[3rem] rounded-tl-[3rem] pt-96 pb-16 max-[850px]:pt-72","layout":{"type":"default"}} -->
 	<div class="wp-block-group jetpack-footer__body relative z-10 bg-sand rounded-tr-[3rem] rounded-tl-[3rem] pt-96 pb-16 max-[850px]:pt-72">
 
-		<!-- wp:group {"className":"jetpack-footer__inner max-w-7xl mx-auto px-6","layout":{"type":"default"}} -->
-		<div class="wp-block-group jetpack-footer__inner max-w-7xl mx-auto px-6">
+		<!-- wp:group {"className":"jetpack-footer__inner max-w-5xl max-[1280px]:max-w-4xl mx-auto max-[849px]:px-6","layout":{"type":"default"}} -->
+		<div class="wp-block-group jetpack-footer__inner max-w-5xl max-[1280px]:max-w-4xl mx-auto max-[849px]:px-6">
 
-			<!-- wp:image {"className":"jetpack-footer__logo","width":"120px","height":"auto"} -->
-			<figure class="wp-block-image is-resized jetpack-footer__logo"><a href="/" aria-label="Jetpack home"><img src="/wp-content/themes/jetpack-theme/assets/jetpack-logo-dark.svg" alt="Jetpack" style="width:120px;height:auto"/></a></figure>
-			<!-- /wp:image -->
+			<!-- wp:group {"className":"jetpack-footer__top flex items-center justify-between gap-6 flex-wrap max-[600px]:flex-col max-[600px]:items-start max-[600px]:gap-4","layout":{"type":"default"}} -->
+			<div class="wp-block-group jetpack-footer__top flex items-center justify-between gap-6 flex-wrap max-[600px]:flex-col max-[600px]:items-start max-[600px]:gap-4">
+
+				<!-- wp:group {"className":"jetpack-footer__brand flex items-center gap-8 flex-wrap max-[600px]:gap-5","layout":{"type":"default"}} -->
+				<div class="wp-block-group jetpack-footer__brand flex items-center gap-8 flex-wrap max-[600px]:gap-5">
+
+					<!-- wp:image {"className":"jetpack-footer__logo","width":"120px","height":"auto"} -->
+					<figure class="wp-block-image is-resized jetpack-footer__logo"><a href="/" aria-label="Jetpack home"><img src="/wp-content/themes/jetpack-theme/assets/jetpack-logo-dark.svg" alt="Jetpack" style="width:120px;height:auto"/></a></figure>
+					<!-- /wp:image -->
+
+					<!-- wp:group {"className":"jetpack-footer__apps flex items-center gap-3 flex-wrap","layout":{"type":"default"}} -->
+					<div class="wp-block-group jetpack-footer__apps flex items-center gap-3 flex-wrap" role="group" aria-label="Get the Jetpack mobile app">
+
+						<!-- wp:image {"linkDestination":"custom","className":"jetpack-footer__app-badge","width":"168px","height":"56px"} -->
+						<figure class="wp-block-image is-resized jetpack-footer__app-badge"><a href="https://apps.apple.com/us/app/jetpack-website-builder/id1565481562" aria-label="Download Jetpack on the App Store"><img src="https://s1.wp.com/wp-content/lib/app-badge-buttons/ios/en.png?m=1769090886i&amp;version=20220321" alt="Download on the App Store" width="168" height="56" loading="lazy"/></a></figure>
+						<!-- /wp:image -->
+
+						<!-- wp:image {"linkDestination":"custom","className":"jetpack-footer__app-badge","width":"189px","height":"56px"} -->
+						<figure class="wp-block-image is-resized jetpack-footer__app-badge"><a href="https://play.google.com/store/apps/details?id=com.jetpack.android" aria-label="Get Jetpack on Google Play"><img src="https://s1.wp.com/wp-content/lib/app-badge-buttons/android/en.png?m=1646444859i&amp;version=20220321" alt="Get it on Google Play" width="189" height="56" loading="lazy"/></a></figure>
+						<!-- /wp:image -->
+
+					</div>
+					<!-- /wp:group -->
+
+				</div>
+				<!-- /wp:group -->
+
+				<!-- wp:social-links {"iconColor":"foreground","iconColorValue":"#171717","className":"jetpack-footer__social is-style-logos-only"} -->
+				<ul class="wp-block-social-links has-icon-color is-style-logos-only jetpack-footer__social">
+					<!-- wp:social-link {"url":"https://twitter.com/jetpack","service":"x","label":"Jetpack on X (Twitter)"} /-->
+					<!-- wp:social-link {"url":"https://www.facebook.com/jetpackme/","service":"facebook","label":"Jetpack on Facebook"} /-->
+					<!-- wp:social-link {"url":"https://www.linkedin.com/company/jetpack-for-wordpress/","service":"linkedin","label":"Jetpack on LinkedIn"} /-->
+					<!-- wp:social-link {"url":"https://www.youtube.com/JetpackOfficial","service":"youtube","label":"Jetpack on YouTube"} /-->
+				</ul>
+				<!-- /wp:social-links -->
+
+			</div>
+			<!-- /wp:group -->
 
 				<!-- wp:columns {"className":"jetpack-footer__nav"} -->
 				<div class="wp-block-columns jetpack-footer__nav">
@@ -110,28 +145,22 @@
 					</div>
 					<!-- /wp:column -->
 
-					<!-- wp:column -->
-					<div class="wp-block-column">
-						<!-- wp:heading {"level":3,"className":"jetpack-footer__heading text-xs font-medium text-neutral-900/50 uppercase tracking-wider"} -->
-						<h3 class="wp-block-heading jetpack-footer__heading text-xs font-medium text-neutral-900/50 uppercase tracking-wider">Social</h3>
-						<!-- /wp:heading -->
-						<!-- wp:list {"className":"jetpack-footer__list"} -->
-						<ul class="wp-block-list jetpack-footer__list">
-							<!-- wp:list-item --><li><a href="https://twitter.com/jetpack">X (Twitter)</a></li><!-- /wp:list-item -->
-							<!-- wp:list-item --><li><a href="https://www.facebook.com/jetpackme/">Facebook</a></li><!-- /wp:list-item -->
-							<!-- wp:list-item --><li><a href="https://www.linkedin.com/company/jetpack-for-wordpress/">LinkedIn</a></li><!-- /wp:list-item -->
-							<!-- wp:list-item --><li><a href="https://www.youtube.com/JetpackOfficial">YouTube</a></li><!-- /wp:list-item -->
-						</ul>
-						<!-- /wp:list -->
-					</div>
-					<!-- /wp:column -->
-
 				</div>
 				<!-- /wp:columns -->
 
-			<!-- wp:paragraph {"align":"center","className":"jetpack-footer__copyright text-sm text-neutral-900/50"} -->
-			<p class="has-text-align-center jetpack-footer__copyright text-sm text-neutral-900/50">© 2026 Automattic Inc. All rights reserved.</p>
-			<!-- /wp:paragraph -->
+			<!-- wp:jetpack-theme/footer-dev-column /-->
+
+			<!-- wp:group {"className":"jetpack-footer__bottom flex items-center justify-between gap-4 max-[600px]:flex-col max-[600px]:gap-3","layout":{"type":"default"}} -->
+			<div class="wp-block-group jetpack-footer__bottom flex items-center justify-between gap-4 max-[600px]:flex-col max-[600px]:gap-3">
+				<!-- wp:paragraph {"className":"jetpack-footer__copyright text-sm"} -->
+				<p class="jetpack-footer__copyright text-sm">© 2026 Automattic Inc. All rights reserved.</p>
+				<!-- /wp:paragraph -->
+
+				<!-- wp:paragraph {"className":"jetpack-footer__tagline text-sm"} -->
+				<p class="jetpack-footer__tagline text-sm">Made with care by <a href="https://automattic.com/">Automattic</a>.</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
 
 		</div>
 		<!-- /wp:group -->
