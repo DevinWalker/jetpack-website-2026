@@ -1,0 +1,77 @@
+/* ── Footer (parts/footer.html) ─────────────────────────────────── */
+/* Selectors target classes WordPress core blocks emit (.wp-block-columns,
+   .wp-block-column, .wp-block-list) inside the footer template part.
+   Tailwind utility classes on each block handle most styling — this file
+   only fills gaps where core block defaults conflict. */
+
+.jetpack-footer {
+
+  /* Columns: 6-column footer nav. Equal flex columns inside the max-w-7xl
+     container land at ~150px each (after gap) — wide enough for the longest
+     link copy ("Akismet Anti-spam"). Wraps to 3-up below 850px. */
+  & .jetpack-footer__nav.wp-block-columns {
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+
+    @media (max-width: 849px) {
+      gap: 2rem;
+    }
+  }
+
+  & .jetpack-footer__nav .wp-block-column {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-width: 140px;
+  }
+
+  /* Logo: leave breathing room before the column row. */
+  & .jetpack-footer__logo {
+    margin: 0 0 1rem;
+  }
+
+  /* Column headings: original used mb-4. */
+  & .jetpack-footer__heading {
+    margin: 0 0 1rem;
+  }
+
+  /* Link lists: drop default bullets/padding, set link styles. */
+  & .jetpack-footer__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      margin: 0 0 0.5rem;
+    }
+
+    & > li:last-child {
+      margin-bottom: 0;
+    }
+
+    & a {
+      font-size: 0.875rem;
+      color: rgb(23 23 23); /* neutral-900 */
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: rgb(23 23 23 / 0.7);
+      }
+    }
+  }
+
+  /* Copyright spacing: original used mt-16 pt-6. */
+  & .jetpack-footer__copyright {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+  }
+
+  /* Logo link: keep flex alignment used by original anchor wrapper. */
+  & .jetpack-footer__logo a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

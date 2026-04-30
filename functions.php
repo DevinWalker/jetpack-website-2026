@@ -170,11 +170,10 @@ add_action( 'after_setup_theme', function (): void {
 	}
 
 	// Navigation menu locations.
+	// Footer links live in parts/footer.html as core blocks; only the
+	// header still uses a registered nav menu location.
 	register_nav_menus( [
-		'primary'          => __( 'Primary Navigation', 'jetpack-theme' ),
-		'footer-company'   => __( 'Footer – Company', 'jetpack-theme' ),
-		'footer-resources' => __( 'Footer – Resources', 'jetpack-theme' ),
-		'footer-social'    => __( 'Footer – Social', 'jetpack-theme' ),
+		'primary' => __( 'Primary Navigation', 'jetpack-theme' ),
 	] );
 } );
 
@@ -314,7 +313,7 @@ add_action( 'init', function (): void {
 		'pricing-comparison',
 		'faq',
 		'site-header',
-		'site-footer',
+		'footer-cta',
 		'legacy-hero-visual',
 	];
 
