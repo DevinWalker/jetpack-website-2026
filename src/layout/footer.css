@@ -26,21 +26,8 @@
     }
   }
 
-  & .jetpack-footer__logo {
-    margin: 0;
-  }
-
-  & .jetpack-footer__logo a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: opacity 0.15s ease;
-
-    &:hover { opacity: 0.85; }
-  }
-
   /* Brand cluster: logo + app-store badges sit together on the left.
-     Vertical centering is enforced here so the 32px logo and 40px app
+     Vertical centering is enforced here so the ~30px logo and 40px app
      badges sit on a shared centerline. */
   & .jetpack-footer__brand {
     display: flex;
@@ -51,6 +38,39 @@
 
     @media (max-width: 600px) {
       gap: 1.25rem;
+    }
+
+    /* Direct flex children: collapse intrinsic margins (figure has UA
+       margin, .wp-block-image has core spacing) and force align-self so
+       nothing relies on the parent's align-items reaching past WP core. */
+    > * {
+      margin: 0;
+      align-self: center;
+    }
+  }
+
+  /* Logo: turn the figure / anchor / img chain into a flat block so the
+     WP-core "img { vertical-align: bottom }" rule (which baseline-aligns
+     the img inside its inline line-box and pushes the logo below the
+     badges' centerline) no longer applies. */
+  & .jetpack-footer__logo {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    line-height: 0;
+
+    & a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.15s ease;
+
+      &:hover { opacity: 0.85; }
+    }
+
+    & img {
+      display: block;
+      vertical-align: middle;
     }
   }
 
@@ -75,17 +95,20 @@
 
   & .jetpack-footer__app-badge {
     margin: 0;
+    line-height: 0;
 
     & img {
       display: block;
       height: 40px;
       width: auto;
+      vertical-align: middle;
       border-radius: 8px;
       transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
     & a {
-      display: inline-flex;
+      display: flex;
+      align-items: center;
 
       &:hover img,
       &:focus-visible img {
