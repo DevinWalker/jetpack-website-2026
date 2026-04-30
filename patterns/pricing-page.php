@@ -16,8 +16,10 @@ $a4a_tiers = $data['a4a_tiers'];
 <!-- 1. Hero with Aurora Blur WebGL background (single source of truth for the hero headline + CTAs) -->
 <!-- wp:jetpack-theme/pricing-hero /-->
 
-<!-- 2. Pricing table (3 paid cards, no toggle, Pro highlighted) -->
-<!-- wp:jetpack-theme/pricing-table /-->
+<!-- 2. Pricing table (3 paid cards, no toggle, Pro highlighted) — embedded
+     as a Synced Pattern so editor changes in Site Editor → Patterns
+     ("Jetpack Pricing — Full") propagate to every page that embeds it. -->
+<!-- wp:jetpack-theme/synced-block {"slug":"jetpack-pricing-section-full"} /-->
 
 <!-- 3. 14-day money-back guarantee (moved up per CRO — anti-anxiety at the decision point) -->
 <!-- wp:template-part {"slug":"pricing-money-back"} /-->
@@ -100,6 +102,26 @@ $a4a_tiers = $data['a4a_tiers'];
 
 <!-- 8. FAQ (updated items — no first-year-discount references, added cancellation / compatibility / competitor / data-portability entries) -->
 <!-- wp:jetpack-theme/faq {"sectionTitle":"Pricing questions, answered","sectionDescription":"Straight answers on renewals, cancellation, compatibility, and running Jetpack on multiple sites.","items":[{"question":"Does my price go up at renewal?","answer":"No. Your renewal price equals your signup price. The only reason your bill could change is if you switch plans or add sites."},{"question":"Can I cancel anytime?","answer":"Yes. Cancel from your WordPress.com account at any time. Your plan stays active until the end of the billing period you've already paid for."},{"question":"What's the refund policy?","answer":"Every paid Jetpack plan includes a 14-day money-back guarantee. Contact support within 14 days of purchase for a full refund, no questions asked — typically handled in under 24 hours."},{"question":"Does Jetpack work with WooCommerce, Elementor, and page builders?","answer":"Yes. Jetpack is built to coexist with other plugins. It runs on more than 27 million WordPress sites, including stores powered by WooCommerce and sites built with Elementor, Divi, Beaver Builder, and Bricks."},{"question":"How is this different from WP Rocket, Sucuri, or UpdraftPlus?","answer":"Jetpack bundles security, performance, and growth tools from the team behind WordPress.com in a single plugin — so you don't stitch together separate vendors for backups, scanning, caching, and stats. Pro replaces what you'd otherwise buy across three or four plugins."},{"question":"Will I keep my backup data if I cancel?","answer":"Yes. Backup archives stay available for download during your active term, and you can export everything before you cancel. Your content and data are always yours."},{"question":"How do multi-site plans work?","answer":"The Agency plan runs through Automattic for Agencies. Bundle discounts start at 10% off (5 licenses) and scale to 50% off (100+ licenses), with a centralized Jetpack Manage dashboard and daily-billing flexibility."},{"question":"Can I still buy individual Jetpack products?","answer":"Yes. Security, Backup, Boost, Social, Search, Stats, CRM, and AI remain available as individual plugins. The Basic and Pro plans bundle them for a lower total cost."}]} /-->
+
+<!-- 8b. Still deciding? — compact pricing recap before the final CTA.
+     Embeds the same Compact synced pattern used on the homepage so any
+     edit there (highlighted plan, visible plans, feature count) shows up
+     here automatically. -->
+<!-- wp:group {"tagName":"section","className":"jetpack-pricing-recap","style":{"spacing":{"padding":{"top":"clamp(3rem,5vw,4rem)","bottom":"0","left":"0","right":"0"}}},"layout":{"type":"constrained"}} -->
+<section class="wp-block-group jetpack-pricing-recap" style="padding-top:clamp(3rem,5vw,4rem);padding-right:0;padding-bottom:0;padding-left:0">
+
+	<!-- wp:paragraph {"align":"center","className":"jetpack-pricing-eyebrow","fontSize":"x-small","style":{"typography":{"fontWeight":"600","letterSpacing":"0.08em","textTransform":"uppercase"}},"textColor":"jetpack-green-60"} -->
+	<p class="has-text-align-center jetpack-pricing-eyebrow has-jetpack-green-60-color has-text-color has-x-small-font-size" style="font-weight:600;letter-spacing:0.08em;text-transform:uppercase">Still deciding?</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:heading {"textAlign":"center","level":2,"style":{"typography":{"fontWeight":"500","letterSpacing":"-0.02em","lineHeight":"1.1"}},"fontSize":"xx-large"} -->
+	<h2 class="wp-block-heading has-text-align-center has-xx-large-font-size" style="font-weight:500;letter-spacing:-0.02em;line-height:1.1">A quick recap of the plans.</h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:jetpack-theme/synced-block {"slug":"jetpack-pricing-section-compact"} /-->
+
+</section>
+<!-- /wp:group -->
 
 <!-- 9. Final CTA -->
 <!-- wp:group {"tagName":"section","className":"jetpack-pricing-final-cta","style":{"spacing":{"padding":{"top":"clamp(4rem,7vw,6rem)","bottom":"clamp(4rem,7vw,6rem)","left":"1.5rem","right":"1.5rem"}}},"backgroundColor":"background","layout":{"type":"constrained","contentSize":"48rem"}} -->

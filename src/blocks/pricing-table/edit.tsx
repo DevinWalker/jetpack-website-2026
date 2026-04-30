@@ -1,14 +1,15 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, CheckboxControl, SelectControl, RadioControl, ToggleControl } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { PanelBody, CheckboxControl, SelectControl, RadioControl, ToggleControl, RangeControl } from '@wordpress/components';
+import { __, sprintf } from '@wordpress/i18n';
 
 type PlanSlug = 'basic' | 'pro' | 'agency';
 
 interface Attrs {
-	visiblePlans:    PlanSlug[];
-	variant:         'full' | 'compact';
-	highlightedPlan: PlanSlug;
-	showEyebrow:     boolean;
+	visiblePlans:        PlanSlug[];
+	variant:             'full' | 'compact';
+	highlightedPlan:     PlanSlug;
+	showEyebrow:         boolean;
+	compactFeatureCount: number;
 }
 
 interface Props {
@@ -30,7 +31,8 @@ const PLAN_LABELS: Record< PlanSlug, string > = {
  * plans are shown, the layout variant, and which plan is highlighted.
  */
 export function PricingTableEdit( { attributes, setAttributes }: Props ) {
-	const { visiblePlans, variant, highlightedPlan, showEyebrow } = attributes;
+	const { visiblePlans, variant, highlightedPlan, showEyebrow, compactFeatureCount } = attributes;
+	const isCompact = variant === 'compact';
 
 	const togglePlan = ( slug: PlanSlug, checked: boolean ) => {
 		const next = checked
@@ -64,6 +66,16 @@ export function PricingTableEdit( { attributes, setAttributes }: Props ) {
 						] }
 						onChange={ ( v ) => setAttributes( { variant: v as Attrs['variant'] } ) }
 					/>
+					{ isCompact && (
+						<RangeControl
+							label={ __( 'Compact features per plan', 'jetpack-theme' ) }
+							help={ __( 'Number of feature bullets to show per card in the compact variant. Full variant always shows the complete list.', 'jetpack-theme' ) }
+							value={ compactFeatureCount }
+							min={ 1 }
+							max={ 12 }
+							onChange={ ( v ) => setAttributes( { compactFeatureCount: typeof v === 'number' ? v : 4 } ) }
+						/>
+					) }
 					<RadioControl
 						label={ __( 'Highlighted plan', 'jetpack-theme' ) }
 						selected={ highlightedPlan }
@@ -91,6 +103,16 @@ export function PricingTableEdit( { attributes, setAttributes }: Props ) {
 			>
 				<p style={ { fontSize: '0.7rem', color: '#737373', margin: '0 0 0.5rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' } }>
 					{ __( 'Pricing Table', 'jetpack-theme' ) } — { variant }
+					{ isCompact && (
+						<>
+							{ ' ' }
+							{ sprintf(
+								/* translators: %d: number of features shown per plan in the compact variant */
+								__( '(top %d features)', 'jetpack-theme' ),
+								compactFeatureCount
+							) }
+						</>
+					) }
 				</p>
 				<div style={ { display: 'flex', gap: '0.5rem', flexWrap: 'wrap' } }>
 					{ visiblePlans.map( ( slug ) => {

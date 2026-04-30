@@ -14,6 +14,7 @@ declare( strict_types = 1 );
 require_once get_template_directory() . '/inc/taxonomies.php';
 require_once get_template_directory() . '/inc/pricing-data.php';
 require_once get_template_directory() . '/inc/icons.php';
+require_once get_template_directory() . '/inc/synced-patterns.php';
 
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
@@ -316,6 +317,7 @@ add_action( 'init', function (): void {
 		'footer-cta',
 		'footer-dev-column',
 		'legacy-hero-visual',
+		'synced-block',
 	];
 
 	foreach ( $block_slugs as $slug ) {

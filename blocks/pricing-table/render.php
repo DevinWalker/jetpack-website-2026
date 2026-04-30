@@ -12,10 +12,15 @@
  * @var array $attributes Block attributes (see block.json for defaults + schema).
  */
 
-$visible_plans    = isset( $attributes['visiblePlans'] ) && is_array( $attributes['visiblePlans'] ) ? $attributes['visiblePlans'] : [ 'basic', 'pro', 'agency' ];
-$variant          = ( $attributes['variant'] ?? 'full' ) === 'compact' ? 'compact' : 'full';
-$highlighted_slug = (string) ( $attributes['highlightedPlan'] ?? 'pro' );
-$show_eyebrow     = ! empty( $attributes['showEyebrow'] );
+$visible_plans         = isset( $attributes['visiblePlans'] ) && is_array( $attributes['visiblePlans'] ) ? $attributes['visiblePlans'] : [ 'basic', 'pro', 'agency' ];
+$variant               = ( $attributes['variant'] ?? 'full' ) === 'compact' ? 'compact' : 'full';
+$highlighted_slug      = (string) ( $attributes['highlightedPlan'] ?? 'pro' );
+$show_eyebrow          = ! empty( $attributes['showEyebrow'] );
+// Compact mode shows only the top N features per plan to fit narrower placements
+// (homepage teaser, sidebars, mid-article CTAs). Full mode always renders the
+// complete feature list from inc/pricing-data.php.
+$compact_feature_count = max( 1, min( 12, (int) ( $attributes['compactFeatureCount'] ?? 4 ) ) );
+$is_compact            = 'compact' === $variant;
 
 $data  = jetpack_theme_pricing_data();
 $plans = array_values( array_filter(
@@ -93,10 +98,12 @@ $section_pad   = 'compact' === $variant ? 'py-12 sm:py-16' : 'py-16 sm:py-20';
 						<span class="text-sm text-muted-foreground">/<?php esc_html_e( 'mo', 'jetpack-theme' ); ?></span>
 						<?php endif; ?>
 					</div>
+					<?php if ( ! $is_compact ) : ?>
 					<p class="mt-2 text-sm text-muted-foreground">
 						<?php echo esc_html( $plan['price']['per_year_label'] ); ?>
 					</p>
-					<?php if ( ! empty( $plan['price']['savings_label'] ) ) : ?>
+					<?php endif; ?>
+					<?php if ( ! $is_compact && ! empty( $plan['price']['savings_label'] ) ) : ?>
 					<p class="mt-1 text-xs font-semibold text-jetpack-green-50">
 						<?php echo esc_html( $plan['price']['savings_label'] ); ?>
 					</p>
@@ -115,13 +122,20 @@ $section_pad   = 'compact' === $variant ? 'py-12 sm:py-16' : 'py-16 sm:py-20';
 						<?php echo esc_html( $plan['cta']['text'] ); ?>
 					</a>
 
-					<?php /* Features */ ?>
+					<?php
+					/* Features — compact mode caps the list at $compact_feature_count
+					 * (default 4) so cards fit narrower contexts. Full mode renders
+					 * everything in $plan['features']. */
+					$features = $is_compact
+						? array_slice( $plan['features'], 0, $compact_feature_count )
+						: $plan['features'];
+					?>
 					<div class="mt-8">
 						<p class="text-sm font-semibold text-foreground">
 							<?php esc_html_e( "What's included:", 'jetpack-theme' ); ?>
 						</p>
 						<ul class="mt-4 space-y-3" role="list">
-							<?php foreach ( $plan['features'] as $feature ) : ?>
+							<?php foreach ( $features as $feature ) : ?>
 							<li class="flex items-start gap-3">
 								<span class="mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full <?php echo $is_popular ? 'bg-jetpack-green-50 text-white' : 'bg-foreground text-background'; ?>">
 									<?php jetpack_theme_icon( 'check', 'h-3 w-3' ); ?>

@@ -19,6 +19,7 @@ import footerCtaMeta         from '../blocks/footer-cta/block.json';
 import footerDevColumnMeta   from '../blocks/footer-dev-column/block.json';
 import fhMeta                from '../blocks/features-highlights/block.json';
 import legacyHeroVisualMeta  from '../blocks/legacy-hero-visual/block.json';
+import syncedBlockMeta       from '../blocks/synced-block/block.json';
 
 import { HeroEdit }              from './blocks/hero/edit';
 import { BlurHeadlineEdit }      from './blocks/blur-headline/edit';
@@ -34,6 +35,7 @@ import { FooterCtaEdit }         from './blocks/footer-cta/edit';
 import { FooterDevColumnEdit }   from './blocks/footer-dev-column/edit';
 import { FeaturesHighlightsEdit }from './blocks/features-highlights/edit';
 import { LegacyHeroVisualEdit }  from './blocks/legacy-hero-visual/edit';
+import { SyncedBlockEdit }       from './blocks/synced-block/edit';
 
 registerBlockType( heroMeta.name,              { ...heroMeta,              edit: HeroEdit,              save: () => null } );
 registerBlockType( blurMeta.name,              { ...blurMeta,              edit: BlurHeadlineEdit,      save: () => null } );
@@ -49,3 +51,4 @@ registerBlockType( footerCtaMeta.name,         { ...footerCtaMeta,         edit:
 registerBlockType( footerDevColumnMeta.name,   { ...footerDevColumnMeta,   edit: FooterDevColumnEdit,   save: () => null } );
 registerBlockType( fhMeta.name,                { ...fhMeta,                edit: FeaturesHighlightsEdit, save: () => null } );
 registerBlockType( legacyHeroVisualMeta.name,  { ...legacyHeroVisualMeta,  edit: LegacyHeroVisualEdit,  save: () => null } );
+registerBlockType( syncedBlockMeta.name,       { ...syncedBlockMeta,       edit: SyncedBlockEdit,       save: () => null } );
