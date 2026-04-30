@@ -1,0 +1,14 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/footer-dev-column",
+	"version": "1.0.0",
+	"title": "Footer Dev Column",
+	"category": "jetpack-theme",
+	"description": "Footer column with style-guide links. Renders only on non-production environments (localhost / staging).",
+	"keywords": [ "footer", "dev", "style guide" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"supports": { "html": false, "multiple": false, "inserter": false },
+	"render": "file:./render.php"
+}

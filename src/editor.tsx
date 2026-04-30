@@ -15,7 +15,8 @@ import pricingTableMeta      from '../blocks/pricing-table/block.json';
 import pricingComparisonMeta from '../blocks/pricing-comparison/block.json';
 import faqMeta               from '../blocks/faq/block.json';
 import siteHeaderMeta        from '../blocks/site-header/block.json';
-import siteFooterMeta        from '../blocks/site-footer/block.json';
+import footerCtaMeta         from '../blocks/footer-cta/block.json';
+import footerDevColumnMeta   from '../blocks/footer-dev-column/block.json';
 import fhMeta                from '../blocks/features-highlights/block.json';
 import legacyHeroVisualMeta  from '../blocks/legacy-hero-visual/block.json';
 
@@ -29,7 +30,8 @@ import { PricingTableEdit }      from './blocks/pricing-table/edit';
 import { PricingComparisonEdit } from './blocks/pricing-comparison/edit';
 import { FAQEdit }               from './blocks/faq/edit';
 import { SiteHeaderEdit }        from './blocks/site-header/edit';
-import { SiteFooterEdit }        from './blocks/site-footer/edit';
+import { FooterCtaEdit }         from './blocks/footer-cta/edit';
+import { FooterDevColumnEdit }   from './blocks/footer-dev-column/edit';
 import { FeaturesHighlightsEdit }from './blocks/features-highlights/edit';
 import { LegacyHeroVisualEdit }  from './blocks/legacy-hero-visual/edit';
 
@@ -43,6 +45,7 @@ registerBlockType( pricingTableMeta.name,      { ...pricingTableMeta,      edit:
 registerBlockType( pricingComparisonMeta.name, { ...pricingComparisonMeta, edit: PricingComparisonEdit, save: () => null } );
 registerBlockType( faqMeta.name,               { ...faqMeta,               edit: FAQEdit,               save: () => null } );
 registerBlockType( siteHeaderMeta.name,        { ...siteHeaderMeta,        edit: SiteHeaderEdit,        save: () => null } );
-registerBlockType( siteFooterMeta.name,        { ...siteFooterMeta,        edit: SiteFooterEdit,        save: () => null } );
+registerBlockType( footerCtaMeta.name,         { ...footerCtaMeta,         edit: FooterCtaEdit,         save: () => null } );
+registerBlockType( footerDevColumnMeta.name,   { ...footerDevColumnMeta,   edit: FooterDevColumnEdit,   save: () => null } );
 registerBlockType( fhMeta.name,                { ...fhMeta,                edit: FeaturesHighlightsEdit, save: () => null } );
 registerBlockType( legacyHeroVisualMeta.name,  { ...legacyHeroVisualMeta,  edit: LegacyHeroVisualEdit,  save: () => null } );

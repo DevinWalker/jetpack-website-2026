@@ -1,19 +1,18 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "jetpack-theme/site-footer",
+	"name": "jetpack-theme/footer-cta",
 	"version": "1.0.0",
-	"title": "Site Footer",
+	"title": "Footer CTA",
 	"category": "jetpack-theme",
-	"description": "Footer with CTA section, nav menus, and copyright.",
-	"keywords": [ "footer", "navigation" ],
+	"description": "Centered email-capture card used at the top of the footer.",
+	"keywords": [ "footer", "cta", "newsletter" ],
 	"textdomain": "jetpack-theme",
 	"editorScript": "file:../../build/editor.js",
 	"attributes": {
 		"ctaHeadline":    { "type": "string", "default": "Start building something truly amazing today" },
 		"ctaPlaceholder": { "type": "string", "default": "Enter your email" },
-		"ctaButtonText":  { "type": "string", "default": "Join Waitlist" },
-		"copyright":      { "type": "string", "default": "" }
+		"ctaButtonText":  { "type": "string", "default": "Join Waitlist" }
 	},
 	"supports": { "html": false, "multiple": false },
 	"render": "file:./render.php"
