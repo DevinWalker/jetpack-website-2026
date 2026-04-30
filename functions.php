@@ -308,7 +308,6 @@ add_action( 'init', function (): void {
 		'features-highlights',
 		'features-bento',
 		'testimonials',
-		'pricing',
 		'pricing-hero',
 		'pricing-table',
 		'pricing-comparison',
