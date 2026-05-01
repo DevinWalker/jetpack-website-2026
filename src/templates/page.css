@@ -1,37 +1,12 @@
 /* Typography and prose (h1-h6, lists, quote, code, image, table, etc.)
    for pages using templates/page.html live in components/prose.css and are
    opted in via the jetpack-prose className on wp:post-content. This file
-   owns only page-level chrome: block-gap reset, wrapper backgrounds,
-   template clearance. */
+   owns only page-level chrome: wrapper backgrounds and template clearance.
 
-/* ── Kill WordPress flow-layout block-gap on the front-page main group ── */
-/* WordPress core injects:
- *   :root :where(.is-layout-flow) > * { margin-block-start: 24px; }
- * That hardcoded 24px creates gray stripes between every block wrapper.
- * Override it directly: (0,2,1) specificity beats WP core's (0,1,1). */
-
-.jetpack-page-content.wp-block-group > * {
-  margin-block-start: 0;
-}
-
-/* ── Kill WordPress' 24px gap between .wp-site-blocks children ──── */
-/* Core also injects a sibling-margin rule directly inline (not via
- * is-layout-flow), so the override above doesn't catch it:
- *   :where(.wp-site-blocks) > * { margin-block-start: 24px; }
- * That puts a 24px stripe between the fixed header template-part, <main>,
- * and the footer template-part — visible as a body-background gap above
- * the hero / pricing-hero and above the footer.
- *
- * Every template in this theme handles its own top clearance internally
- * (hero → pt-32, pricing-hero → pt-24/sm:pt-28, .jetpack-page-body →
- * padding-top: calc(var(--header-clearance) + 1.5rem)), so the FSE margin
- * only contributes unwanted gaps. Specificity (0,1,1) beats core's :where
- * baseline of (0,0,1). */
-
-.wp-site-blocks > * {
-  margin-block-start: 0;
-  margin-block-end: 0;
-}
+   Block-gap is zeroed globally via theme.json (styles.spacing.blockGap: "0"),
+   so WP no longer injects 24px margins between is-layout-flow children or
+   between .wp-site-blocks children — every template manages its own spacing
+   via Tailwind utilities and the .jetpack-prose component. */
 
 /* ── Block wrapper backgrounds ───────────────────────────────────── */
 /* WordPress wraps each block in a transparent div. When a block section
