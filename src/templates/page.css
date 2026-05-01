@@ -1,18 +1,12 @@
 /* Typography and prose (h1-h6, lists, quote, code, image, table, etc.)
    for pages using templates/page.html live in components/prose.css and are
    opted in via the jetpack-prose className on wp:post-content. This file
-   owns only page-level chrome: block-gap reset, wrapper backgrounds,
-   template clearance. */
+   owns only page-level chrome: wrapper backgrounds and template clearance.
 
-/* ── Kill WordPress flow-layout block-gap on the front-page main group ── */
-/* WordPress core injects:
- *   :root :where(.is-layout-flow) > * { margin-block-start: 24px; }
- * That hardcoded 24px creates gray stripes between every block wrapper.
- * Override it directly: (0,2,1) specificity beats WP core's (0,1,1). */
-
-.jetpack-page-content.wp-block-group > * {
-  margin-block-start: 0;
-}
+   Block-gap is zeroed globally via theme.json (styles.spacing.blockGap: "0"),
+   so WP no longer injects 24px margins between is-layout-flow children or
+   between .wp-site-blocks children — every template manages its own spacing
+   via Tailwind utilities and the .jetpack-prose component. */
 
 /* ── Block wrapper backgrounds ───────────────────────────────────── */
 /* WordPress wraps each block in a transparent div. When a block section
