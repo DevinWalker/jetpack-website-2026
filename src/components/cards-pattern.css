@@ -1,0 +1,99 @@
+/**
+ * .wp-block-columns.cards — feature-card row pattern
+ *
+ * Used in editorial pages (e.g. /jetpack-partners/) where authors compose a
+ * row of feature cards as a core wp:columns with className "cards", each
+ * column wrapping a vertical wp:group containing image / heading / paragraph
+ * / wp:buttons.
+ *
+ * Without this stylesheet the .jetpack-prose typography rules (h4 has
+ * 1.5rem top margin, .wp-block-image has 2rem block margin, .wp-block-buttons
+ * has 1.5rem 0 1.75rem) would stack on top of the WordPress flex-layout gap
+ * and produce huge gaps between the image, title, excerpt, and CTA. This
+ * file collapses those stacked margins to a single, predictable flex gap and
+ * makes the four CTAs line up at the bottom regardless of excerpt length.
+ */
+
+.wp-block-columns.cards {
+  /* Column spacing matches the rest of the editorial page rhythm. */
+  gap: 1.5rem;
+
+  & > .wp-block-column {
+    /* Stretch each column so its inner card group can fill height and
+       push the CTA to the bottom regardless of excerpt length. */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The vertical wp:group inside each column owns the card chrome. */
+  & .wp-block-column > .wp-block-group.is-layout-flex {
+    flex: 1 1 auto;
+    /* Single source of truth for vertical spacing inside a card. */
+    gap: 0.75rem;
+  }
+
+  /* ── Featured image ────────────────────────────────────────────── */
+  /* Reset the .jetpack-prose .wp-block-image { margin: 2rem 0 } so the
+     image hugs the top of the card. The flex gap above provides the
+     spacing to the title. */
+  & .wp-block-image {
+    margin: 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+
+    & img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* !important overrides the box-shadow + radius set in
+         components/prose.css .wp-block-image img which would otherwise
+         double-render with the figure's overflow:hidden + radius. */
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    & a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  /* ── Heading ──────────────────────────────────────────────────── */
+  /* !important overrides .jetpack-prose & h4.wp-block-heading
+     { margin: 1.5rem 0 0.5rem } so the title sits on the flex gap. */
+  & h4.wp-block-heading {
+    margin: 0 !important;
+    font-size: 1.125rem;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+
+  /* ── Excerpt paragraph ────────────────────────────────────────── */
+  /* !important overrides .jetpack-prose & p { margin-block: 0 1.375rem }. */
+  & p {
+    margin: 0 !important;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--muted-foreground);
+  }
+
+  /* ── CTA buttons ──────────────────────────────────────────────── */
+  /* margin-top:auto lines all "Learn more" buttons up at the bottom of
+     the row. !important overrides .jetpack-prose & .wp-block-buttons
+     { margin: 1.5rem 0 1.75rem }. */
+  & .wp-block-buttons {
+    margin: auto 0 0 !important;
+  }
+
+  /* Mobile: stack columns and tighten image height. */
+  @media (max-width: 781px) {
+    & > .wp-block-column {
+      margin-bottom: 1.5rem;
+
+      &:last-child { margin-bottom: 0; }
+    }
+  }
+}
