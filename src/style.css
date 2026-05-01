@@ -22,6 +22,7 @@
 @import "./components/card.css";
 @import "./components/cards-pattern.css";
 @import "./components/prose.css";
+@import "./components/why-partner.css";
 
 /* ── Backward-compatibility (production jetpack.com content) ────── */
 @import "./compat/media-text-styles.css";
