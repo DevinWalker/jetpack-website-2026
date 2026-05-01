@@ -65,22 +65,55 @@ requestAnimationFrame( () => {
 	if ( accent ) {
 		const accentText = accent.textContent?.trim() ?? '';
 		accent.textContent = '';
-		createRoot( accent ).render(
-			createElement( FuzzyText, {
-				children:           accentText,
-				fontSize:           '6rem',
-				fontWeight:         700,
-				fontFamily:         'inherit',
-				color:              '#069E08',
-				baseIntensity:      0.005,
-				hoverIntensity:     0.2,
-				enableHover:        true,
-				fuzzRange:          28,
-				fps:                60,
-				direction:          'horizontal',
-				transitionDuration: 8,
-			} )
-		);
+		const root = createRoot( accent );
+
+		// Resolve the heading's actual computed font-size in pixels from the
+		// cascade and pass it as a numeric prop. Strings like "3.75rem" given
+		// to the Canvas 2D API resolve relative to the document root, which is
+		// not guaranteed to match the heading (theme overrides, future Tailwind
+		// scale changes, etc.). Reading getComputedStyle on the accent itself
+		// makes the canvas track the heading exactly, no matter which Tailwind
+		// class is currently active.
+		const readSizePx = (): number =>
+			parseFloat( window.getComputedStyle( accent ).fontSize ) || 60;
+
+		let currentSizePx = readSizePx();
+
+		const renderFuzzy = ( sizePx: number ) => {
+			root.render(
+				createElement( FuzzyText, {
+					children:           accentText,
+					fontSize:           sizePx,
+					fontWeight:         700,
+					fontFamily:         'inherit',
+					color:              '#069E08',
+					baseIntensity:      0.005,
+					hoverIntensity:     0.2,
+					enableHover:        true,
+					fuzzRange:          28,
+					fps:                60,
+					direction:          'horizontal',
+					transitionDuration: 8,
+				} )
+			);
+		};
+		renderFuzzy( currentSizePx );
+
+		// Re-render whenever the heading's box changes, which happens at any
+		// breakpoint that swaps the Tailwind size class. ResizeObserver on the
+		// <h1> is more robust than a hardcoded media-query — if the breakpoint
+		// or font-scale ever changes, this keeps tracking automatically.
+		const headline = accent.closest< HTMLElement >( '.jetpack-hero__headline' );
+		if ( headline && typeof ResizeObserver !== 'undefined' ) {
+			const ro = new ResizeObserver( () => {
+				const next = readSizePx();
+				if ( next !== currentSizePx ) {
+					currentSizePx = next;
+					renderFuzzy( next );
+				}
+			} );
+			ro.observe( headline );
+		}
 	}
 
 	// ── Frame 1: commit "from" states as inline styles ────────────────────────
