@@ -178,6 +178,82 @@ add_action( 'after_setup_theme', function (): void {
 	] );
 } );
 
+// ─── Blog-home routing for page_for_posts ─────────────────────────────────────
+// The site is configured with `show_on_front=posts`, `page_on_front=0`,
+// `page_for_posts=18` (the Resources page). That combination is a WordPress
+// foot-gun: core only honors `page_for_posts` when `show_on_front=page`, so
+// /resources/ silently renders as a normal page (templates/page.html) instead
+// of the blog index (templates/index.html). Flipping `show_on_front` to `page`
+// would fix /resources/ but break `/` (no `page_on_front` to anchor
+// is_front_page, so `/` would pick index.html instead of front-page.html).
+//
+// This filter targets /resources/ only: when the main query resolves the
+// pagename to the configured `page_for_posts`, we rewrite the query to a
+// blog-home query (is_home=true, is_posts_page=true, post_type=post). WP's
+// template hierarchy then picks templates/index.html, which contains the
+// Featured / Product news / Jetpack 101 / Developers sections.
+
+add_action( 'pre_get_posts', function ( WP_Query $q ): void {
+	if ( is_admin() || ! $q->is_main_query() ) {
+		return;
+	}
+
+	$page_for_posts = (int) get_option( 'page_for_posts' );
+	if ( $page_for_posts <= 0 ) {
+		return;
+	}
+
+	$pagename = $q->get( 'pagename' );
+	if ( ! is_string( $pagename ) || '' === $pagename ) {
+		return;
+	}
+
+	$posts_page = get_post( $page_for_posts );
+	if ( ! $posts_page instanceof WP_Post ) {
+		return;
+	}
+
+	if ( $pagename !== $posts_page->post_name ) {
+		return;
+	}
+
+	// Swap the singular-page query for a blog-home query. Clearing
+	// pagename/page/name makes WP_Query::get_posts() treat the request as
+	// a normal post listing; setting the flags + queried_object matches
+	// what WP would do natively under show_on_front=page.
+	$q->set( 'pagename', '' );
+	$q->set( 'page', '' );
+	$q->set( 'name', '' );
+	$q->set( 'page_id', 0 );
+	$q->set( 'post_type', 'post' );
+
+	$q->is_page              = false;
+	$q->is_singular          = false;
+	$q->is_home              = true;
+	$q->is_posts_page        = true;
+	$q->is_post_type_archive = false;
+	$q->is_archive           = false;
+	$q->is_404               = false;
+
+	$q->queried_object    = $posts_page;
+	$q->queried_object_id = $posts_page->ID;
+} );
+
+// When our pre_get_posts hook flips /resources/ to a blog-home query, the
+// combination `show_on_front=posts` + `is_home=true` causes WP::is_front_page()
+// to return true, and the template loader picks `front-page.html` ahead of
+// `index.html` — rendering the Jetpack homepage on /resources/. Strip
+// `front-page` out of the frontpage template hierarchy for the posts page so
+// `index.html` wins instead. Real `/` requests are not posts_page queries, so
+// they are unaffected.
+add_filter( 'frontpage_template_hierarchy', function ( array $templates ): array {
+	global $wp_query;
+	if ( $wp_query instanceof WP_Query && ! empty( $wp_query->is_posts_page ) ) {
+		return [];
+	}
+	return $templates;
+} );
+
 // ─── Helpers: convert WP menus to structured arrays ──────────────────────────
 
 /**
