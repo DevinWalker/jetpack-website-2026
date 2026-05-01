@@ -15,6 +15,14 @@
   text-decoration: none;
 }
 
+/* FuzzyText canvas — never let the bitmap overflow its container.
+   Without this, the canvas's intrinsic width (computed once at mount from
+   the rendered text width) clips the trailing characters on narrow viewports. */
+.jetpack-hero__accent canvas {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Scroll-reveal base (GSAP animates from this) */
 .jetpack-reveal,
 .jetpack-hero__badge,
