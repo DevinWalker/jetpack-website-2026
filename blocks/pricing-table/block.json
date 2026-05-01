@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "jetpack-theme/pricing-table",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"title": "Pricing Table",
 	"category": "jetpack-theme",
 	"description": "Flat-recurring pricing cards (Basic / Pro / Agency). Reusable on any page — pick which plans to show and the layout variant.",
@@ -28,6 +28,12 @@
 		"showEyebrow": {
 			"type": "boolean",
 			"default": false
+		},
+		"compactFeatureCount": {
+			"type": "integer",
+			"default": 4,
+			"minimum": 1,
+			"maximum": 12
 		}
 	},
 	"supports": { "html": false, "align": [ "wide", "full" ] },

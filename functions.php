@@ -14,6 +14,7 @@ declare( strict_types = 1 );
 require_once get_template_directory() . '/inc/taxonomies.php';
 require_once get_template_directory() . '/inc/pricing-data.php';
 require_once get_template_directory() . '/inc/icons.php';
+require_once get_template_directory() . '/inc/synced-patterns.php';
 
 // ─── Development: proxy media from production ─────────────────────────────────
 // On local and staging environments, uploaded media won't exist locally.
@@ -162,12 +163,17 @@ add_action( 'after_setup_theme', function (): void {
 	// Opt into WP's default block CSS. Not auto-enabled — all others below are.
 	add_theme_support( 'wp-block-styles' );
 
-	// Load the compiled frontend stylesheet in the block editor canvas so
-	// headings, prose, lists, code, quotes etc. render identically to the
-	// frontend when editing content.
-	if ( file_exists( get_template_directory() . '/build/style-frontend.css' ) ) {
-		add_editor_style( 'build/style-frontend.css' );
-	}
+	// Note: we intentionally do NOT call `add_editor_style()` here.
+	//
+	// In WP 6.9 the iframed block editor canvas runs every entry from
+	// add_editor_style() through `wp.blockEditor.transformStyles` (postcss
+	// prefix-selector + postcss-urlrebase). The bundled copies of those
+	// plugins choke on Tailwind v4's extensive use of @layer / @property /
+	// @supports at-rules and throw `TypeError: Failed to construct 'URL':
+	// Invalid base URL`, which drops the entire stylesheet — leaving the
+	// canvas unstyled ("blocks look broken"). Instead, we enqueue the
+	// frontend stylesheet below via the `enqueue_block_assets` hook so it
+	// reaches the iframe as a plain `<link>` tag (bypassing transformStyles).
 
 	// Navigation menu locations.
 	// Footer links live in parts/footer.html as core blocks; only the
@@ -175,6 +181,82 @@ add_action( 'after_setup_theme', function (): void {
 	register_nav_menus( [
 		'primary' => __( 'Primary Navigation', 'jetpack-theme' ),
 	] );
+} );
+
+// ─── Blog-home routing for page_for_posts ─────────────────────────────────────
+// The site is configured with `show_on_front=posts`, `page_on_front=0`,
+// `page_for_posts=18` (the Resources page). That combination is a WordPress
+// foot-gun: core only honors `page_for_posts` when `show_on_front=page`, so
+// /resources/ silently renders as a normal page (templates/page.html) instead
+// of the blog index (templates/index.html). Flipping `show_on_front` to `page`
+// would fix /resources/ but break `/` (no `page_on_front` to anchor
+// is_front_page, so `/` would pick index.html instead of front-page.html).
+//
+// This filter targets /resources/ only: when the main query resolves the
+// pagename to the configured `page_for_posts`, we rewrite the query to a
+// blog-home query (is_home=true, is_posts_page=true, post_type=post). WP's
+// template hierarchy then picks templates/index.html, which contains the
+// Featured / Product news / Jetpack 101 / Developers sections.
+
+add_action( 'pre_get_posts', function ( WP_Query $q ): void {
+	if ( is_admin() || ! $q->is_main_query() ) {
+		return;
+	}
+
+	$page_for_posts = (int) get_option( 'page_for_posts' );
+	if ( $page_for_posts <= 0 ) {
+		return;
+	}
+
+	$pagename = $q->get( 'pagename' );
+	if ( ! is_string( $pagename ) || '' === $pagename ) {
+		return;
+	}
+
+	$posts_page = get_post( $page_for_posts );
+	if ( ! $posts_page instanceof WP_Post ) {
+		return;
+	}
+
+	if ( $pagename !== $posts_page->post_name ) {
+		return;
+	}
+
+	// Swap the singular-page query for a blog-home query. Clearing
+	// pagename/page/name makes WP_Query::get_posts() treat the request as
+	// a normal post listing; setting the flags + queried_object matches
+	// what WP would do natively under show_on_front=page.
+	$q->set( 'pagename', '' );
+	$q->set( 'page', '' );
+	$q->set( 'name', '' );
+	$q->set( 'page_id', 0 );
+	$q->set( 'post_type', 'post' );
+
+	$q->is_page              = false;
+	$q->is_singular          = false;
+	$q->is_home              = true;
+	$q->is_posts_page        = true;
+	$q->is_post_type_archive = false;
+	$q->is_archive           = false;
+	$q->is_404               = false;
+
+	$q->queried_object    = $posts_page;
+	$q->queried_object_id = $posts_page->ID;
+} );
+
+// When our pre_get_posts hook flips /resources/ to a blog-home query, the
+// combination `show_on_front=posts` + `is_home=true` causes WP::is_front_page()
+// to return true, and the template loader picks `front-page.html` ahead of
+// `index.html` — rendering the Jetpack homepage on /resources/. Strip
+// `front-page` out of the frontpage template hierarchy for the posts page so
+// `index.html` wins instead. Real `/` requests are not posts_page queries, so
+// they are unaffected.
+add_filter( 'frontpage_template_hierarchy', function ( array $templates ): array {
+	global $wp_query;
+	if ( $wp_query instanceof WP_Query && ! empty( $wp_query->is_posts_page ) ) {
+		return [];
+	}
+	return $templates;
 } );
 
 // ─── Helpers: convert WP menus to structured arrays ──────────────────────────
@@ -270,6 +352,42 @@ add_action( 'wp_enqueue_scripts', function (): void {
 	);
 } );
 
+// ─── Load Frontend CSS into the Iframed Editor Canvas ───────────────────────
+// Replaces the `add_editor_style()` call in after_setup_theme above. Gutenberg
+// runs every add_editor_style() entry through transformStyles() (postcss
+// prefix-selector + postcss-urlrebase) which throws on Tailwind v4's @layer /
+// @property at-rules, dropping the entire stylesheet. Going through
+// `enqueue_block_assets` instead causes WP to print a plain `<link>` tag into
+// the iframe's head via `_wp_get_iframed_editor_assets()` — no PostCSS in the
+// critical path.
+//
+// `enqueue_block_assets` fires in three contexts:
+//   1. Frontend  (via wp_enqueue_scripts)  — safe, matches existing handle.
+//   2. Admin parent page                   — skipped to avoid styling wp-admin.
+//   3. Iframed editor asset generation     — this is where we want the CSS.
+// Core sets `should_load_block_editor_scripts_and_styles` to false ONLY while
+// generating iframe assets, giving us a reliable way to tell (2) from (3).
+add_action( 'enqueue_block_assets', function (): void {
+	if ( is_admin() && apply_filters( 'should_load_block_editor_scripts_and_styles', true ) ) {
+		return;
+	}
+
+	$theme_dir = get_template_directory();
+	$theme_uri = get_template_directory_uri();
+	$css_file  = $theme_dir . '/build/style-frontend.css';
+
+	if ( ! file_exists( $css_file ) ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'jetpack-theme-style',
+		$theme_uri . '/build/style-frontend.css',
+		[],
+		(string) filemtime( $css_file )
+	);
+} );
+
 // ─── Enqueue Block Editor Assets ─────────────────────────────────────────────
 
 add_action( 'enqueue_block_editor_assets', function (): void {
@@ -307,7 +425,6 @@ add_action( 'init', function (): void {
 		'features-highlights',
 		'features-bento',
 		'testimonials',
-		'pricing',
 		'pricing-hero',
 		'pricing-table',
 		'pricing-comparison',
@@ -316,6 +433,7 @@ add_action( 'init', function (): void {
 		'footer-cta',
 		'footer-dev-column',
 		'legacy-hero-visual',
+		'synced-block',
 	];
 
 	foreach ( $block_slugs as $slug ) {

@@ -344,8 +344,13 @@
 
     /* "Plain (no shadow)" block style — registered via register_block_style
        in functions.php. Opts out of the photographic treatment for logos,
-       transparent PNG illustrations, SVG icons, and other flat artwork. */
-    &.is-style-plain img {
+       transparent PNG illustrations, SVG icons, and other flat artwork.
+       `.is-resized` covers the same case implicitly — when an editor resizes
+       an inline image down (e.g. to 40px for a product icon or 80px for a
+       partner logo) the image is by definition not a hero photograph, so the
+       photographic shadow + radius would look out of place. */
+    &.is-style-plain img,
+    &.is-resized img {
       border-radius: 0;
       box-shadow: none;
     }

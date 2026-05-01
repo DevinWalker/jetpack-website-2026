@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jetpack-theme/synced-block",
+	"version": "1.0.0",
+	"title": "Synced Block",
+	"category": "jetpack-theme",
+	"description": "Resolves a stable slug to a wp_block (Synced Pattern) post and renders its content. Used in templates so pages can embed centrally-edited pricing patterns without hard-coding post IDs.",
+	"keywords": [ "synced", "pattern", "reusable" ],
+	"textdomain": "jetpack-theme",
+	"editorScript": "file:../../build/editor.js",
+	"attributes": {
+		"slug": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": false
+	},
+	"render": "file:./render.php"
+}
