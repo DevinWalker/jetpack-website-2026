@@ -163,12 +163,17 @@ add_action( 'after_setup_theme', function (): void {
 	// Opt into WP's default block CSS. Not auto-enabled — all others below are.
 	add_theme_support( 'wp-block-styles' );
 
-	// Load the compiled frontend stylesheet in the block editor canvas so
-	// headings, prose, lists, code, quotes etc. render identically to the
-	// frontend when editing content.
-	if ( file_exists( get_template_directory() . '/build/style-frontend.css' ) ) {
-		add_editor_style( 'build/style-frontend.css' );
-	}
+	// Note: we intentionally do NOT call `add_editor_style()` here.
+	//
+	// In WP 6.9 the iframed block editor canvas runs every entry from
+	// add_editor_style() through `wp.blockEditor.transformStyles` (postcss
+	// prefix-selector + postcss-urlrebase). The bundled copies of those
+	// plugins choke on Tailwind v4's extensive use of @layer / @property /
+	// @supports at-rules and throw `TypeError: Failed to construct 'URL':
+	// Invalid base URL`, which drops the entire stylesheet — leaving the
+	// canvas unstyled ("blocks look broken"). Instead, we enqueue the
+	// frontend stylesheet below via the `enqueue_block_assets` hook so it
+	// reaches the iframe as a plain `<link>` tag (bypassing transformStyles).
 
 	// Navigation menu locations.
 	// Footer links live in parts/footer.html as core blocks; only the
@@ -344,6 +349,42 @@ add_action( 'wp_enqueue_scripts', function (): void {
 		$sa_data['dependencies'],
 		$sa_data['version'],
 		true
+	);
+} );
+
+// ─── Load Frontend CSS into the Iframed Editor Canvas ───────────────────────
+// Replaces the `add_editor_style()` call in after_setup_theme above. Gutenberg
+// runs every add_editor_style() entry through transformStyles() (postcss
+// prefix-selector + postcss-urlrebase) which throws on Tailwind v4's @layer /
+// @property at-rules, dropping the entire stylesheet. Going through
+// `enqueue_block_assets` instead causes WP to print a plain `<link>` tag into
+// the iframe's head via `_wp_get_iframed_editor_assets()` — no PostCSS in the
+// critical path.
+//
+// `enqueue_block_assets` fires in three contexts:
+//   1. Frontend  (via wp_enqueue_scripts)  — safe, matches existing handle.
+//   2. Admin parent page                   — skipped to avoid styling wp-admin.
+//   3. Iframed editor asset generation     — this is where we want the CSS.
+// Core sets `should_load_block_editor_scripts_and_styles` to false ONLY while
+// generating iframe assets, giving us a reliable way to tell (2) from (3).
+add_action( 'enqueue_block_assets', function (): void {
+	if ( is_admin() && apply_filters( 'should_load_block_editor_scripts_and_styles', true ) ) {
+		return;
+	}
+
+	$theme_dir = get_template_directory();
+	$theme_uri = get_template_directory_uri();
+	$css_file  = $theme_dir . '/build/style-frontend.css';
+
+	if ( ! file_exists( $css_file ) ) {
+		return;
+	}
+
+	wp_enqueue_style(
+		'jetpack-theme-style',
+		$theme_uri . '/build/style-frontend.css',
+		[],
+		(string) filemtime( $css_file )
 	);
 } );
 
