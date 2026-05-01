@@ -262,6 +262,33 @@ add_filter( 'frontpage_template_hierarchy', function ( array $templates ): array
 // ─── Helpers: convert WP menus to structured arrays ──────────────────────────
 
 /**
+ * Rewrite stale localhost URLs (e.g. http://localhost:8881/foo) so they resolve
+ * to the current site's home_url(). WordPress Studio assigns ports dynamically
+ * per session and per site, so menu items saved with absolute URLs become
+ * stale across sessions or when the same repo is checked out in two worktrees
+ * pointing at two Studio sites on different ports.
+ *
+ * Only touches URLs whose host is localhost / 127.0.0.1 — external URLs and
+ * production URLs pass through unchanged.
+ */
+function jetpack_normalize_local_url( string $url ): string {
+	$parsed = wp_parse_url( $url );
+	if ( empty( $parsed['host'] ) ) {
+		return $url;
+	}
+	if ( ! in_array( $parsed['host'], [ 'localhost', '127.0.0.1' ], true ) ) {
+		return $url;
+	}
+
+	$home = untrailingslashit( home_url( '' ) );
+	$path = $parsed['path']     ?? '/';
+	$qs   = isset( $parsed['query'] )    ? '?' . $parsed['query']    : '';
+	$hash = isset( $parsed['fragment'] ) ? '#' . $parsed['fragment'] : '';
+
+	return $home . $path . $qs . $hash;
+}
+
+/**
  * Build a tree structure from flat menu items.
  */
 function jetpack_build_nav_tree( array $items ): array {
@@ -298,7 +325,7 @@ function jetpack_get_menu( string $location ): array {
 	return array_values( array_map( static fn( \WP_Post $item ): array => [
 		'id'     => (int) $item->ID,
 		'label'  => (string) $item->title,
-		'url'    => (string) $item->url,
+		'url'    => jetpack_normalize_local_url( (string) $item->url ),
 		'parent' => (int) $item->menu_item_parent,
 	], $items ) );
 }
